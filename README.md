@@ -8,7 +8,7 @@
 
 #### `docker-compose build`
 #### `docker-compose up -d`
-#### `docker-compose run website_client npm install`
-#### `docker-compose run website_client`
+#### `docker-compose run website npm install`
+#### `docker-compose run website`
 
-Open [http://127.0.0.1:8057](http://127.0.0.1:8057) to view it in the browser.
+Open [http://127.0.0.1:8054](http://127.0.0.1:8054) to view it in the browser.
