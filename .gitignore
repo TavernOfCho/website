@@ -1,0 +1,12 @@
+checker.js
+executor.js
+**/datasets
+**/config
+**/exercise-*/scripts/*
+javascript/examples/
+
+
+/server/node_modules/
+/client/node_modules/
+.idea/
+.DS_Store
