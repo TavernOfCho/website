@@ -1,6 +1,6 @@
-## Work flow /!\ A tester
+## Work flow /!\ Need test
 
-#### In /config/website/client
+#### In /config/website
 
 #### `npm install`
 
