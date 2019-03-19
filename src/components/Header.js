@@ -33,7 +33,7 @@ function Header(props) {
                         </IconButton>
                     </Link>
                     <Typography variant="h6" color="inherit" noWrap>
-                        WOW Collection
+                        Taverne de Cho
                     </Typography>
                 </Toolbar>
             </AppBar>
