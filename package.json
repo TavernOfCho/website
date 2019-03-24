@@ -9,7 +9,7 @@
     "react-dom": "^16.8.3",
     "react-history": "^0.18.2",
     "react-intl": "^2.8.0",
-    "react-router": "^4.4.0",
+    "react-router": "5.0.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5"
   },
