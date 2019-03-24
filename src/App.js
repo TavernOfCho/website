@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import {BrowserRouter} from 'react-router-dom';
-
 import Header from "./components/Header";
-import MenuL from "./components/MenuL"
-
+import {BrowserRouter, Route, Link, Switch} from 'react-router-dom';
+import ContentContainer from "./containers/ContentContainer";
+import MenuL from "./components/MenuL";
 import Achievement from './view/achievement';
 import BattlePet from './view/battlepet';
 import Dashboard from './view/dashboard';
@@ -26,6 +25,9 @@ class App extends Component {
         <BrowserRouter>
           <React.Fragment>
             <Header/>
+            <Switch>
+              <Route path="/" component={ContentContainer}/>
+            </Switch>
           </React.Fragment>
         </BrowserRouter>
       </div>
