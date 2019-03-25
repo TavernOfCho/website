@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 import {BrowserRouter, Route, Link, Switch} from 'react-router-dom';
-
-import Header from "./components/Header";
-import MenuL from "./components/MenuL";
-
 import Achievement from './containers/AchievementContainer';
 import BattlePet from './containers/BattlepetContainer';
 import ContentContainer from "./containers/ContentContainer";
 import Dashboard from './containers/DashboardContainer';
 import Help from './containers/HelpContainer';
 import Mount from './containers/MountContainer';
+import ButtonAppBar from "./components/ButtonAppBar";
+import LoginContainer from "./containers/LoginContainer";
 
 const views=[
   {tittle: 'Achievement', type: 'link', link: '/achievement', component: '<Achievement/>'},
@@ -26,9 +24,10 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <React.Fragment>
-            <Header/>
+            <ButtonAppBar/>
             <Switch>
-              <Route path="/" component={ContentContainer}/>
+              <Route exact path="/" component={ContentContainer}/>
+              <Route exact path="/login" component={LoginContainer}/>
             </Switch>
           </React.Fragment>
         </BrowserRouter>
