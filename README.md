@@ -1,7 +1,7 @@
 ## Work flow /!\ Need test
 
 ```
-git clone git@github.com:WowCollection/config.git TavernOfCho
+git clone git@github.com:TavernOfCho/config.git TavernOfCho
 cd TavernOfCho
 ./scripts/init.sh
 docker-compose run website yarn install
