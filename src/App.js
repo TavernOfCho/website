@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
-import Header from "./components/Header";
 import {BrowserRouter, Route, Link, Switch} from 'react-router-dom';
-import ContentContainer from "./containers/ContentContainer";
+
+import Header from "./components/Header";
 import MenuL from "./components/MenuL";
-import Achievement from './view/achievement';
-import BattlePet from './view/battlepet';
-import Dashboard from './view/dashboard';
-import Help from './view/help';
-import Mount from './view/mount';
+
+import Achievement from './containers/AchievementContainer';
+import BattlePet from './containers/BattlepetContainer';
+import ContentContainer from "./containers/ContentContainer";
+import Dashboard from './containers/DashboardContainer';
+import Help from './containers/HelpContainer';
+import Mount from './containers/MountContainer';
 
 const views=[
   {tittle: 'Achievement', type: 'link', link: '/achievement', component: '<Achievement/>'},
