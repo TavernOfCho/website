@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
+import AppBarMaterialUI from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -22,11 +22,11 @@ const styles = {
   },
 };
 
-function ButtonAppBar(props) {
+function AppBar(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBarMaterialUI position="static">
         <Toolbar>
           <Link to="/" style={{ textDecoration: 'none', color: 'white'}}>
             <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
@@ -45,13 +45,13 @@ function ButtonAppBar(props) {
             <Button color="inherit">Login</Button>
           </Link>
         </Toolbar>
-      </AppBar>
+      </AppBarMaterialUI>
     </div>
   );
 }
 
-ButtonAppBar.propTypes = {
+AppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ButtonAppBar);
+export default withStyles(styles)(AppBar);
