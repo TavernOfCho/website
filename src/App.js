@@ -8,7 +8,7 @@ import Help from './containers/HelpContainer';
 import Mount from './containers/MountContainer';
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
-import AppBar from "./components/AppBar";
+import ResponsiveDrawer from "./components/ResponsiveDrawer";
 
 const views=[
   {title: 'Achievement', type: 'link', link: '/achievement', component: '<Achievement/>'},
@@ -24,7 +24,8 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <React.Fragment>
-            <AppBar/>
+            {/*<AppBar/>*/}
+            <ResponsiveDrawer/>
             <Switch>
               <Route exact path="/" component={HomeScreen}/>
               <Route exact path="/login" component={LoginScreen}/>
