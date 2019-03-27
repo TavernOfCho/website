@@ -18,8 +18,11 @@ import PersonIcon from '@material-ui/icons/Person';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import {Link} from 'react-router-dom';
+import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
 import HeroBanner from "./HeroBanner";
+import HomeScreen from "../screens/HomeScreen";
+import LoginScreen from "../screens/LoginScreen";
+
 
 const drawerWidth = 240;
 
@@ -142,13 +145,19 @@ class ResponsiveDrawer extends React.Component {
             </Drawer>
           </Hidden>
         </nav>
+
+        {/*Content for the page*/}
         <main className={classes.content}>
 
-          <HeroBanner title={"Taverne de Cho"} description={"Venez planifier votre aventure pour une immersion encore plus grande."} hasButton/>
+              <Switch>
+                <Route exact path="/" component={HomeScreen}/>
+                <Route exact path="/login" component={LoginScreen}/>
+              </Switch>
+
           <div className={classes.toolbar} />
-          <Typography paragraph>
+{/*          <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-          </Typography>
+          </Typography>*/}
         </main>
       </div>
     );
