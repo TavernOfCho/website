@@ -24,12 +24,7 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <React.Fragment>
-            {/*<AppBar/>*/}
             <ResponsiveDrawer/>
-            <Switch>
-              <Route exact path="/" component={HomeScreen}/>
-              <Route exact path="/login" component={LoginScreen}/>
-            </Switch>
           </React.Fragment>
         </BrowserRouter>
       </div>

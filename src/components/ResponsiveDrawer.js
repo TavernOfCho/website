@@ -18,7 +18,11 @@ import PersonIcon from '@material-ui/icons/Person';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import {Link} from 'react-router-dom';
+import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
+import HeroBanner from "./HeroBanner";
+import HomeScreen from "../screens/HomeScreen";
+import LoginScreen from "../screens/LoginScreen";
+
 
 const drawerWidth = 240;
 
@@ -86,7 +90,7 @@ class ResponsiveDrawer extends React.Component {
         </List>
         <Divider />
         <List>
-          {['Achievements', 'Dashboard', 'BatllePet', 'Help', 'Mount'].map((text, index) => (
+          {['Achievements', 'Dashboard', 'BattlePet', 'Help', 'Mount'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
@@ -109,9 +113,8 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              TAVERNE DE CHO
-            </Typography>
+{/*            <Typography variant="h6" color="inherit" noWrap>
+            </Typography>*/}
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
@@ -142,14 +145,19 @@ class ResponsiveDrawer extends React.Component {
             </Drawer>
           </Hidden>
         </nav>
+
+        {/*Content for the page*/}
         <main className={classes.content}>
+
+              <Switch>
+                <Route exact path="/" component={HomeScreen}/>
+                <Route exact path="/login" component={LoginScreen}/>
+              </Switch>
+
           <div className={classes.toolbar} />
-          <Typography paragraph>
+{/*          <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-          </Typography>
-          {/*<Typography paragraph>*/}
-            {/*Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla.*/}
-          {/*</Typography>*/}
+          </Typography>*/}
         </main>
       </div>
     );
