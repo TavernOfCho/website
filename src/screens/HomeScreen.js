@@ -7,7 +7,7 @@ export default class HomeScreen extends React.Component {
     return (
       <div>
         <HeroBanner title={"Taverne de Cho"} description={"Venez planifier votre aventure pour une immersion encore plus grande."} hasButton/>
-        <HeroUnit title={"Home"}/>
+        <HeroUnit title={"Accueil"}/>
       </div>
     );
   }
