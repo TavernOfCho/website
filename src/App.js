@@ -6,8 +6,6 @@ import BattlePet from './containers/BattlepetContainer';
 import Dashboard from './containers/DashboardContainer';
 import Help from './containers/HelpContainer';
 import Mount from './containers/MountContainer';
-import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
 import ResponsiveDrawer from "./components/ResponsiveDrawer";
 
 const views=[
