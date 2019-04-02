@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import {FormattedMessage} from 'react-intl';
-
 
 // Functional component, the most basic react component.
 
@@ -28,7 +26,8 @@ const styles = theme => ({
 
 function HeroUnit(props) {
   const { classes,
-    title="Props Title"
+    title="Props Title",
+    description="Props Description. Tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est",
   } = props;
 
   return (
@@ -41,7 +40,7 @@ function HeroUnit(props) {
             {title}
           </Typography>
           <Typography variant="h6" align="center" color="textSecondary" component="p">
-            <FormattedMessage id='herounit.description' description='' defaultMessage='Lorem Ipsum' />
+            {description}
           </Typography>
         </div>
         {/* End hero unit */}
