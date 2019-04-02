@@ -1,12 +1,25 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+/* react-intl import */
+import { IntlProvider } from 'react-intl';
+import messages_en from "./translation/en.json"
 
-const element = <h1>Bonjour héro</h1>;
-ReactDOM.render(element, document.getElementById('test'));
+const messages = {
+    'en': messages_en
+}
+
+const language = "en";
+
+ReactDOM.render(
+<IntlProvider locale={language} messages={messages[language]}>
+    <App />
+</IntlProvider>,
+document.getElementById('root')
+);
 
 serviceWorker.register();
