@@ -14,12 +14,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
+import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
+import CharacterScreen from "../screens/CharacterScreen";
 
 
 const drawerWidth = 240;
@@ -83,6 +85,12 @@ class ResponsiveDrawer extends React.Component {
             <ListItem button key={"Login"}>
               <ListItemIcon><PersonIcon /></ListItemIcon>
               <ListItemText primary={"Login"} />
+            </ListItem>
+          </Link>
+          <Link to="/character" style={{ textDecoration: 'none'}}>
+            <ListItem button key={"Character"}>
+              <ListItemIcon><GroupIcon /></ListItemIcon>
+              <ListItemText primary={"Character"} />
             </ListItem>
           </Link>
         </List>
@@ -150,6 +158,7 @@ class ResponsiveDrawer extends React.Component {
               <Switch>
                 <Route exact path="/" component={HomeScreen}/>
                 <Route exact path="/login" component={LoginScreen}/>
+                <Route exact path="/character" component={CharacterScreen}/>
               </Switch>
 
           <div className={classes.toolbar} />
