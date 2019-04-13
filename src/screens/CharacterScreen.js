@@ -9,6 +9,7 @@ export default class CharacterScreen extends React.Component {
       <div>
         <HeroBanner title={"Taverne de Cho"} description={"Venez planifier votre aventure pour une immersion encore plus grande."}/>
         <HeroUnit title={"Personnage"}/>
+        <p>Veuillez sélectionner votre serveur et le nom de votre personnage.</p>
         <CharacterForm/>
       </div>
     );

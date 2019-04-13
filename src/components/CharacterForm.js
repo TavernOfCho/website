@@ -7,6 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
   root: {
@@ -16,6 +17,11 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
@@ -34,15 +40,19 @@ class CharacterForm extends React.Component {
     });
   }
 
-  handleChange = event => {
+  handleChangeServer = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleChangeName = name => event => {
+    this.setState({ [name]: event.target.value });
   };
 
   render() {
     const { classes } = this.props;
 
     return (
-      <form className={classes.root} autoComplete="off">
+      <form autoComplete="off">
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel
             ref={ref => {
@@ -54,7 +64,7 @@ class CharacterForm extends React.Component {
           </InputLabel>
           <Select
             value={this.state.server}
-            onChange={this.handleChange}
+            onChange={this.handleChangeServer}
             input={
               <OutlinedInput
                 labelWidth={this.state.labelWidth}
@@ -70,7 +80,18 @@ class CharacterForm extends React.Component {
             <MenuItem value={20}>Twenty</MenuItem>
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
+
+
+
         </FormControl>
+          <TextField
+            id="standard-name"
+            label="Nom du personnage"
+            className={classes.textField}
+            value={this.state.name}
+            onChange={this.handleChangeName('name')}
+            margin="normal"
+          />
       </form>
     );
   }
