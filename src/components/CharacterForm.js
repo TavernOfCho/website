@@ -32,8 +32,12 @@ class CharacterForm extends React.Component {
   state = {
     server: '',
     labelWidth: 0,
-    pokemons: [],
+    servers: [],
   };
+
+  getServerNames() {
+    return this.state.servers.map(server => server.name);
+  }
 
   componentDidMount() {
     this.setState({
@@ -42,7 +46,7 @@ class CharacterForm extends React.Component {
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/ld+json");
-    myHeaders.append("Authorization", "Bearer "+ "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUxNDY2MTcsImV4cCI6MTU1NTE4MjYxNywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.iBTkU21pljxOm_RfkiggzVPNp-fsnwoJXpkBWifHR61VER8FaaTl-3IZHdgs3OmS9L-i4AmJ1CP_j8-ifUL20A");
+    myHeaders.append("Authorization", "Bearer "+ "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUxODMzODMsImV4cCI6MTU1NTIxOTM4Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.hc6QgDcIEwPfHOTR6hTQSHRn0mlq5sellTGZHrVyDHPH2MB4OWuauZ4887GNqn6eGyTm52h5hWBeJrUvbQwYgw");
     fetch('https://127.0.0.1:8052/realms',
       {
         method: 'GET',
@@ -50,11 +54,14 @@ class CharacterForm extends React.Component {
         headers: myHeaders
       })
       .then(response => response.json())
-      .then(data => this.setState({pokemons: data}));
+      .then(data => {
+        this.setState({servers: data["hydra:member"]});
 
-    console.log("test");
+        console.log(this.getServerNames());
 
-    console.log(this.state.pokemons);
+        }
+      )
+
   }
 
   handleChangeServer = event => {
@@ -68,9 +75,16 @@ class CharacterForm extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log("test2");
+/*    for(let item in this.state.servers){
+      console.log(this.state.servers[item].name);
+      this.state.serversNames[item] += this.state.servers[item].name;
+      this.setState({serversNames: this.state.servers.name})
+    }*/
 
-    console.log(this.state.pokemons);
+    // this.setState({serversNames: this.state.servers.name})
+
+
+    console.log('render:' ,this.state.serversNames);
 
     return (
       <form autoComplete="off">
