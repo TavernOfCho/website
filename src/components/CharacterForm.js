@@ -32,12 +32,29 @@ class CharacterForm extends React.Component {
   state = {
     server: '',
     labelWidth: 0,
+    pokemons: [],
   };
 
   componentDidMount() {
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
     });
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer "+ "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUxNDY2MTcsImV4cCI6MTU1NTE4MjYxNywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.iBTkU21pljxOm_RfkiggzVPNp-fsnwoJXpkBWifHR61VER8FaaTl-3IZHdgs3OmS9L-i4AmJ1CP_j8-ifUL20A");
+    fetch('https://127.0.0.1:8052/realms',
+      {
+        method: 'GET',
+        mode: "cors",
+        headers: myHeaders
+      })
+      .then(response => response.json())
+      .then(data => this.setState({pokemons: data}));
+
+    console.log("test");
+
+    console.log(this.state.pokemons);
   }
 
   handleChangeServer = event => {
