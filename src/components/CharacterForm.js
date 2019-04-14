@@ -8,11 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import List from "@material-ui/core/List/List";
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import InboxIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import Button from '@material-ui/core/Button';
+
 
 const styles = theme => ({
   root: {
@@ -31,14 +28,27 @@ const styles = theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
+  button: {
+    margin: theme.spacing.unit,
+  },
 });
 
 class CharacterForm extends React.Component {
-  state = {
-    server: '',
-    labelWidth: 0,
-    servers: [],
-  };
+
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      server: '',
+      labelWidth: 0,
+      servers: [],
+      serverInstance: [],
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUyNzI2NTgsImV4cCI6MTU1NTMwODY1OCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.ZHerRreIUqsAvZivQRyaeUj38Q7o5_1ATrzAq0G5Y_liraVlqdc-25pECUQHjngVcsKnyK0tB2QUfcZim2YaLw"
+    };
+
+    this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
+  }
 
   getServerNames() {
     return this.state.servers.map(server => server.name);
@@ -51,7 +61,7 @@ class CharacterForm extends React.Component {
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/ld+json");
-    myHeaders.append("Authorization", "Bearer "+ "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUyMzUwNzgsImV4cCI6MTU1NTI3MTA3OCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.HD6boI2zBPr9SGHMO1zegSDFAYWM0FUOjIvGgm-PGtCzxza-ak-OgbeLMJWXt3dW1S5xh-N5umFklj2wzjwRXQ");
+    myHeaders.append("Authorization", "Bearer "+ this.state.token);
     fetch('https://127.0.0.1:8052/realms',
       {
         method: 'GET',
@@ -73,6 +83,27 @@ class CharacterForm extends React.Component {
   handleChangeName = name => event => {
     this.setState({ [name]: event.target.value });
   };
+
+  handleCharacterRequest() {
+    console.log("hello");
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/ld+json");
+    myHeaders.append("Authorization", "Bearer "+ this.state.token);
+    fetch('https://127.0.0.1:8052/realms/arathor',
+      {
+        method: 'GET',
+        mode: "cors",
+        headers: myHeaders
+      })
+      .then(response => response.json())
+      .then(data => {
+          this.setState({serverInstance: data});
+          console.log("serverInstance:", this.state.serverInstance);
+        }
+      )
+
+  }
 
   render() {
     const { classes } = this.props;
@@ -111,18 +142,21 @@ class CharacterForm extends React.Component {
             </InputLabel>
             {selectServers}
 
-
-
           </FormControl>
             <TextField
               id="standard-name"
               label="Nom du personnage"
               className={classes.textField}
               value={this.state.name}
-              onChange={this.handleChangeName('name')}
+              // onChange={this.handleChangeName('name')}
               margin="normal"
             />
         </form>
+        <p>
+          <Button variant="outlined" color="primary" className={classes.button} onClick={this.handleCharacterRequest}>
+            Afficher
+          </Button>
+        </p>
       </div>
     );
   }

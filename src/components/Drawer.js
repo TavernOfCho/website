@@ -18,10 +18,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
-import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
-import HomeScreen from "../screens/HomeScreen";
-import LoginScreen from "../screens/LoginScreen";
-import CharacterScreen from "../screens/CharacterScreen";
+import {Link} from 'react-router-dom';
 
 
 const drawerWidth = 240;

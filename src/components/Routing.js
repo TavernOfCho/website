@@ -6,10 +6,11 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
-  toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    // padding: theme.spacing.unit * 3,
+    marginTop: 55,
+    // marginLeft: 240,
   },
 });
 
@@ -23,7 +24,6 @@ class Routing extends React.Component {
           <Route exact path="/login" component={LoginScreen}/>
           <Route exact path="/character" component={CharacterScreen}/>
         </Switch>
-        <div className={this.props.classes.toolbar} />
       </main>
     )
   }
