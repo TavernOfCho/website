@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
+import MuiDrawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
@@ -58,7 +58,7 @@ const styles = theme => ({
   },
 });
 
-class ResponsiveDrawer extends React.Component {
+class Drawer extends React.Component {
   state = {
     mobileOpen: false,
   };
@@ -126,7 +126,7 @@ class ResponsiveDrawer extends React.Component {
         <nav className={classes.drawer}>
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
-            <Drawer
+            <MuiDrawer
               container={this.props.container}
               variant="temporary"
               anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -137,10 +137,10 @@ class ResponsiveDrawer extends React.Component {
               }}
             >
               {drawer}
-            </Drawer>
+            </MuiDrawer>
           </Hidden>
           <Hidden xsDown implementation="css">
-            <Drawer
+            <MuiDrawer
               classes={{
                 paper: classes.drawerPaper,
               }}
@@ -148,31 +148,19 @@ class ResponsiveDrawer extends React.Component {
               open
             >
               {drawer}
-            </Drawer>
+            </MuiDrawer>
           </Hidden>
         </nav>
 
         {/*Content for the page*/}
-        <main className={classes.content}>
 
-              <Switch>
-                <Route exact path="/" component={HomeScreen}/>
-                <Route exact path="/login" component={LoginScreen}/>
-                <Route exact path="/character" component={CharacterScreen}/>
-              </Switch>
-
-          <div className={classes.toolbar} />
-{/*          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-          </Typography>*/}
-        </main>
       </div>
     );
   }
 }
 
-ResponsiveDrawer.propTypes = {
+Drawer.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, { withTheme: true })(Drawer);

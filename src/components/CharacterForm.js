@@ -75,16 +75,7 @@ class CharacterForm extends React.Component {
   render() {
     const { classes } = this.props;
 
-/*    for(let item in this.state.servers){
-      console.log(this.state.servers[item].name);
-      this.state.serversNames[item] += this.state.servers[item].name;
-      this.setState({serversNames: this.state.servers.name})
-    }*/
-
-    // this.setState({serversNames: this.state.servers.name})
-
-
-    console.log('render:' ,this.state.serversNames);
+    console.log('render:' ,this.state.servers);
 
     return (
       <form autoComplete="off">
