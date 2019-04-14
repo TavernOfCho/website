@@ -44,7 +44,8 @@ class CharacterForm extends React.Component {
       labelWidth: 0,
       servers: [],
       serverInstance: [],
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUyNzI2NTgsImV4cCI6MTU1NTMwODY1OCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.ZHerRreIUqsAvZivQRyaeUj38Q7o5_1ATrzAq0G5Y_liraVlqdc-25pECUQHjngVcsKnyK0tB2QUfcZim2YaLw"
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUyNzI2NTgsImV4cCI6MTU1NTMwODY1OCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.ZHerRreIUqsAvZivQRyaeUj38Q7o5_1ATrzAq0G5Y_liraVlqdc-25pECUQHjngVcsKnyK0tB2QUfcZim2YaLw",
+      name: '',
     };
 
     this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
@@ -84,13 +85,15 @@ class CharacterForm extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
-  handleCharacterRequest() {
-    console.log("hello");
+  serverNameTrim(name){
+    return name.toLowerCase().replace(/\s+/g, '').replace(/-/g, '');
+  }
 
+  handleCharacterRequest() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/ld+json");
     myHeaders.append("Authorization", "Bearer "+ this.state.token);
-    fetch('https://127.0.0.1:8052/realms/arathor',
+    fetch('https://127.0.0.1:8052/realms/' + this.serverNameTrim(this.state.server),
       {
         method: 'GET',
         mode: "cors",
@@ -148,15 +151,13 @@ class CharacterForm extends React.Component {
               label="Nom du personnage"
               className={classes.textField}
               value={this.state.name}
-              // onChange={this.handleChangeName('name')}
+              onChange={this.handleChangeName('name')}
               margin="normal"
             />
-        </form>
-        <p>
           <Button variant="outlined" color="primary" className={classes.button} onClick={this.handleCharacterRequest}>
             Afficher
           </Button>
-        </p>
+        </form>
       </div>
     );
   }
