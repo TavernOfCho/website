@@ -46,6 +46,7 @@ class CharacterForm extends React.Component {
       serverInstance: [],
       token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUyNzI2NTgsImV4cCI6MTU1NTMwODY1OCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.ZHerRreIUqsAvZivQRyaeUj38Q7o5_1ATrzAq0G5Y_liraVlqdc-25pECUQHjngVcsKnyK0tB2QUfcZim2YaLw",
       name: '',
+      // infoDisplay: 0,
     };
 
     this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
@@ -106,6 +107,8 @@ class CharacterForm extends React.Component {
         }
       )
 
+    this.setState({infoDisplay: 1});
+
   }
 
   render() {
@@ -129,6 +132,15 @@ class CharacterForm extends React.Component {
           <MenuItem value={name} key={index}>{name}</MenuItem>
         ))}
       </Select>
+    );
+
+    let divDisplay = (
+      <div>
+        <p>ID: {this.state.serverInstance.id}</p>
+        <p>Nom: {this.state.serverInstance.name}</p>
+        <p>Catégorie: {this.state.serverInstance.category}</p>
+        <p>Timezone: {this.state.serverInstance.timezone}</p>
+      </div>
     );
 
     return (
@@ -158,6 +170,7 @@ class CharacterForm extends React.Component {
             Afficher
           </Button>
         </form>
+        {this.state.infoDisplay && divDisplay }
       </div>
     );
   }
