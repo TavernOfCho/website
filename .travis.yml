@@ -1,17 +1,19 @@
 language: node_js
-node_js:
-  - "stable"
+node_js: lts/*
+before_install:
+- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.27.5
+- export PATH=$HOME/.yarn/bin:$PATH
 cache:
-  directories:
-    - node_modules
+  yarn: true
+install:
+- cd ./functions && yarn install && cd ..
+- cd ./client && yarn install && cd ..
 script:
-  - npm test
-  - npm run build
+- cd ./client && yarn build && cd ..
+- cd ./client && yarn test && cd ..
 deploy:
   provider: firebase
   skip_cleanup: true
-  domain: https://tavernedecho.firebaseapp.com/
-  project: ./build/
 env:
   global:
     secure: JR5wZs885tCKabT6mZtCkPi1XKHy6GJ+wymQCeho9zzkmnGs7zpjDBazs3+YS0nS3PBLSpwa8qEfMG6NctoZW25F7pJApJPjKZPkxe7NTLTMYHSesEjPXGBGFk2SrSGIvqWUfDCo9fxo+zEyKVeziRYLz+/UnaS7d2PBhu6JSX7aPVS0WdPpCFhQj1GZN+MFx0e3VdZCJBI8SsQNfM44bDQV4trpt1B0eQyMG7C+1muGA3MfTb3x26zClDK/4WisZFSxbi5xcaDgkJmWKSCni5VADnn4KzO/mbaBHTObIeOYHZxxPjt39t3Dr3xOc935n2F/0ApTJtO6sgftiv92enVEm81tnrDdDdkDjQ7wnHCoCB/nS55t5HD8DmT/QJhnnyxt2Uwr4tUMI9dxK6PIeYueNq3uSS8N+gJd/gYWKs23Cgwx9tKm08ForGVBi93yPkbD/G8k/nJbALKpc7BReCu2sBB5j30x1ijU81Ye1FGrBz5kI+Pab2h6BtjrCgGZyiSqoJ3Lsq92B5oCDKrV+TsDdLB8ntRi87Fug0CZAr6seERpsRqI4eFJLqKxBCfAofyjwLhfRCHobtPtW1BT0mVhVjL5WXCiFOiySwqoq1fmryEMKXst6sDOLtpRz2QVVl5uiqr9QLpcluEJCjjbXV1Sr5uCaJcUuGMxxxMCrZc=
