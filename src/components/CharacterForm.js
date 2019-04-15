@@ -46,10 +46,11 @@ class CharacterForm extends React.Component {
       labelWidth: 0,
       servers: [],
       serverInfos: [],
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUzMDk3NjQsImV4cCI6MTU1NTM0NTc2NCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.HYOfsJrgmJdAabmtKvGVjx_cXSdCDIRPV8Nt-KwqRciz36MZrlb94tWg2bUFtNVJtt_1PKFIm9bu3AscKKPD9w",
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUzMjE2MTYsImV4cCI6MTU1NTM1NzYxNiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.UggRc7ZNpUjXQX3GxM17HtgtcaQqqh6Cn0I2ONwFY9uD-p7mHpk0dAkqLdFYXdqP256YmHcUXdb9qyUgpw9otQ",
       name: '',
     };
 
+    // Bind this
     this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
   }
 
@@ -107,6 +108,8 @@ class CharacterForm extends React.Component {
           console.log("serverInfos:", this.state.serverInfos);
         }
       )
+
+    console.log("name:",this.state.name);
 
 
   }
