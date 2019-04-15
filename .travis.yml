@@ -9,6 +9,8 @@ script:
   - npm run build
 deploy:
   provider: firebase
+  skip_cleanup: true
+  domain: https://tavernedecho.firebaseapp.com/
   project: ./build/
 env:
   global:
