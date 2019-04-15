@@ -33,6 +33,8 @@ const styles = theme => ({
   },
 });
 
+
+
 class CharacterForm extends React.Component {
 
 
@@ -43,17 +45,16 @@ class CharacterForm extends React.Component {
       server: '',
       labelWidth: 0,
       servers: [],
-      serverInstance: [],
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUyNzI2NTgsImV4cCI6MTU1NTMwODY1OCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.ZHerRreIUqsAvZivQRyaeUj38Q7o5_1ATrzAq0G5Y_liraVlqdc-25pECUQHjngVcsKnyK0tB2QUfcZim2YaLw",
+      serverInfos: [],
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUzMDk3NjQsImV4cCI6MTU1NTM0NTc2NCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.HYOfsJrgmJdAabmtKvGVjx_cXSdCDIRPV8Nt-KwqRciz36MZrlb94tWg2bUFtNVJtt_1PKFIm9bu3AscKKPD9w",
       name: '',
-      // infoDisplay: 0,
     };
 
     this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
   }
 
   getServerNames() {
-    return this.state.servers.map(server => server.name);
+    return this.state.servers.map(server => server.name).sort();
   }
 
   componentDidMount() {
@@ -62,7 +63,7 @@ class CharacterForm extends React.Component {
     });
 
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/ld+json");
+    myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer "+ this.state.token);
     fetch('https://127.0.0.1:8052/realms',
       {
@@ -87,12 +88,12 @@ class CharacterForm extends React.Component {
   };
 
   serverNameTrim(name){
-    return name.toLowerCase().replace(/\s+/g, '').replace(/-/g, '');
+    return name.toLowerCase().replace(/\s|-|'/g, '');
   }
 
   handleCharacterRequest() {
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/ld+json");
+    myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer "+ this.state.token);
     fetch('https://127.0.0.1:8052/realms/' + this.serverNameTrim(this.state.server),
       {
@@ -102,12 +103,11 @@ class CharacterForm extends React.Component {
       })
       .then(response => response.json())
       .then(data => {
-          this.setState({serverInstance: data});
-          console.log("serverInstance:", this.state.serverInstance);
+          this.setState({serverInfos: data, infoDisplay: 1});
+          console.log("serverInfos:", this.state.serverInfos);
         }
       )
 
-    this.setState({infoDisplay: 1});
 
   }
 
@@ -136,10 +136,10 @@ class CharacterForm extends React.Component {
 
     let divDisplay = (
       <div>
-        <p>ID: {this.state.serverInstance.id}</p>
-        <p>Nom: {this.state.serverInstance.name}</p>
-        <p>Catégorie: {this.state.serverInstance.category}</p>
-        <p>Timezone: {this.state.serverInstance.timezone}</p>
+        <p>ID: {this.state.serverInfos.id}</p>
+        <p>Nom: {this.state.serverInfos.name}</p>
+        <p>Catégorie: {this.state.serverInfos.category}</p>
+        <p>Timezone: {this.state.serverInfos.timezone}</p>
       </div>
     );
 
