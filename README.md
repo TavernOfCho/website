@@ -1,4 +1,4 @@
-## Work flow /!\ Need test
+## Installation
 
 ```
 git clone git@github.com:TavernOfCho/config.git TavernOfCho
@@ -19,4 +19,4 @@ docker-compose exec website firebase login
 docker-compose exec website firebase deploy
 ```
 
-Open [https://tavernedecho.firebaseapp.com/] (https://tavernedecho.firebaseapp.com/) 
+Open https://tavernedecho.firebaseapp.com/
