@@ -60,8 +60,6 @@ class Signin extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log('username:',this.state.username);
-    console.log('password:',this.state.password);
 
     var credentials = {
       "username": this.state.username,
@@ -80,7 +78,6 @@ class Signin extends React.Component {
       .then(response => response.json())
       .then(data => {
           this.setState({tokenInfos: data});
-          console.log("tokenInfos:", this.state.tokenInfos);
         }
       )
 

@@ -90,15 +90,15 @@ class Drawer extends React.Component {
               <ListItemText primary={"Register"} />
             </ListItem>
           </Link>
+        </List>
+        <Divider />
+        <List>
           <Link to="/character" style={{ textDecoration: 'none'}}>
             <ListItem button key={"Character"}>
               <ListItemIcon><GroupIcon /></ListItemIcon>
               <ListItemText primary={"Character"} />
             </ListItem>
           </Link>
-        </List>
-        <Divider />
-        <List>
           {['Achievements', 'Dashboard', 'BattlePet', 'Help', 'Mount'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>

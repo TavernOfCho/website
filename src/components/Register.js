@@ -61,9 +61,6 @@ class Register extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log('username:',this.state.username);
-    console.log('password:',this.state.password);
-    console.log('passwordConfirmation:',this.state.passwordConfirmation);
 
     var credentials = {
       "username": this.state.username,
@@ -82,7 +79,6 @@ class Register extends React.Component {
       .then(response => response.json())
       .then(data => {
           this.setState({userInfos: data});
-          console.log("userInfos:", this.state.userInfos);
         }
       )
 
