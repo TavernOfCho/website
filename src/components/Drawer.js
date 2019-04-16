@@ -84,16 +84,16 @@ class Drawer extends React.Component {
               <ListItemText primary={"Login"} />
             </ListItem>
           </Link>
-          <Link to="/character" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Character"}>
-              <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={"Character"} />
-            </ListItem>
-          </Link>
           <Link to="/register" style={{ textDecoration: 'none'}}>
             <ListItem button key={"Register"}>
               <ListItemIcon><GroupIcon /></ListItemIcon>
               <ListItemText primary={"Register"} />
+            </ListItem>
+          </Link>
+          <Link to="/character" style={{ textDecoration: 'none'}}>
+            <ListItem button key={"Character"}>
+              <ListItemIcon><GroupIcon /></ListItemIcon>
+              <ListItemText primary={"Character"} />
             </ListItem>
           </Link>
         </List>

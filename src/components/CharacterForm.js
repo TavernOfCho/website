@@ -46,7 +46,7 @@ class CharacterForm extends React.Component {
       labelWidth: 0,
       servers: [],
       serverInfos: [],
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUzOTY1MDgsImV4cCI6MTU1NTQzMjUwOCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.1PXV5LPE6pUvX7LLbuaj6Ox0X8-GHxvTTtBksu4jCnxmh4qUI3RsJZw1_TtzqROjT-Sn2AFFtnOx9w8N_zosMg",
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTU0NTQ3MDcsImV4cCI6MTU1NTQ5MDcwNywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoicm9tYW4ifQ.ZcBxjBSiemWXq9Princi8N-tJ0G2t28wOQFCL29k8cgPLL2dt6W2f-gb8U3wfHEjSC2CF-hBe0wTcl6fQdAXag",
       name: 'aikisugi',
       characterInfos: [],
     };
@@ -94,12 +94,13 @@ class CharacterForm extends React.Component {
     return name.toLowerCase().replace(/\s|-|'/g, '');
   }
 
-  handleCharacterRequest() {
+  handleCharacterRequest = event => {
+
+    event.preventDefault();
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer "+ this.state.token);
-    // fetch('https://127.0.0.1:8052/realms/' + this.serverNameTrim(this.state.server),
     fetch('https://127.0.0.1:8052/characters/'+ this.state.name + '?realm=dalaran',
       {
         method: 'GET',
@@ -112,9 +113,6 @@ class CharacterForm extends React.Component {
           console.log("characterInfos:", this.state.characterInfos);
         }
       )
-
-    // console.log('https://127.0.0.1:8052/'+ this.state.name+ '?realm=' + this.serverNameTrim(this.state.server));
-
 
   }
 
@@ -141,16 +139,6 @@ class CharacterForm extends React.Component {
       </Select>
     );
 
-    // Not used, sample for server Information if needed
-    /*let serverDisplay = (
-      <div>
-        <p>ID: {this.state.serverInfos.id}</p>
-        <p>Nom: {this.state.serverInfos.name}</p>
-        <p>Catégorie: {this.state.serverInfos.category}</p>
-        <p>Timezone: {this.state.serverInfos.timezone}</p>
-      </div>
-    );*/
-
     // Character display information
     let charDisplay = (
       <div>
@@ -166,7 +154,7 @@ class CharacterForm extends React.Component {
 
     return (
       <div>
-        <form autoComplete="off">
+        <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
@@ -187,7 +175,7 @@ class CharacterForm extends React.Component {
               margin="normal"
               variant="outlined"
             />
-          <Button variant="outlined" color="primary" className={classes.button} onClick={this.handleCharacterRequest}>
+          <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             Afficher
           </Button>
           </FormControl>
