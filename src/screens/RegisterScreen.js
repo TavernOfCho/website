@@ -1,10 +1,10 @@
 import React from "react";
-import SignIn from "../components/SignIn";
+import Register from "../components/Register";
 
 export default class RegisterScreen extends React.Component {
   render() {
     return (
-      <SignIn/>
+      <Register/>
     );
   }
 }
