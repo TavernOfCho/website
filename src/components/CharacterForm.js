@@ -46,8 +46,9 @@ class CharacterForm extends React.Component {
       labelWidth: 0,
       servers: [],
       serverInfos: [],
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUzMjE2MTYsImV4cCI6MTU1NTM1NzYxNiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.UggRc7ZNpUjXQX3GxM17HtgtcaQqqh6Cn0I2ONwFY9uD-p7mHpk0dAkqLdFYXdqP256YmHcUXdb9qyUgpw9otQ",
-      name: '',
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTUzOTY1MDgsImV4cCI6MTU1NTQzMjUwOCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiam9obiJ9.1PXV5LPE6pUvX7LLbuaj6Ox0X8-GHxvTTtBksu4jCnxmh4qUI3RsJZw1_TtzqROjT-Sn2AFFtnOx9w8N_zosMg",
+      name: 'aikisugi',
+      characterInfos: [],
     };
 
     // Bind this
@@ -75,6 +76,7 @@ class CharacterForm extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({servers: data["hydra:member"]});
+          console.log("servers",this.state.servers);
         }
       )
 
@@ -93,10 +95,12 @@ class CharacterForm extends React.Component {
   }
 
   handleCharacterRequest() {
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer "+ this.state.token);
-    fetch('https://127.0.0.1:8052/realms/' + this.serverNameTrim(this.state.server),
+    // fetch('https://127.0.0.1:8052/realms/' + this.serverNameTrim(this.state.server),
+    fetch('https://127.0.0.1:8052/characters/'+ this.state.name + '?realm=dalaran',
       {
         method: 'GET',
         mode: "cors",
@@ -104,12 +108,12 @@ class CharacterForm extends React.Component {
       })
       .then(response => response.json())
       .then(data => {
-          this.setState({serverInfos: data, infoDisplay: 1});
-          console.log("serverInfos:", this.state.serverInfos);
+          this.setState({characterInfos: data, isDisplayed: 1});
+          console.log("characterInfos:", this.state.characterInfos);
         }
       )
 
-    console.log("name:",this.state.name);
+    // console.log('https://127.0.0.1:8052/'+ this.state.name+ '?realm=' + this.serverNameTrim(this.state.server));
 
 
   }
@@ -137,12 +141,26 @@ class CharacterForm extends React.Component {
       </Select>
     );
 
-    let divDisplay = (
+    // Not used, sample for server Information if needed
+    /*let serverDisplay = (
       <div>
         <p>ID: {this.state.serverInfos.id}</p>
         <p>Nom: {this.state.serverInfos.name}</p>
         <p>Catégorie: {this.state.serverInfos.category}</p>
         <p>Timezone: {this.state.serverInfos.timezone}</p>
+      </div>
+    );*/
+
+    // Character display information
+    let charDisplay = (
+      <div>
+        <p>ID: {this.state.characterInfos.name}</p>
+        <p>Serveur: {this.state.characterInfos.realm}</p>
+        <p>Level: {this.state.characterInfos.level}</p>
+        <p>Battlegroup: {this.state.characterInfos.battlegroup}</p>
+        <p>AchievementPoints: {this.state.characterInfos.achievementPoints}</p>
+        <p>Faction: {this.state.characterInfos.faction}</p>
+        <p>TotalHonorableKills: {this.state.characterInfos.totalHonorableKills}</p>
       </div>
     );
 
@@ -160,20 +178,21 @@ class CharacterForm extends React.Component {
             </InputLabel>
             {selectServers}
 
-          </FormControl>
             <TextField
               id="standard-name"
               label="Nom du personnage"
+              defaultValue="Aikusigi"
               className={classes.textField}
-              value={this.state.name}
               onChange={this.handleChangeName('name')}
               margin="normal"
+              variant="outlined"
             />
           <Button variant="outlined" color="primary" className={classes.button} onClick={this.handleCharacterRequest}>
             Afficher
           </Button>
+          </FormControl>
         </form>
-        {this.state.infoDisplay && divDisplay }
+        {this.state.isDisplayed && charDisplay}
       </div>
     );
   }
