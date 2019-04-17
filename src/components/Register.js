@@ -54,6 +54,7 @@ class Register extends React.Component {
       password: '',
       passwordConfirmation: '',
       userInfos: [],
+      tokenInfos: [],
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,10 +64,15 @@ class Register extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    var credentials = {
+    var credentialsRegister = {
       "username": this.state.username,
       "plainPassword": this.state.password,
       "email": this.state.email,
+    };
+
+    var credentialsLogin = {
+      "username": this.state.username,
+      "password": this.state.password,
     };
 
     var myHeaders = new Headers();
@@ -76,14 +82,32 @@ class Register extends React.Component {
       {
         method: 'POST',
         headers: myHeaders,
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentialsRegister)
       })
       .then(response => response.json())
       .then(data => {
           this.setState({userInfos: data});
+
+        fetch('https://127.0.0.1:8052/login_check',
+          {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(credentialsLogin)
+          })
+          .then(response => response.json())
+          .then(data => {
+              this.setState({tokenInfos: data});
+
+              localStorage.setItem("token", this.state.tokenInfos.token);
+
+              window.location.href = "/";
+            }
+          )
+          .catch(error => console.log(error));
         }
+
       )
-      .catch(error => console.log(error))
+      .catch(error => console.log(error));
 
   };
 

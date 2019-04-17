@@ -77,7 +77,8 @@ class Signin extends React.Component {
       })
       .then(response => response.json())
       .then(data => {
-          this.setState({tokenInfos: data});
+        this.setState({tokenInfos: data});
+        localStorage.setItem("token", this.state.tokenInfos.token)
         }
       )
       .catch(error => console.log(error))
@@ -121,8 +122,6 @@ class Signin extends React.Component {
             </Button>
           </form>
         </Paper>
-        {this.state.tokenInfos.token &&<p>Token</p>}
-        <p>{this.state.tokenInfos.token}</p>
       </main>
     );
 
