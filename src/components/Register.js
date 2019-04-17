@@ -81,6 +81,7 @@ class Register extends React.Component {
           this.setState({userInfos: data});
         }
       )
+      .catch(error => console.log(error))
 
   };
 

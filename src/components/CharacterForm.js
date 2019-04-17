@@ -46,7 +46,7 @@ class CharacterForm extends React.Component {
       labelWidth: 0,
       servers: [],
       serverInfos: [],
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTU0NTQ3MDcsImV4cCI6MTU1NTQ5MDcwNywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoicm9tYW4ifQ.ZcBxjBSiemWXq9Princi8N-tJ0G2t28wOQFCL29k8cgPLL2dt6W2f-gb8U3wfHEjSC2CF-hBe0wTcl6fQdAXag",
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTU0ODI2NDMsImV4cCI6MTU1NTUxODY0Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoicm9tYW4ifQ.w90FqpdM73Z8ad_uyvseJ0e6y8M4i-esBZ-tyW6b03edBkLFOF_BmkTYIlkJrwHpMe8dv3JrZ91N5SuLJl41EQ",
       name: 'aikisugi',
       characterInfos: [],
     };
@@ -70,15 +70,14 @@ class CharacterForm extends React.Component {
     fetch('https://127.0.0.1:8052/realms',
       {
         method: 'GET',
-        mode: "cors",
         headers: myHeaders
       })
       .then(response => response.json())
       .then(data => {
         this.setState({servers: data["hydra:member"]});
-          console.log("servers",this.state.servers);
         }
       )
+      .catch(error => console.log(error))
 
   }
 
@@ -104,15 +103,14 @@ class CharacterForm extends React.Component {
     fetch('https://127.0.0.1:8052/characters/'+ this.state.name + '?realm=dalaran',
       {
         method: 'GET',
-        mode: "cors",
         headers: myHeaders
       })
       .then(response => response.json())
       .then(data => {
           this.setState({characterInfos: data, isDisplayed: 1});
-          console.log("characterInfos:", this.state.characterInfos);
         }
       )
+      .catch(error => console.log(error))
 
   }
 

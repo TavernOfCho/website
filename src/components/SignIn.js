@@ -80,6 +80,7 @@ class Signin extends React.Component {
           this.setState({tokenInfos: data});
         }
       )
+      .catch(error => console.log(error))
 
   };
 
