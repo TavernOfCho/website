@@ -64,7 +64,7 @@ class CharacterForm extends React.Component {
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
     });
 
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer "+ localStorage.getItem("token"));
     fetch('https://127.0.0.1:8052/realms',
@@ -97,7 +97,7 @@ class CharacterForm extends React.Component {
 
     event.preventDefault();
 
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
     fetch('https://127.0.0.1:8052/characters/' + this.state.name + '?realm=dalaran',

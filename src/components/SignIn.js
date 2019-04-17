@@ -61,12 +61,12 @@ class Signin extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    var credentials = {
+    let credentials = {
       "username": this.state.username,
       "password": this.state.password,
     };
 
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     fetch('https://127.0.0.1:8052/login_check',
