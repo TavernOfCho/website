@@ -49,6 +49,7 @@ class Register extends React.Component {
     super(props);
 
     this.state = {
+      email: '',
       username: '',
       password: '',
       passwordConfirmation: '',
@@ -65,6 +66,7 @@ class Register extends React.Component {
     var credentials = {
       "username": this.state.username,
       "plainPassword": this.state.password,
+      "email": this.state.email,
     };
 
     var myHeaders = new Headers();
@@ -102,10 +104,14 @@ class Register extends React.Component {
           <Typography component="h1" variant="h5">
             Connexion
           </Typography>
+          <FormControl margin="normal" fullWidth>
+            <InputLabel htmlFor="email">E-mail</InputLabel>
+            <Input id="email" name="email" autoComplete="email" onChange={this.handleChange} autoFocus/>
+          </FormControl>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="username">Pseudo</InputLabel>
-              <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange}/>
+              <Input id="username" name="username" autoComplete="username" onChange={this.handleChange}/>
             </FormControl>
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="password">Mot de passe</InputLabel>
