@@ -46,7 +46,6 @@ class CharacterForm extends React.Component {
       labelWidth: 0,
       servers: [],
       serverInfos: [],
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NTU0ODI2NDMsImV4cCI6MTU1NTUxODY0Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoicm9tYW4ifQ.w90FqpdM73Z8ad_uyvseJ0e6y8M4i-esBZ-tyW6b03edBkLFOF_BmkTYIlkJrwHpMe8dv3JrZ91N5SuLJl41EQ",
       name: 'aikisugi',
       characterInfos: [],
     };

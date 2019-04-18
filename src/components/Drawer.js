@@ -19,6 +19,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 
 
 const drawerWidth = 240;
@@ -63,6 +64,27 @@ class Drawer extends React.Component {
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
+
+  getUserInfos(){
+    if(localStorage.getObj("userInfos") != null) {
+      return localStorage.getObj("userInfos");
+    }
+    else {
+      return "";
+    }
+  }
+
+  getUsername() {
+    if(this.getUserInfos() !== "") {
+      console.log("userInfos:",localStorage.getObj("userInfos"));
+      return this.capitalizeFirstLetter(this.getUserInfos().username);
+    }
+  }
+
+  capitalizeFirstLetter(string) {
+    return string ? (string.charAt(0).toUpperCase() + string.slice(1)) : "";
+  }
+
 
   render() {
     const { classes, theme } = this.props;
@@ -122,8 +144,9 @@ class Drawer extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-{/*            <Typography variant="h6" color="inherit" noWrap>
-            </Typography>*/}
+            <Typography variant="h6" color="inherit" noWrap>
+              Bienvenue {this.getUsername()}
+            </Typography>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>

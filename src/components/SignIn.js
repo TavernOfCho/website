@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
+
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -78,7 +79,8 @@ class Signin extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({tokenInfos: data});
-        localStorage.setItem("token", this.state.tokenInfos.token)
+        localStorage.setObj("userInfos", {"token": this.state.tokenInfos.token, "username": this.state.username})
+        window.location.href = "/";
         }
       )
       .catch(error => console.log(error))
