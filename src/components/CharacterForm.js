@@ -65,7 +65,7 @@ class CharacterForm extends React.Component {
 
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer "+ localStorage.getItem("token"));
+    myHeaders.append("Authorization", "Bearer "+ localStorage.getObj("userInfos").token);
     fetch('https://127.0.0.1:8052/realms',
       {
         method: 'GET',
@@ -98,7 +98,7 @@ class CharacterForm extends React.Component {
 
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    myHeaders.append("Authorization", "Bearer " + localStorage.getObj("userInfos").token);
     fetch('https://127.0.0.1:8052/characters/' + this.state.name + '?realm=dalaran',
       {
         method: 'GET',
