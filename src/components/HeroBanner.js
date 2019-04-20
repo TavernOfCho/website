@@ -30,14 +30,14 @@ class HeroBanner extends React.Component {
     super(props);
 
     this.state= {
-      isButtonDisplayed: true,
+      isButtonDisplayed: false,
     }
 
   }
 
-  componentDidMount() {
-    if(localStorage.getObj("userInfos") !== null && localStorage.getObj("userInfos").username) {
-      this.setState({isButtonDisplayed: false})
+  componentDidMount(){
+    if(localStorage.getObj("userInfos") === undefined || localStorage.getObj("userInfos") === null ) {
+      this.setState({isButtonDisplayed: true})
     }
   }
 

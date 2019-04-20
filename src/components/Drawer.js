@@ -15,11 +15,13 @@ import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupIcon from '@material-ui/icons/Group';
+import EjectIcon from '@material-ui/icons/Eject';
 import PersonIcon from '@material-ui/icons/Person';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 
 const drawerWidth = 240;
@@ -57,9 +59,17 @@ const styles = theme => ({
 });
 
 class Drawer extends React.Component {
-  state = {
-    mobileOpen: false,
-  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      mobileOpen: false,
+      disconnect: false,
+    }
+
+  }
+
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -76,8 +86,36 @@ class Drawer extends React.Component {
 
   getUsername() {
     if(this.getUserInfos() !== "") {
-      console.log("userInfos:",localStorage.getObj("userInfos"));
       return this.capitalizeFirstLetter(this.getUserInfos().username);
+    }
+  }
+
+  displayWelcomeMessage() {
+    if (this.getUsername() !== undefined && this.getUsername() !== null) {
+      return "Bienvenue " + this.getUsername();
+    }
+  }
+
+  displayDisconnectButton() {
+    if(this.getUsername() !== undefined && this.getUsername() !== null) {
+      return (
+      <Grid item>
+        <IconButton
+          color="inherit"
+          aria-label="Disconnect"
+          onClick={this.disconnect}
+        >
+          <EjectIcon />
+        </IconButton>
+      </Grid>
+      )
+    }
+  }
+
+  disconnect() {
+    if(localStorage.getObj("userInfos") !== undefined && localStorage.getObj("userInfos") !== null) {
+      localStorage.removeItem("userInfos");
+      window.location.href = "/";
     }
   }
 
@@ -86,8 +124,11 @@ class Drawer extends React.Component {
   }
 
 
+
   render() {
     const { classes, theme } = this.props;
+
+    console.log("userInfos:",localStorage.getObj("userInfos"));
 
     const drawer = (
       <div>
@@ -136,17 +177,32 @@ class Drawer extends React.Component {
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.menuButton}
+            <Grid
+              justify="space-between"
+              container
+              alignItems="center"
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              Bienvenue {this.getUsername()}
-            </Typography>
+
+              <Grid item>
+                <IconButton
+                  color="inherit"
+                  aria-label="Open drawer"
+                  onClick={this.handleDrawerToggle}
+                  className={classes.menuButton}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Grid>
+
+              <Grid item>
+                <Typography variant="h6" color="inherit" noWrap>
+                  {this.displayWelcomeMessage()}
+                </Typography>
+              </Grid>
+              {this.displayDisconnectButton()}
+
+            </Grid>
+
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>

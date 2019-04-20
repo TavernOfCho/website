@@ -98,7 +98,7 @@ class Register extends React.Component {
           .then(data => {
               this.setState({tokenInfos: data});
 
-              localStorage.setItem("token", this.state.tokenInfos.token);
+            localStorage.setObj("userInfos", {"token": this.state.tokenInfos.token, "username": this.state.username})
 
               window.location.href = "/";
             }
@@ -156,8 +156,6 @@ class Register extends React.Component {
             </Button>
           </form>
         </Paper>
-        <p>{this.state.userInfos.username}</p>
-        <p>{this.state.userInfos.enabled === true ? "Activé" : "Non activé"}</p>
       </main>
     );
 
