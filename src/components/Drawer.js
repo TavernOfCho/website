@@ -95,7 +95,7 @@ class Drawer extends React.Component {
     if (this.getUsername() !== undefined && this.getUsername() !== null) {
       return (
         <Grid item>
-          <Typography variant="h7" color="inherit" noWrap>
+          <Typography variant="subtitle2" color="inherit" noWrap>
             {"Bienvenue " + this.getUsername()}
           </Typography>
         </Grid>
