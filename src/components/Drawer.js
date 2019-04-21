@@ -23,6 +23,7 @@ import {Link} from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const drawerWidth = 200;
@@ -99,22 +100,24 @@ class Drawer extends React.Component {
             {"Bienvenue " + this.getUsername()}
           </Typography>
         </Grid>
-    )
+      )
     }
   }
 
   displayDisconnectButton() {
     if(this.getUsername() !== undefined && this.getUsername() !== null) {
       return (
-      <Grid item>
-        <IconButton
-          color="inherit"
-          aria-label="Disconnect"
-          onClick={this.disconnect}
-        >
-          <EjectIcon />
-        </IconButton>
-      </Grid>
+        <Tooltip title="Déconnexion" aria-label="Déconnexion">
+          <Grid item>
+            <IconButton
+              color="inherit"
+              aria-label="Disconnect"
+              onClick={this.disconnect}
+            >
+              <EjectIcon />
+            </IconButton>
+          </Grid>
+        </Tooltip>
       )
     }
   }
@@ -143,30 +146,30 @@ class Drawer extends React.Component {
         <Divider />
         <List>
           <Link to="/" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Home"} >
+            <ListItem button key={"Accueil"} >
               <ListItemIcon><HomeIcon /></ListItemIcon>
-              <ListItemText primary={"Home"} />
+              <ListItemText primary={"Accueil"} />
             </ListItem>
           </Link>
           <Link to="/login" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Login"}>
+            <ListItem button key={"Connexion"}>
               <ListItemIcon><PersonIcon /></ListItemIcon>
-              <ListItemText primary={"Login"} />
+              <ListItemText primary={"Connexion"} />
             </ListItem>
           </Link>
           <Link to="/register" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Register"}>
+            <ListItem button key={"Inscription"}>
               <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={"Register"} />
+              <ListItemText primary={"Inscription"} />
             </ListItem>
           </Link>
         </List>
         <Divider />
         <List>
           <Link to="/character" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Character"}>
+            <ListItem button key={"Personnage"}>
               <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={"Character"} />
+              <ListItemText primary={"Personnage"} />
             </ListItem>
           </Link>
           {['Achievements', 'Dashboard', 'BattlePet', 'Help', 'Mount'].map((text, index) => (
