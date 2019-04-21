@@ -6,20 +6,24 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import RegisterScreen from "../screens/RegisterScreen";
 
+
 const styles = theme => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing.unit * 3,
-    marginTop: 55,
-    // marginLeft: 240,
   },
+  toolbar: theme.mixins.toolbar,
 });
 
 class Routing extends React.Component {
 
   render() {
+
+    const { classes } = this.props;
+
     return (
-      <main className={this.props.classes.content}>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
         <Switch>
           <Route exact path="/" component={HomeScreen}/>
           <Route exact path="/login" component={LoginScreen}/>
@@ -30,5 +34,6 @@ class Routing extends React.Component {
     )
   }
 }
+
 
 export default withStyles(styles)(Routing);
