@@ -126,7 +126,7 @@ class Register extends React.Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Connexion
+            Inscription
           </Typography>
           <FormControl margin="normal" fullWidth>
             <InputLabel htmlFor="email">E-mail</InputLabel>
