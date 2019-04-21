@@ -93,7 +93,13 @@ class Drawer extends React.Component {
 
   displayWelcomeMessage() {
     if (this.getUsername() !== undefined && this.getUsername() !== null) {
-      return "Bienvenue " + this.getUsername();
+      return (
+        <Grid item>
+          <Typography variant="h7" color="inherit" noWrap>
+            {"Bienvenue " + this.getUsername()}
+          </Typography>
+        </Grid>
+    )
     }
   }
 
@@ -195,11 +201,7 @@ class Drawer extends React.Component {
                 </IconButton>
               </Grid>
 
-              <Grid item>
-                <Typography variant="h6" color="inherit" noWrap>
-                  {this.displayWelcomeMessage()}
-                </Typography>
-              </Grid>
+              {this.displayWelcomeMessage()}
 
               {this.displayDisconnectButton()}
 
