@@ -50,6 +50,7 @@ class CharacterForm extends React.Component {
       name: 'aikisugi',
       characterInfos: [],
       isLoaderDisplayed: false,
+      isCharInfosDisplayed: false,
     };
 
     // Bind this
@@ -110,7 +111,7 @@ class CharacterForm extends React.Component {
       })
       .then(response => response.json())
       .then(data => {
-          this.setState({characterInfos: data, isCharInfosDisplayed: 1, isLoaderDisplayed:false});
+          this.setState({characterInfos: data, isCharInfosDisplayed: true, isLoaderDisplayed:false});
         }
       )
       .catch(error => console.log(error))
