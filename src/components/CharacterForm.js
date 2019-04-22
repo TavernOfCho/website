@@ -9,6 +9,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Loader from "./Loader";
 
 
 const styles = theme => ({
@@ -48,6 +49,7 @@ class CharacterForm extends React.Component {
       serverInfos: [],
       name: 'aikisugi',
       characterInfos: [],
+      isLoaderDisplayed: false,
     };
 
     // Bind this
@@ -96,6 +98,8 @@ class CharacterForm extends React.Component {
 
     event.preventDefault();
 
+    this.setState({isLoaderDisplayed: true, isCharInfosDisplayed: false});
+
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + localStorage.getObj("userInfos").token);
@@ -106,7 +110,7 @@ class CharacterForm extends React.Component {
       })
       .then(response => response.json())
       .then(data => {
-          this.setState({characterInfos: data, isDisplayed: 1});
+          this.setState({characterInfos: data, isCharInfosDisplayed: 1, isLoaderDisplayed:false});
         }
       )
       .catch(error => console.log(error))
@@ -134,19 +138,6 @@ class CharacterForm extends React.Component {
           <MenuItem value={name} key={index}>{name}</MenuItem>
         ))}
       </Select>
-    );
-
-    // Character display information
-    let charDisplay = (
-      <div>
-        <p>ID: {this.state.characterInfos.name}</p>
-        <p>Serveur: {this.state.characterInfos.realm}</p>
-        <p>Level: {this.state.characterInfos.level}</p>
-        <p>Battlegroup: {this.state.characterInfos.battlegroup}</p>
-        <p>AchievementPoints: {this.state.characterInfos.achievementPoints}</p>
-        <p>Faction: {this.state.characterInfos.faction}</p>
-        <p>TotalHonorableKills: {this.state.characterInfos.totalHonorableKills}</p>
-      </div>
     );
 
     return (
@@ -177,7 +168,21 @@ class CharacterForm extends React.Component {
           </Button>
           </FormControl>
         </form>
-        {this.state.isDisplayed && charDisplay}
+        { this.state.isLoaderDisplayed && <Loader/> }
+
+        {this.state.isCharInfosDisplayed && (
+          <div>
+            <p>ID: {this.state.characterInfos.name}</p>
+            <p>Serveur: {this.state.characterInfos.realm}</p>
+            <p>Level: {this.state.characterInfos.level}</p>
+            <p>Battlegroup: {this.state.characterInfos.battlegroup}</p>
+            <p>AchievementPoints: {this.state.characterInfos.achievementPoints}</p>
+            <p>Faction: {this.state.characterInfos.faction}</p>
+            <p>TotalHonorableKills: {this.state.characterInfos.totalHonorableKills}</p>
+          </div>
+          )
+        }
+
       </div>
     );
   }
