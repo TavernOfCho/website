@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import AuthService from './AuthService';
 
 
 const styles = theme => ({
@@ -57,33 +58,22 @@ class Signin extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.Auth = new AuthService();
   }
 
   handleSubmit = event => {
     event.preventDefault();
 
-    let credentials = {
-      "username": this.state.username,
-      "password": this.state.password,
-    };
-
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    fetch('https://127.0.0.1:8052/login_check',
-      {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(credentials)
-      })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({tokenInfos: data});
-        localStorage.setObj("userInfos", {"token": this.state.tokenInfos.token, "username": this.state.username})
+    // Send login request
+    this.Auth.login(this.state.username,this.state.password)
+      .then(res =>{
+        console.log("res in signin, high level:",res);
+        // this.props.history.replace('/');
         window.location.href = "/";
-        }
-      )
-      .catch(error => console.log(error))
+      })
+      .catch(err =>{
+        alert(err);
+      })
 
   };
 
