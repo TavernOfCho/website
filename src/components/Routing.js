@@ -5,6 +5,7 @@ import CharacterScreen from "../screens/CharacterScreen";
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import RegisterScreen from "../screens/RegisterScreen";
+import withAuth from "../components/withAuth";
 
 
 const styles = theme => ({
@@ -19,13 +20,15 @@ class Routing extends React.Component {
 
   render() {
 
+    console.log("In routing js, props user:",this.props.user);
+
     const { classes } = this.props;
 
     return (
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route exact path="/" component={HomeScreen}/>
+          <Route exact path="/" component={() => <HomeScreen user={this.props.user}/>} />
           <Route exact path="/login" component={LoginScreen}/>
           <Route exact path="/register" component={RegisterScreen}/>
           <Route exact path="/character" component={CharacterScreen}/>
@@ -36,4 +39,4 @@ class Routing extends React.Component {
 }
 
 
-export default withStyles(styles)(Routing);
+export default withAuth(withStyles(styles)(Routing));

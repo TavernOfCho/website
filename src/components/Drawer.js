@@ -24,6 +24,10 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
+import AuthService from '../components/AuthService';
+import withAuth from '../components/withAuth';
+
+const Auth = new AuthService();
 
 
 const drawerWidth = 200;
@@ -68,31 +72,35 @@ class Drawer extends React.Component {
     this.state = {
       mobileOpen: false,
     }
-
   }
 
+  handleLogout(){
+    Auth.logout()
+    window.location.href = "/login"
+  }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
   getUserInfos(){
-    if(localStorage.getObj("userInfos") != null) {
-      return localStorage.getObj("userInfos");
-    }
-    else {
-      return "";
+    if(Auth.loggedIn() === true) {
+      return this.props.user
     }
   }
 
   getUsername() {
-    if(this.getUserInfos() !== "") {
-      return this.capitalizeFirstLetter(this.getUserInfos().username);
-    }
+      if(Auth.loggedIn() === true) {
+        return this.capitalizeFirstLetter(this.getUserInfos().username);
+      }
+  }
+
+  capitalizeFirstLetter(string) {
+    return string ? (string.charAt(0).toUpperCase() + string.slice(1)) : "";
   }
 
   displayWelcomeMessage() {
-    if (this.getUsername() !== undefined && this.getUsername() !== null) {
+    if (Auth.loggedIn() === true) {
       return (
         <Grid item>
           <Typography variant="subtitle2" color="inherit" noWrap>
@@ -104,14 +112,14 @@ class Drawer extends React.Component {
   }
 
   displayDisconnectButton() {
-    if(this.getUsername() !== undefined && this.getUsername() !== null) {
+    if(Auth.loggedIn() === true) {
       return (
         <Tooltip title="Déconnexion" aria-label="Déconnexion">
           <Grid item>
             <IconButton
               color="inherit"
               aria-label="Disconnect"
-              onClick={this.disconnect}
+              onClick={this.handleLogout}
             >
               <EjectIcon />
             </IconButton>
@@ -120,19 +128,6 @@ class Drawer extends React.Component {
       )
     }
   }
-
-  disconnect() {
-    if(localStorage.getObj("userInfos") !== undefined && localStorage.getObj("userInfos") !== null) {
-      localStorage.removeItem("userInfos");
-      window.location.href = "/";
-    }
-  }
-
-  capitalizeFirstLetter(string) {
-    return string ? (string.charAt(0).toUpperCase() + string.slice(1)) : "";
-  }
-
-
 
   render() {
     const { classes, theme } = this.props;
@@ -252,4 +247,4 @@ Drawer.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(Drawer);
+export default withAuth(withStyles(styles, { withTheme: true })(Drawer));
