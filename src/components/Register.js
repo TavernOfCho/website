@@ -10,6 +10,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import AuthService from "../components/AuthService";
+import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
   main: {
@@ -55,61 +57,40 @@ class Register extends React.Component {
       passwordConfirmation: '',
       userInfos: [],
       tokenInfos: [],
+      redirect: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.Auth = new AuthService();
   }
+
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/login' />
+    }
+  }
+
 
   handleSubmit = event => {
     event.preventDefault();
 
-    let credentialsRegister = {
-      "username": this.state.username,
-      "plainPassword": this.state.password,
-      "email": this.state.email,
-    };
-
-    let credentialsLogin = {
-      "username": this.state.username,
-      "password": this.state.password,
-    };
-
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    fetch('https://127.0.0.1:8052/users',
-      {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(credentialsRegister)
+    this.Auth.register(this.state.username, this.state.password, this.state.email)
+      .then(res =>{
+        console.log("res in registerrr:",res);
+        // this.props.history.replace('/');
+        // window.location.href = "/login";
+        this.setRedirect()
       })
-      .then(response => response.json())
-      .then(data => {
-          this.setState({userInfos: data});
-
-        fetch('https://127.0.0.1:8052/login_check',
-          {
-            method: 'POST',
-            headers: myHeaders,
-            body: JSON.stringify(credentialsLogin)
-          })
-          .then(response => response.json())
-          .then(data => {
-              this.setState({tokenInfos: data});
-
-            localStorage.setObj("userInfos", {"token": this.state.tokenInfos.token, "username": this.state.username})
-
-              window.location.href = "/";
-            }
-          )
-          .catch(error => console.log(error));
-        }
-
-      )
-      .catch(error => console.log(error));
-
-  };
+      .catch(err =>{
+        alert(err);
+      })
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -120,6 +101,7 @@ class Register extends React.Component {
 
     return (
       <main className={classes.main}>
+        {this.renderRedirect()}
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
