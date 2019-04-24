@@ -20,8 +20,6 @@ class Routing extends React.Component {
 
   render() {
 
-    console.log("In routing js, props user:",this.props.user);
-
     const { classes } = this.props;
 
     return (

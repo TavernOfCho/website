@@ -23,8 +23,6 @@ class HomeScreen extends React.Component {
 
   render() {
 
-    console.log("props user in homescreen:",this.props.user);
-
     return (
       <div>
         <HeroBanner title={"Taverne de Cho"} description={"Venez planifier votre aventure pour une immersion encore plus grande."} hasButton={this.state.hasButton}/>

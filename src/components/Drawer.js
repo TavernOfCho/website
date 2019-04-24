@@ -132,9 +132,6 @@ class Drawer extends React.Component {
   render() {
     const { classes, theme } = this.props;
 
-    console.log("userInfos:",localStorage.getObj("userInfos"));
-    console.log("In drawer, this.props.user:",this.props.user);
-
     const drawer = (
       <div>
         <div className={classes.toolbar} />

@@ -81,8 +81,6 @@ class Register extends React.Component {
     this.Auth.register(this.state.username, this.state.password, this.state.email)
       .then(res =>{
         console.log("res in registerrr:",res);
-        // this.props.history.replace('/');
-        // window.location.href = "/login";
         this.setRedirect()
       })
       .catch(err =>{

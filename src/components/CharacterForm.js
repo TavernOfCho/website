@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
+import RequestService from "./RequestService";
 
 
 const styles = theme => ({
@@ -46,7 +47,6 @@ class CharacterForm extends React.Component {
       server: '',
       labelWidth: 0,
       servers: [],
-      serverInfos: [],
       name: 'aikisugi',
       characterInfos: [],
       isLoaderDisplayed: false,
@@ -55,57 +55,13 @@ class CharacterForm extends React.Component {
 
     // Bind this
     this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
+    this.Request = new RequestService();
   }
 
   getServerNames() {
     return this.state.servers.map(server => server.name).sort();
   }
 
-/*
-  componentDidMount() {
-    this.setState({
-      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
-    });
-
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer "+ localStorage.getObj("userInfos").token);
-    fetch('https://127.0.0.1:8052/realms',
-      {
-        method: 'GET',
-        headers: myHeaders
-      })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({servers: data["hydra:member"]});
-        }
-      )
-      .catch(error => console.log(error))
-
-  }
-*/
-
-  componentDidMount() { // Will mount can be awesome
-    this.setState({
-      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
-    });
-
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer "+ localStorage.getObj("userInfos").token);
-    fetch('https://127.0.0.1:8052/realms',
-      {
-        method: 'GET',
-        headers: myHeaders
-      })
-      .then(response => response.json())
-      .then(data => {
-          this.setState({servers: data["hydra:member"]});
-        }
-      )
-      .catch(error => console.log(error))
-
-  }
 
   handleChangeServer = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -125,22 +81,31 @@ class CharacterForm extends React.Component {
 
     this.setState({isLoaderDisplayed: true, isCharInfosDisplayed: false});
 
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer " + localStorage.getObj("userInfos").token);
-    fetch('https://127.0.0.1:8052/characters/' + this.state.name + '?realm=dalaran',
-      {
-        method: 'GET',
-        headers: myHeaders
+    this.Request.getCharacter(this.state.name)
+      .then(res => {
+        this.setState({charactersInfos: res, isCharInfosDisplayed: true, isLoaderDisplayed:false})
       })
-      .then(response => response.json())
-      .then(data => {
-          this.setState({characterInfos: data, isCharInfosDisplayed: true, isLoaderDisplayed:false});
-        }
-      )
-      .catch(error => console.log(error))
+      .catch(err => {
+        alert(err)
+      })
+  };
 
+  componentDidMount() {
+
+    this.setState({
+      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+    });
+
+    this.Request.getServers()
+      .then(res => {
+        console.log("res in character:",res)
+        this.setState({servers: res})
+      })
+      .catch(err =>{
+        alert(err)
+      })
   }
+
 
   render() {
     const { classes } = this.props;

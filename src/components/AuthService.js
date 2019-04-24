@@ -75,7 +75,6 @@ export default class AuthService {
 
   getProfile() {
     // Using jwt-decode npm package to decode the token
-    console.log("Decode:",decode(this.getToken()))
     return decode(this.getToken());
   }
 

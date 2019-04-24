@@ -66,8 +66,6 @@ class Signin extends React.Component {
     // Send login request
     this.Auth.login(this.state.username,this.state.password)
       .then(res =>{
-        console.log("res in signin, high level:",res);
-        // this.props.history.replace('/');
         window.location.href = "/";
       })
       .catch(err =>{
