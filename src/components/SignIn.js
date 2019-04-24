@@ -53,7 +53,6 @@ class Signin extends React.Component {
     this.state = {
       username: '',
       password: '',
-      tokenInfos: [],
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);

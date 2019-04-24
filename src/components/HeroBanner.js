@@ -26,22 +26,6 @@ const styles = theme => ({
 
 class HeroBanner extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state= {
-      isButtonDisplayed: false,
-    }
-
-  }
-
-  componentDidMount(){
-    if(localStorage.getObj("userInfos") === undefined || localStorage.getObj("userInfos") === null ) {
-      this.setState({isButtonDisplayed: true})
-    }
-  }
-
-
   render() {
 
     const { classes, title, description, hasButton } = this.props;
@@ -59,7 +43,7 @@ class HeroBanner extends React.Component {
             <div className={classes.heroButtons}>
               <Grid container spacing={16} justify="center">
                 <Grid item>
-                  { hasButton && this.state.isButtonDisplayed &&
+                  { hasButton &&
                   <Button component={Link} to="/login" variant="contained" color="primary">
                     Connexion
                   </Button>

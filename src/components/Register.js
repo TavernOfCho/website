@@ -55,8 +55,6 @@ class Register extends React.Component {
       username: '',
       password: '',
       passwordConfirmation: '',
-      userInfos: [],
-      tokenInfos: [],
       redirect: false
     }
 
@@ -101,7 +99,10 @@ class Register extends React.Component {
 
     return (
       <main className={classes.main}>
+
+        {/* Handling component for redirection */}
         {this.renderRedirect()}
+
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>

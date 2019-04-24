@@ -61,6 +61,7 @@ class CharacterForm extends React.Component {
     return this.state.servers.map(server => server.name).sort();
   }
 
+/*
   componentDidMount() {
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
@@ -77,6 +78,29 @@ class CharacterForm extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({servers: data["hydra:member"]});
+        }
+      )
+      .catch(error => console.log(error))
+
+  }
+*/
+
+  componentDidMount() { // Will mount can be awesome
+    this.setState({
+      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+    });
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer "+ localStorage.getObj("userInfos").token);
+    fetch('https://127.0.0.1:8052/realms',
+      {
+        method: 'GET',
+        headers: myHeaders
+      })
+      .then(response => response.json())
+      .then(data => {
+          this.setState({servers: data["hydra:member"]});
         }
       )
       .catch(error => console.log(error))
