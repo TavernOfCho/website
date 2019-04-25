@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "./RequestService";
+import CharacterInfos from "./CharacterInfos";
 
 
 const styles = theme => ({
@@ -158,22 +159,15 @@ class CharacterForm extends React.Component {
           </Button>
           </FormControl>
         </form>
+
+        {/* Displaying loader during the request time */}
         { this.state.isLoaderDisplayed && <Loader/> }
 
-        {this.state.isCharInfosDisplayed && (
-          <div>
-            <p>ID: {this.state.characterInfos.name}</p>
-            <p>Serveur: {this.state.characterInfos.realm}</p>
-            <p>Level: {this.state.characterInfos.level}</p>
-            <p>Battlegroup: {this.state.characterInfos.battlegroup}</p>
-            <p>AchievementPoints: {this.state.characterInfos.achievementPoints}</p>
-            <p>Faction: {this.state.characterInfos.faction}</p>
-            <p>TotalHonorableKills: {this.state.characterInfos.totalHonorableKills}</p>
-          </div>
-          )
-        }
+        {/* Displaying datas */}
+        {this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}
 
       </div>
+
     );
   }
 }
