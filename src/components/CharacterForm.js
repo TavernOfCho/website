@@ -83,7 +83,7 @@ class CharacterForm extends React.Component {
 
     this.Request.getCharacter(this.state.name)
       .then(res => {
-        this.setState({charactersInfos: res, isCharInfosDisplayed: true, isLoaderDisplayed:false})
+        this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderDisplayed:false})
       })
       .catch(err => {
         alert(err)
