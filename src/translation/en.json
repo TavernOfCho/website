@@ -1,4 +1,13 @@
 {
+    "character": "Character",
+    "character.helper": "Please fill your server and the name of your character.",
+    "chotavern": "Cho's Tavern",
+    "connection": "Connection",
+    "disconnect": "Disconnect",
     "hello": "Hello",
-    "herounit.description": "Welcome to the tavern of Cho !"
+    "homescreen": "Homescreen",
+    "homescreen.welcome": "Let's choose the next achievement you want to do and find new friends",
+    "herounit.description": "Welcome to the tavern of Cho !",
+    "register": "Register",
+    "welcome": "Welcome "
 }

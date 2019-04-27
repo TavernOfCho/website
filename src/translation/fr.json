@@ -1,4 +1,13 @@
 {
+    "character": "Personnage",
+    "character.helper": "Veuillez sélectionner votre serveur et le nom de votre personnage.",
+    "chotavern": "Taverne de Cho",
+    "connection": "Connexion",
+    "disconnect": "Déconnecter",
     "hello": "Bonjour",
-    "herounit.description": "Bienvenue dans la taverne de Cho !"
+    "homescreen": "Accueil",
+    "homescreen.welcome": "Venez planifier vos prochains exploits et trouver d'autres aventuriers",
+    "herounit.description": "Bienvenue dans la taverne de Cho !",
+    "register": "Inscription",
+    "welcome": "Bienvenue "
 }
