@@ -99,7 +99,6 @@ class CharacterForm extends React.Component {
 
     this.Request.getServers()
       .then(res => {
-        console.log("res in character:",res)
         this.setState({servers: res})
       })
       .catch(err =>{
