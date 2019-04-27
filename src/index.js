@@ -15,6 +15,16 @@ const messages = {
 
 const language = "en";
 
+// Add new method to localstorage
+Storage.prototype.getObj = function(key) {
+  return JSON.parse(this.getItem(key))
+}
+
+// Add new method to localstorage
+Storage.prototype.setObj = function(key, obj) {
+  return this.setItem(key, JSON.stringify(obj))
+}
+
 ReactDOM.render(
 <IntlProvider locale={language} messages={messages[language]}>
     <App />
