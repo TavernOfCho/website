@@ -130,6 +130,10 @@ class Drawer extends React.Component {
     }
   }
 
+  change(value) {
+    console.log(value);
+  }
+
   render() {
     const { classes, theme } = this.props;
 
@@ -198,6 +202,21 @@ class Drawer extends React.Component {
               </Grid>
 
               {this.displayWelcomeMessage()}
+
+              <div>
+                <img
+                  className={classes.flag}
+                  src={require("./img/Uk.png")}
+                  alt="en"
+                  onClick={() => this.change("en")}
+                />
+                <img
+                  className={classes.flag}
+                  src={require("./img/France.png")}
+                  alt="fr"
+                  onClick={() => this.change("fr")}
+                />
+              </div>
 
               {this.displayDisconnectButton()}
 
