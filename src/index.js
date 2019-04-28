@@ -7,10 +7,12 @@ import * as serviceWorker from './serviceWorker';
 
 /* react-intl import */
 import { IntlProvider } from 'react-intl';
+import messages_fr from "./translation/fr.json"
 import messages_en from "./translation/en.json"
 
 const messages = {
-    'en': messages_en
+    'en': messages_en,
+    'fr': messages_fr
 }
 
 const language = "en";
