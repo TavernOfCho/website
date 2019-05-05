@@ -7,6 +7,7 @@ export const alertActions = {
 };
 
 function success(message) {
+  console.log("sucess function in alert action", message);
   return { type: alertConstants.SUCCESS, message };
 }
 
@@ -17,3 +18,5 @@ function error(message) {
 function clear() {
   return { type: alertConstants.CLEAR };
 }
+
+export default alertActions;

@@ -1,6 +1,17 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import alertReducer from './reducers/alert';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-export default createStore(
-  alertReducer
+const reducers = {
+  alert: alertReducer,
+};
+
+export const store = createStore(
+  combineReducers(reducers),
+  composeWithDevTools(
+    applyMiddleware(
+      thunkMiddleware
+    )
+  )
 );

@@ -1,26 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import {BrowserRouter} from 'react-router-dom';
 import Drawer from './components/Drawer';
-import { Provider } from 'react-redux';
-import Store from './store/configureStore';
+import { connect } from 'react-redux';
 
 
-class App extends Component {
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    const { dispatch } = this.props;
+    // history.listen((location, action) => {
+    //   // clear alert on location change
+    //   dispatch(alertActions.clear());
+    // });
+  }
+
 
   render() {
+    const { alert } = this.props;
+    console.log("App.js:", this.props);
+
     return (
-      <Provider store={Store}>
-        <div className="App">
-          <BrowserRouter>
-            <React.Fragment>
-              <Drawer/>
-            </React.Fragment>
-          </BrowserRouter>
-        </div>
-      </Provider>
+      <div className="App">
+        {alert.message &&
+          <div className={`alert ${alert.type}`}>{alert.message}testou</div>
+        }
+        <BrowserRouter>
+          <React.Fragment>
+            <Drawer/>
+          </React.Fragment>
+        </BrowserRouter>
+      </div>
     );
   }
 }
 
-export default App;
+
+function mapStateToProps(state) {
+  const { alert } = state;
+  return {
+    alert,
+  };
+}
+
+export default connect(mapStateToProps)(App);

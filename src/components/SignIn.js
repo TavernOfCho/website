@@ -11,7 +11,10 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import AuthService from './AuthService';
-import ContextMessage from "./ContextMessage";
+import ContextMessage from './ContextMessage';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import alertActions from "../store/actions/alert";
 
 
 const styles = theme => ({
@@ -65,16 +68,20 @@ class Signin extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
+    this.props.dispatch(alertActions.success("Bien joué ma gueule"));
+
+    console.log("login after dispatch:", this.props);
+
     // Send login request
-    this.Auth.login(this.state.username,this.state.password)
-      .then(res =>{
-        window.location.href = "/";
-      })
-      .catch(err =>{
-        if(err === 401) {
-          this.handle401()
-        };
-      })
+    // this.Auth.login(this.state.username,this.state.password)
+    //   .then(res =>{
+    //     window.location.href = "/";
+    //   })
+    //   .catch(err =>{
+    //     if(err === 401) {
+    //       this.handle401()
+    //     };
+    //   })
 
   };
 
@@ -84,6 +91,10 @@ class Signin extends React.Component {
 
   handle401 = () => {
     this.setState({invalidCredentials: true})
+  }
+
+  componentDidUpdate() {
+    console.log('ComponentDidUpdate, props in login:',this.props);
   }
 
   render() {
@@ -126,12 +137,13 @@ class Signin extends React.Component {
     );
 
   }
-
-
 }
 
 Signin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Signin);
+export default compose(
+  connect(),
+  withStyles(styles)
+)(Signin);
