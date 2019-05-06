@@ -19,14 +19,9 @@ class App extends React.Component {
 
 
   render() {
-    const { alert } = this.props;
-    console.log("App.js:", this.props);
 
     return (
       <div className="App">
-        {alert.message &&
-          <div className={`alert ${alert.type}`}>{alert.message}testou</div>
-        }
         <BrowserRouter>
           <React.Fragment>
             <Drawer/>
@@ -38,11 +33,4 @@ class App extends React.Component {
 }
 
 
-function mapStateToProps(state) {
-  const { alert } = state;
-  return {
-    alert,
-  };
-}
-
-export default connect(mapStateToProps)(App);
+export default App;

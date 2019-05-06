@@ -26,6 +26,9 @@ import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
 import AuthService from '../components/AuthService';
 import withAuth from '../components/withAuth';
+import ContextMessage from "./ContextMessage";
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const Auth = new AuthService();
 
@@ -130,7 +133,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, alert } = this.props;
 
     const drawer = (
       <div>
@@ -237,7 +240,11 @@ class Drawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 
-            <Routing/>
+          {/* Manage alert message*/}
+          {alert.message && <ContextMessage message={alert.message}/>}
+
+          {/* Routing for the whole app */}
+          <Routing/>
 
         </main>
 
@@ -250,4 +257,15 @@ Drawer.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withAuth(withStyles(styles, { withTheme: true })(Drawer));
+function mapStateToProps(state) {
+  const { alert } = state;
+  return {
+    alert,
+  };
+}
+
+export default compose(
+  withAuth,
+  withStyles(styles, { withTheme: true }),
+  connect(mapStateToProps)
+)(Drawer);

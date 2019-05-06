@@ -57,7 +57,6 @@ class Signin extends React.Component {
     this.state = {
       username: '',
       password: '',
-      invalidCredentials: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,20 +67,16 @@ class Signin extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    this.props.dispatch(alertActions.success("Bien joué ma gueule"));
-
-    console.log("login after dispatch:", this.props);
-
     // Send login request
-    // this.Auth.login(this.state.username,this.state.password)
-    //   .then(res =>{
-    //     window.location.href = "/";
-    //   })
-    //   .catch(err =>{
-    //     if(err === 401) {
-    //       this.handle401()
-    //     };
-    //   })
+    this.Auth.login(this.state.username,this.state.password)
+      .then(res =>{
+        window.location.href = "/";
+      })
+      .catch(err => {
+        if(err === 401) {
+          this.props.dispatch(alertActions.error("Identifiant / mot de passe invalide, veuillez-réessayer"));
+        };
+      })
 
   };
 
@@ -89,13 +84,6 @@ class Signin extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handle401 = () => {
-    this.setState({invalidCredentials: true})
-  }
-
-  componentDidUpdate() {
-    console.log('ComponentDidUpdate, props in login:',this.props);
-  }
 
   render() {
     const { classes } = this.props;
@@ -103,8 +91,6 @@ class Signin extends React.Component {
     return (
       <main className={classes.main}>
         <CssBaseline />
-
-        {this.state.invalidCredentials && <ContextMessage message="Pseudo ou mot de passe invalide, veuillez-ressayer." />}
 
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
