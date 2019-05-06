@@ -60,7 +60,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    // padding: theme.spacing.unit * 3,
   },
 });
 
@@ -233,7 +233,13 @@ class Drawer extends React.Component {
         </nav>
 
         {/* Displaying content for pages */}
-        <Routing/>
+
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+
+            <Routing/>
+
+        </main>
 
       </div>
     );
