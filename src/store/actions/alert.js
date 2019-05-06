@@ -7,7 +7,6 @@ export const alertActions = {
 };
 
 function success(message) {
-  console.log("sucess function in alert action", message);
   return { type: alertConstants.SUCCESS, message };
 }
 
