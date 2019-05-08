@@ -1,22 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import {BrowserRouter} from 'react-router-dom';
-import Drawer from "./components/Drawer";
+import { Router } from 'react-router-dom';
+import Drawer from './components/Drawer';
+import { history } from "./helpers/history";
 
 
-class App extends Component {
+class App extends React.Component {
+
 
   render() {
+
     return (
       <div className="App">
-        <BrowserRouter>
-          <React.Fragment>
+        <Router history={history}>
             <Drawer/>
-          </React.Fragment>
-        </BrowserRouter>
+        </Router>
       </div>
     );
   }
 }
+
 
 export default App;
