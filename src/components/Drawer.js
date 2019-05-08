@@ -19,7 +19,7 @@ import EjectIcon from '@material-ui/icons/Eject';
 import PersonIcon from '@material-ui/icons/Person';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
@@ -29,9 +29,9 @@ import withAuth from '../components/withAuth';
 import ContextMessage from "./ContextMessage";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 const Auth = new AuthService();
-
 
 const drawerWidth = 200;
 
@@ -265,6 +265,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withRouter,
   withAuth,
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)
