@@ -11,7 +11,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import AuthService from './AuthService';
-import ContextMessage from "./ContextMessage";
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import alertActions from "../store/actions/alert";
 
 
 const styles = theme => ({
@@ -54,7 +56,6 @@ class Signin extends React.Component {
     this.state = {
       username: '',
       password: '',
-      invalidCredentials: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -70,9 +71,9 @@ class Signin extends React.Component {
       .then(res =>{
         window.location.href = "/";
       })
-      .catch(err =>{
+      .catch(err => {
         if(err === 401) {
-          this.handle401()
+          this.props.dispatch(alertActions.error("Identifiant / mot de passe invalide, veuillez-réessayer"));
         };
       })
 
@@ -82,9 +83,6 @@ class Signin extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handle401 = () => {
-    this.setState({invalidCredentials: true})
-  }
 
   render() {
     const { classes } = this.props;
@@ -92,8 +90,6 @@ class Signin extends React.Component {
     return (
       <main className={classes.main}>
         <CssBaseline />
-
-        {this.state.invalidCredentials && <ContextMessage message="Pseudo ou mot de passe invalide, veuillez-ressayer." />}
 
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -126,12 +122,13 @@ class Signin extends React.Component {
     );
 
   }
-
-
 }
 
 Signin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Signin);
+export default compose(
+  connect(),
+  withStyles(styles)
+)(Signin);

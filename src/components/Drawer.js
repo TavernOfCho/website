@@ -19,16 +19,20 @@ import EjectIcon from '@material-ui/icons/Eject';
 import PersonIcon from '@material-ui/icons/Person';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
 import AuthService from '../components/AuthService';
 import withAuth from '../components/withAuth';
+import ContextMessage from "./ContextMessage";
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { alertActions } from "../store/actions/alert";
+import { history } from "../helpers/history";
 
 const Auth = new AuthService();
-
 
 const drawerWidth = 200;
 
@@ -60,7 +64,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    // padding: theme.spacing.unit * 3,
   },
 });
 
@@ -72,6 +76,12 @@ class Drawer extends React.Component {
     this.state = {
       mobileOpen: false,
     }
+
+    const { dispatch } = this.props;
+    history.listen((location, action) => {
+      // clear alert on location change
+      dispatch(alertActions.clear());
+    });
   }
 
   handleLogout(){
@@ -130,7 +140,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, alert } = this.props;
 
     const drawer = (
       <div>
@@ -233,7 +243,17 @@ class Drawer extends React.Component {
         </nav>
 
         {/* Displaying content for pages */}
-        <Routing/>
+
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+
+          {/* Manage alert message*/}
+          {alert.message && <ContextMessage message={alert.message}/>}
+
+          {/* Routing for the whole app */}
+          <Routing/>
+
+        </main>
 
       </div>
     );
@@ -244,4 +264,15 @@ Drawer.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withAuth(withStyles(styles, { withTheme: true })(Drawer));
+function mapStateToProps(state) {
+  const { alert } = state;
+  return {
+    alert,
+  };
+}
+
+export default compose(
+  withAuth,
+  withStyles(styles, { withTheme: true }),
+  connect(mapStateToProps)
+)(Drawer);
