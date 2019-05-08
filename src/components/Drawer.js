@@ -29,7 +29,8 @@ import withAuth from '../components/withAuth';
 import ContextMessage from "./ContextMessage";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { alertActions } from "../store/actions/alert";
+import { history } from "../helpers/history";
 
 const Auth = new AuthService();
 
@@ -75,6 +76,12 @@ class Drawer extends React.Component {
     this.state = {
       mobileOpen: false,
     }
+
+    const { dispatch } = this.props;
+    history.listen((location, action) => {
+      // clear alert on location change
+      dispatch(alertActions.clear());
+    });
   }
 
   handleLogout(){
@@ -265,7 +272,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  withRouter,
   withAuth,
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)

@@ -11,7 +11,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import AuthService from './AuthService';
-import ContextMessage from './ContextMessage';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import alertActions from "../store/actions/alert";

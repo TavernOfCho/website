@@ -1,32 +1,20 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter} from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import Drawer from './components/Drawer';
-import { connect } from 'react-redux';
+import { history } from "./helpers/history";
 
 
 class App extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    // const { dispatch } = this.props;
-    // history.listen((location, action) => {
-    //   // clear alert on location change
-    //   dispatch(alertActions.clear());
-    // });
-  }
 
 
   render() {
 
     return (
       <div className="App">
-        <BrowserRouter>
-          <React.Fragment>
+        <Router history={history}>
             <Drawer/>
-          </React.Fragment>
-        </BrowserRouter>
+        </Router>
       </div>
     );
   }
