@@ -17,7 +17,10 @@ const messages = {
     'fr': messages_fr
 }
 
-const language = "en";
+var locale = window.navigator.language;
+var firstLocale = locale.split('-');
+
+const language = firstLocale[0];
 
 // Add new method to localstorage
 Storage.prototype.getObj = function(key) {
