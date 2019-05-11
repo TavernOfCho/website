@@ -10,11 +10,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import AuthService from './AuthService';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import alertActions from "../store/actions/alert";
-
+import AuthService from "../components/AuthService";
+import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
   main: {
@@ -48,14 +45,17 @@ const styles = theme => ({
   },
 });
 
-class Signin extends React.Component {
+class Register extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
+      email: '',
       username: '',
       password: '',
+      passwordConfirmation: '',
+      redirect: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,49 +63,68 @@ class Signin extends React.Component {
     this.Auth = new AuthService();
   }
 
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/login' />
+    }
+  }
+
+
   handleSubmit = event => {
     event.preventDefault();
 
-    // Send login request
-    this.Auth.login(this.state.username,this.state.password)
+    this.Auth.register(this.state.username, this.state.password, this.state.email)
       .then(res =>{
-        window.location.href = "/";
+        console.log("res in registerrr:",res);
+        this.setRedirect()
       })
-      .catch(err => {
-        if(err === 401) {
-          this.props.dispatch(alertActions.error("Identifiant / mot de passe invalide, veuillez-réessayer"));
-        };
+      .catch(err =>{
+        alert(err);
       })
-
-  };
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-
 
   render() {
     const { classes } = this.props;
 
     return (
       <main className={classes.main}>
-        <CssBaseline />
 
+        {/* Handling component for redirection */}
+        {this.renderRedirect()}
+
+        <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Connexion
+            Inscription
           </Typography>
+          <FormControl margin="normal" fullWidth>
+            <InputLabel htmlFor="email">E-mail</InputLabel>
+            <Input id="email" name="email" autoComplete="email" onChange={this.handleChange} autoFocus/>
+          </FormControl>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="username">Pseudo</InputLabel>
-              <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange}/>
+              <Input id="username" name="username" autoComplete="username" onChange={this.handleChange}/>
             </FormControl>
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="password">Mot de passe</InputLabel>
-              <Input name="password" type="password" id="password" autoComplete="password" onChange={this.handleChange}/>
+              <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChange}/>
+            </FormControl>
+            <FormControl margin="normal" fullWidth>
+              <InputLabel htmlFor="passwordConfirmation">Confirmation mot de passe</InputLabel>
+              <Input name="passwordConfirmation" type="password" id="passwordConfirmation" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
             <Button
               type="submit"
@@ -122,13 +141,12 @@ class Signin extends React.Component {
     );
 
   }
+
+
 }
 
-Signin.propTypes = {
+Register.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default compose(
-  connect(),
-  withStyles(styles)
-)(Signin);
+export default withStyles(styles)(Register);
