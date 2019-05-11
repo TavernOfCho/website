@@ -26,6 +26,7 @@ import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
 import AuthService from '../components/AuthService';
 import withAuth from '../components/withAuth';
+import {FormattedMessage} from 'react-intl';
 import ContextMessage from "./ContextMessage";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -114,7 +115,7 @@ class Drawer extends React.Component {
       return (
         <Grid item>
           <Typography variant="subtitle2" color="inherit" noWrap>
-            {"Bienvenue " + this.getUsername()}
+            <FormattedMessage id='welcome' defaultMessage='Welcome' /> {" " + this.getUsername()}
           </Typography>
         </Grid>
       )
@@ -124,11 +125,11 @@ class Drawer extends React.Component {
   displayDisconnectButton() {
     if(Auth.loggedIn() === true) {
       return (
-        <Tooltip title="Déconnexion" aria-label="Déconnexion">
+      <Tooltip title={<FormattedMessage id='disconnect' defaultMessage='Disconnect' />} aria-label={<FormattedMessage id='disconnect' defaultMessage='Disconnect' />}>
           <Grid item>
             <IconButton
               color="inherit"
-              aria-label="Disconnect"
+              aria-label={<FormattedMessage id='disconnect' defaultMessage='Disconnect' />}
               onClick={this.handleLogout}
             >
               <EjectIcon />
@@ -137,6 +138,10 @@ class Drawer extends React.Component {
         </Tooltip>
       )
     }
+  }
+
+  change(value) {
+    console.log(value);
   }
 
   render() {
@@ -148,30 +153,30 @@ class Drawer extends React.Component {
         <Divider />
         <List>
           <Link to="/" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Accueil"} >
+            <ListItem button key={<FormattedMessage id='homescreen' defaultMessage="Homescreen" />} >
               <ListItemIcon><HomeIcon /></ListItemIcon>
-              <ListItemText primary={"Accueil"} />
+              <ListItemText primary={<FormattedMessage id='homescreen' defaultMessage="Homescreen" />} />
             </ListItem>
           </Link>
           <Link to="/login" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Connexion"}>
+            <ListItem button key={<FormattedMessage id='connection' defaultMessage="Connection" />}>
               <ListItemIcon><PersonIcon /></ListItemIcon>
-              <ListItemText primary={"Connexion"} />
+              <ListItemText primary={<FormattedMessage id='connection' defaultMessage="Connection" />} />
             </ListItem>
           </Link>
           <Link to="/register" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Inscription"}>
+            <ListItem button key={<FormattedMessage id='register' defaultMessage="Register" />}>
               <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={"Inscription"} />
+              <ListItemText primary={<FormattedMessage id='register' defaultMessage="Register" />} />
             </ListItem>
           </Link>
         </List>
         <Divider />
         <List>
           <Link to="/character" style={{ textDecoration: 'none'}}>
-            <ListItem button key={"Personnage"}>
+            <ListItem button key={<FormattedMessage id='character' defaultMessage="Character" />}>
               <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={"Personnage"} />
+              <ListItemText primary={<FormattedMessage id='character' defaultMessage="Character" />} />
             </ListItem>
           </Link>
           {['Achievements', 'Dashboard', 'BattlePet', 'Help', 'Mount'].map((text, index) => (
@@ -207,6 +212,21 @@ class Drawer extends React.Component {
               </Grid>
 
               {this.displayWelcomeMessage()}
+
+              <div>
+                <img
+                  className={classes.flag}
+                  src={require("./img/Uk.png")}
+                  alt="en"
+                  onClick={() => this.change("en")}
+                />
+                <img
+                  className={classes.flag}
+                  src={require("./img/France.png")}
+                  alt="fr"
+                  onClick={() => this.change("fr")}
+                />
+              </div>
 
               {this.displayDisconnectButton()}
 
