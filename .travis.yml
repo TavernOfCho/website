@@ -1,12 +1,12 @@
 language: node_js
-node_js: lts/*
+node_js:
+  - "node"
 notifications:
   email: false
-sudo: false
-cache:
-  yarn: true
+warnings_are_errors: false
 script:
   - echo "TODO"
+  - npm run build
 deploy:
   provider: firebase
   skip_cleanup: true

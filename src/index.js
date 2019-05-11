@@ -17,12 +17,15 @@ const messages = {
     'fr': messages_fr
 }
 
+var locale = window.navigator.language;
+var firstLocale = locale.split('-');
+
 var domain = "https://tavernofcho.com/";
 var devdomain = "127.0.0.1";
 if(document.domain !== domain && document.domain !== devdomain)
   window.location.replace("https://tavernofcho.com/");
 
-const language = "en";
+  const language = firstLocale[0];
 
 // Add new method to localstorage
 Storage.prototype.getObj = function(key) {
