@@ -19,4 +19,4 @@ docker-compose exec website firebase login
 docker-compose exec website firebase deploy
 ```
 
-Open https://tavernedecho.firebaseapp.com/
+Open https://tavernofcho.com 

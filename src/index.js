@@ -20,7 +20,12 @@ const messages = {
 var locale = window.navigator.language;
 var firstLocale = locale.split('-');
 
-const language = firstLocale[0];
+var domain = "https://tavernofcho.com/";
+var devdomain = "127.0.0.1";
+if(document.domain !== domain && document.domain !== devdomain)
+  window.location.replace("https://tavernofcho.com/");
+
+  const language = firstLocale[0];
 
 // Add new method to localstorage
 Storage.prototype.getObj = function(key) {
