@@ -17,6 +17,11 @@ const messages = {
     'fr': messages_fr
 }
 
+var domain = "https://tavernofcho.com/";
+var devdomain = "127.0.0.1";
+if(document.domain !== domain && document.domain !== devdomain)
+  window.location.replace("https://tavernofcho.com/");
+
 const language = "en";
 
 // Add new method to localstorage
