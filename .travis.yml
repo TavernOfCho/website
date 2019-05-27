@@ -1,32 +1,22 @@
-sudo: false
-
 language: node_js
-
 warnings_are_errors: false
-
-node_js:
-  - 10
-
 branches:
   only:
     - master
-
-notifications:
-  email:
-    on_failure: change
-    on_success: change
-
 cache:
   yarn: true
   directories:
     - node_modules
-
+notifications:
+  email:
+    on_failure: change
+    on_success: change
+node_js:
+  - "node"
 script:
   -
-
 before_deploy:
   - yarn build
-
 deploy:
   skip_cleanup: true
   provider: firebase
