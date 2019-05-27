@@ -1,3 +1,5 @@
+# TavernDeCho [![Build Status](https://travis-ci.com/TavernOfCho/website.svg?branch=master)](https://travis-ci.com/TavernOfCho/website)
+
 ## Installation
 
 ```
