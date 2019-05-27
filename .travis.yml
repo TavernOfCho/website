@@ -1,12 +1,13 @@
 language: node_js
 node_js:
-  - "node"
+  - "10"
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.16.0
   - export PATH="$HOME/.yarn/bin:$PATH"
 branches:
   only:
     - master
+    - fixTravis
 notifications:
   email:
     on_failure: change
