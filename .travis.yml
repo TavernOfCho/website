@@ -1,35 +1,27 @@
 sudo: false
-
 language: node_js
-
 warnings_are_errors: false
-
 node_js:
-  - 10
-
+- 10
 branches:
   only:
-    - master
-
+  - master
 notifications:
   email:
     on_failure: change
     on_success: change
-
 cache:
   yarn: true
   directories:
-    - node_modules
-
+  - node_modules
 script:
-  -
-
+- 
 before_deploy:
-  - yarn build
-
+- yarn build
 deploy:
   skip_cleanup: true
   provider: firebase
-  token:
-    secure: JR5wZs885tCKabT6mZtCkPi1XKHy6GJ+wymQCeho9zzkmnGs7zpjDBazs3+YS0nS3PBLSpwa8qEfMG6NctoZW25F7pJApJPjKZPkxe7NTLTMYHSesEjPXGBGFk2SrSGIvqWUfDCo9fxo+zEyKVeziRYLz+/UnaS7d2PBhu6JSX7aPVS0WdPpCFhQj1GZN+MFx0e3VdZCJBI8SsQNfM44bDQV4trpt1B0eQyMG7C+1muGA3MfTb3x26zClDK/4WisZFSxbi5xcaDgkJmWKSCni5VADnn4KzO/mbaBHTObIeOYHZxxPjt39t3Dr3xOc935n2F/0ApTJtO6sgftiv92enVEm81tnrDdDdkDjQ7wnHCoCB/nS55t5HD8DmT/QJhnnyxt2Uwr4tUMI9dxK6PIeYueNq3uSS8N+gJd/gYWKs23Cgwx9tKm08ForGVBi93yPkbD/G8k/nJbALKpc7BReCu2sBB5j30x1ijU81Ye1FGrBz5kI+Pab2h6BtjrCgGZyiSqoJ3Lsq92B5oCDKrV+TsDdLB8ntRi87Fug0CZAr6seERpsRqI4eFJLqKxBCfAofyjwLhfRCHobtPtW1BT0mVhVjL5WXCiFOiySwqoq1fmryEMKXst6sDOLtpRz2QVVl5uiqr9QLpcluEJCjjbXV1Sr5uCaJcUuGMxxxMCrZc=
   project: TavernOfCho/website
+env:
+  global:
+  - secure: S3DvIvIGOl9hRhkqYAZmGFJb847inrkJ+c0BqpCN58FnjR1ngI7NawsOOBgZsHptreG5UMzYTOnpwDvEWcbdsp4b/2ODCvAFBURRc57HVoJDee+4+qmnSG9x6oqD5uHXRwYwr4C4XjGHmKEULXp/C7DSa6uprVyX+Nan0GwxyQ8nG2tKqwC2aMYVIDEV4VqamdKQcLj3supVkQSCG7taO5zeweDKlhGaKOZ+WmYYv6m8Z4OX2SqCQdreWIfef5r8puO7tv9JV2ezSX+P60Aa2nRdN0sXBLJpIjbmpBX1ZPDloHtECk1PpEpBye5zsL143doKWBKJDTRT6Dkxz2g+qSlGdi3In6xsEbYyjOFwqhNeQCUDEKU6nnwW5eEj8mnnxWcdK6a0AToF02Y1Y1+Fk9gXHvZVZUyGcFkngOzCTpaYFsaJ4K7xspzG5ZG6W27svbq09FnpXyY2hLWAHroxc3d23BKf/wZLWHpY2eFkPZN92y/zSHMu7x5+IVtz0Q5Gkwb+e5fEO9sPBY0tVT0nTImdtxU6TwumGqIz0vgW0M3M8BnolCa9sajXyrov4CUmZaniVB1bxvPqPsT9tSNJS1EDqYel0k80gEMN/3zr/014SAl8dXEMnX+WlKD/5lSFEvzMeZKsuUE4jX+qRAN7jVVgWQQmrHUfu2gYN7Xg8LI=
