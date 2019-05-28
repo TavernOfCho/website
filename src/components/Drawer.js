@@ -24,7 +24,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
-import AuthService from '../components/AuthService';
+import AuthService from '../services/AuthService';
 import withAuth from '../components/withAuth';
 import {FormattedMessage} from 'react-intl';
 import ContextMessage from "./ContextMessage";

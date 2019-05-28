@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import AuthService from "../components/AuthService";
+import AuthService from "../services/AuthService";
 import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
