@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService';
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 export default function withAuth(AuthComponent) {
   const Auth = new AuthService('https://127.0.0.1:8052');

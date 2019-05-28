@@ -25,7 +25,7 @@ import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
 import AuthService from '../services/AuthService';
-import withAuth from '../components/withAuth';
+import withAuth from '../services/withAuth';
 import {FormattedMessage} from 'react-intl';
 import ContextMessage from "./ContextMessage";
 import { connect } from 'react-redux';

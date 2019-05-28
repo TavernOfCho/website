@@ -4,7 +4,7 @@ import LoginScreen from "../screens/LoginScreen";
 import CharacterScreen from "../screens/CharacterScreen";
 import React from "react";
 import RegisterScreen from "../screens/RegisterScreen";
-import withAuth from "../components/withAuth";
+import withAuth from "../services/withAuth";
 
 
 class Routing extends React.Component {
