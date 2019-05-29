@@ -10,8 +10,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import AuthService from "../services/AuthService";
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { userActions } from "../store/actions/user";
 
 const styles = theme => ({
   main: {
@@ -60,7 +62,6 @@ class Register extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.Auth = new AuthService();
   }
 
   setRedirect = () => {
@@ -70,7 +71,7 @@ class Register extends React.Component {
   }
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to='/login' />
+      return <Redirect to='/' />
     }
   }
 
@@ -78,14 +79,13 @@ class Register extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    this.Auth.register(this.state.username, this.state.password, this.state.email)
-      .then(res =>{
-        console.log("res in registerrr:",res);
-        this.setRedirect()
-      })
-      .catch(err =>{
-        alert(err);
-      })
+    const { username, password, email } = this.state;
+    const { dispatch } = this.props;
+
+    if(username && password && email) {
+      dispatch(userActions.register(username, password, email));
+    }
+
   }
 
   handleChange = event => {
@@ -149,4 +149,14 @@ Register.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Register);
+function mapStateToProps(state) {
+  const { auth } = state;
+  return {
+    auth,
+  };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(Register);

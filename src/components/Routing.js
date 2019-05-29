@@ -12,7 +12,7 @@ class Routing extends React.Component {
 
     return (
       <Switch>
-        <Route exact path="/" component={HomeScreen}/>
+        <Route exact path="/" component={() => <HomeScreen/>}/>
         <Route exact path="/login" component={LoginScreen}/>
         <Route exact path="/register" component={RegisterScreen}/>
         <Route exact path="/character" component={CharacterScreen}/>
