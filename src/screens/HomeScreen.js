@@ -1,10 +1,8 @@
 import React from "react";
 import HeroUnit from "../components/HeroUnit";
 import HeroBanner from "../components/HeroBanner";
-import AuthService from "../services/AuthService";
-import {FormattedMessage} from 'react-intl';
-
-const Auth = new AuthService();
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 
 class HomeScreen extends React.Component {
 
@@ -17,7 +15,7 @@ class HomeScreen extends React.Component {
   }
 
   componentWillMount() {
-    if(Auth.loggedIn() !== true){
+    if(this.props.auth.loggedIn !== true){
       this.setState({hasButton: true})
     }
   }
@@ -35,4 +33,11 @@ class HomeScreen extends React.Component {
   }
 }
 
-export default HomeScreen;
+function mapStateToProps(state) {
+  const { auth } = state;
+  return {
+    auth,
+  }
+}
+
+export default connect(mapStateToProps)(HomeScreen);
