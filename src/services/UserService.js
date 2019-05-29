@@ -4,7 +4,6 @@ export const userService = {
   login,
   logout,
   register,
-  getAll
 };
 
 let domain = 'https://127.0.0.1:8052';
