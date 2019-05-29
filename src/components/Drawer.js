@@ -32,6 +32,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { alertActions } from "../store/actions/alert";
 import { history } from "../helpers/history";
+import { userActions } from "../store/actions/user";
 
 const Auth = new AuthService();
 
@@ -83,11 +84,16 @@ class Drawer extends React.Component {
       // clear alert on location change
       dispatch(alertActions.clear());
     });
+
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleLogout(){
-    Auth.logout()
-    window.location.href = "/login"
+    // Auth.logout()
+    // window.location.href = "/login"
+
+    this.props.dispatch(userActions.logout);
+    window.location.replace('/');
   }
 
   handleDrawerToggle = () => {
@@ -123,7 +129,7 @@ class Drawer extends React.Component {
   }
 
   displayDisconnectButton() {
-    if(Auth.loggedIn() === true) {
+    if(this.props.auth.loggedIn === true) {
       return (
       <Tooltip title={<FormattedMessage id='disconnect' defaultMessage='Disconnect' />} aria-label={<FormattedMessage id='disconnect' defaultMessage='Disconnect' />}>
           <Grid item>
@@ -145,7 +151,9 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, alert } = this.props;
+    const { classes, theme, alert, auth } = this.props;
+
+    console.log("auth: ",auth);
 
     const drawer = (
       <div>
@@ -285,14 +293,15 @@ Drawer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { alert } = state;
+  const { alert, auth } = state;
   return {
     alert,
+    auth
   };
 }
 
 export default compose(
-  withAuth,
+  // withAuth,
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)
 )(Drawer);

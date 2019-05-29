@@ -1,12 +1,12 @@
 import { userConstants } from '../constants/user';
-import { userService } from '../services';
+import { userService } from '../../services/UserService';
 import { alertActions } from './alert';
 import { history } from '../../helpers/history';
 
 export const userActions = {
   login,
   logout,
-  getAll
+  // getAll
 };
 
 function login(username, password) {
@@ -36,21 +36,21 @@ function logout() {
   return { type: userConstants.LOGOUT };
 }
 
-function getAll() {
-  return dispatch => {
-    dispatch(request());
-
-    userService.getAll()
-      .then(
-        users => dispatch(success(users)),
-        error => {
-          dispatch(failure(error));
-          dispatch(alertActions.error(error))
-        }
-      );
-  };
-
-  function request() { return { type: userConstants.GETALL_REQUEST } }
-  function success(users) { return { type: userConstants.GETALL_SUCCESS, users } }
-  function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
-}
+// function getAll() {
+//   return dispatch => {
+//     dispatch(request());
+//
+//     userService.getAll()
+//       .then(
+//         users => dispatch(success(users)),
+//         error => {
+//           dispatch(failure(error));
+//           dispatch(alertActions.error(error))
+//         }
+//       );
+//   };
+//
+//   function request() { return { type: userConstants.GETALL_REQUEST } }
+//   function success(users) { return { type: userConstants.GETALL_SUCCESS, users } }
+//   function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
+// }

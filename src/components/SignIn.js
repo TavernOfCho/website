@@ -13,7 +13,8 @@ import { withStyles } from '@material-ui/core/styles';
 import AuthService from '../services/AuthService';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import alertActions from "../store/actions/alert";
+import alertActions from '../store/actions/alert';
+import { userActions } from '../store/actions/user';
 
 
 const styles = theme => ({
@@ -67,15 +68,21 @@ class Signin extends React.Component {
     event.preventDefault();
 
     // Send login request
-    this.Auth.login(this.state.username,this.state.password)
-      .then(res =>{
-        window.location.href = "/";
-      })
-      .catch(err => {
-        if(err === 401) {
-          this.props.dispatch(alertActions.error("Identifiant / mot de passe invalide, veuillez-réessayer"));
-        };
-      })
+    // this.Auth.login(this.state.username,this.state.password)
+    //   .then(res =>{
+    //     window.location.href = "/";
+    //   })
+    //   .catch(err => {
+    //     if(err === 401) {
+    //       this.props.dispatch(alertActions.error("Identifiant / mot de passe invalide, veuillez-réessayer"));
+    //     };
+    //   })
+
+    const { username, password } = this.state;
+    const { dispatch } = this.props;
+    if (username && password) {
+      dispatch(userActions.login(username, password));
+    }
 
   };
 
