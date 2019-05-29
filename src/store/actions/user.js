@@ -16,6 +16,9 @@ function login(username, password) {
     userService.login(username, password)
       .then(
         user => {
+          // Adding username to the object
+          user.username = username;
+          // Dispatch success action
           dispatch(success(user));
           history.push('/');
         },

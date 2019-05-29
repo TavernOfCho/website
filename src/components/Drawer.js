@@ -24,8 +24,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
-import AuthService from '../services/AuthService';
-import withAuth from '../services/withAuth';
 import {FormattedMessage} from 'react-intl';
 import ContextMessage from "./ContextMessage";
 import { connect } from 'react-redux';
@@ -33,8 +31,6 @@ import { compose } from 'redux';
 import { alertActions } from "../store/actions/alert";
 import { history } from "../helpers/history";
 import { userActions } from "../store/actions/user";
-
-const Auth = new AuthService();
 
 const drawerWidth = 200;
 
@@ -89,10 +85,9 @@ class Drawer extends React.Component {
   }
 
   handleLogout(){
-    // Auth.logout()
-    // window.location.href = "/login"
-
+    // When disconnect button is clicked
     this.props.dispatch(userActions.logout);
+    // Redirecting to home
     window.location.replace('/');
   }
 
@@ -101,13 +96,13 @@ class Drawer extends React.Component {
   };
 
   getUserInfos(){
-    if(Auth.loggedIn() === true) {
-      return this.props.user
+    if(this.props.auth.loggedIn === true) {
+      return this.props.auth.user
     }
   }
 
   getUsername() {
-      if(Auth.loggedIn() === true) {
+      if(this.props.auth.loggedIn === true) {
         return this.capitalizeFirstLetter(this.getUserInfos().username);
       }
   }
@@ -117,7 +112,7 @@ class Drawer extends React.Component {
   }
 
   displayWelcomeMessage() {
-    if (Auth.loggedIn() === true) {
+    if (this.props.auth.loggedIn === true) {
       return (
         <Grid item>
           <Typography variant="subtitle2" color="inherit" noWrap>
@@ -151,9 +146,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, alert, auth } = this.props;
-
-    console.log("auth: ",auth);
+    const { classes, theme, alert } = this.props;
 
     const drawer = (
       <div>
@@ -301,7 +294,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  // withAuth,
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)
 )(Drawer);

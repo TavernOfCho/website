@@ -70,7 +70,8 @@ class Signin extends React.Component {
     // Send login request
     // this.Auth.login(this.state.username,this.state.password)
     //   .then(res =>{
-    //     window.location.href = "/";
+    //     console.log('res::',res);
+    //     // window.location.href = "/";
     //   })
     //   .catch(err => {
     //     if(err === 401) {
