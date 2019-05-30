@@ -1,11 +1,10 @@
-import AuthService from "./AuthService";
+import { userService } from './UserService';
 
 export default class RequestService {
   // Initializing important variables
   constructor(domain) {
     this.domain = domain || 'https://127.0.0.1:8052' // API server domain
     this.fetch = this.fetch.bind(this) // React binding stuff
-    this.Auth = new AuthService();
   }
 
   getServers = () => {
@@ -26,7 +25,6 @@ export default class RequestService {
 
 
   fetch(url, options) {
-    console.log('url:',url);
     // performs api calls sending the required authentication headers
     const headers = {
       'Accept': 'application/json',
@@ -35,8 +33,8 @@ export default class RequestService {
 
     // Setting Authorization header
     // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
-    if (this.Auth.loggedIn()) {
-      headers['Authorization'] = 'Bearer ' + this.Auth.getToken()
+    if (userService.loggedIn()) {
+      headers['Authorization'] = 'Bearer ' + userService.getToken()
     }
 
     return fetch(url, {
