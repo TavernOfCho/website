@@ -4,6 +4,7 @@ export const alertActions = {
   success,
   info,
   error,
+  warning,
   clear,
 };
 
@@ -17,6 +18,9 @@ function info(message) {
 
 function error(message) {
   return { type: alertConstants.ERROR, message };
+}
+function warning(message) {
+  return { type: alertConstants.WARNING, message };
 }
 
 function clear() {

@@ -8,6 +8,7 @@
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "babel-loader": "^8.0.5",
+    "classnames": "^2.2.6",
     "firebase": "^5.9.4",
     "history": "^4.9.0",
     "jwt-decode": "^2.2.0",
