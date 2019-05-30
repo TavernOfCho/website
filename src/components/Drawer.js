@@ -159,18 +159,23 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='homescreen' defaultMessage="Homescreen" />} />
             </ListItem>
           </Link>
-          <Link to="/login" style={{ textDecoration: 'none'}}>
-            <ListItem button key={<FormattedMessage id='connection' defaultMessage="Connection" />}>
-              <ListItemIcon><PersonIcon /></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='connection' defaultMessage="Connection" />} />
-            </ListItem>
-          </Link>
-          <Link to="/register" style={{ textDecoration: 'none'}}>
-            <ListItem button key={<FormattedMessage id='register' defaultMessage="Register" />}>
-              <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='register' defaultMessage="Register" />} />
-            </ListItem>
-          </Link>
+          {!auth.loggedIn &&
+            <React.Fragment>
+              <Link to="/login" style={{ textDecoration: 'none'}}>
+                <ListItem button key={<FormattedMessage id='connection' defaultMessage="Connection" />}>
+                  <ListItemIcon><PersonIcon /></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='connection' defaultMessage="Connection" />} />
+                </ListItem>
+              </Link>
+              <Link to="/register" style={{ textDecoration: 'none'}}>
+                <ListItem button key={<FormattedMessage id='register' defaultMessage="Register" />}>
+                  <ListItemIcon><GroupIcon /></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='register' defaultMessage="Register" />} />
+                </ListItem>
+              </Link>
+            </React.Fragment>
+          }
+
         </List>
         <Divider />
         {auth.loggedIn &&
