@@ -17,6 +17,7 @@ class Routing extends React.Component {
         <Route exact path="/login" component={LoginScreen}/>
         <Route exact path="/register" component={RegisterScreen}/>
         <PrivateRoute exact path="/character" component={CharacterScreen}/>
+        <PrivateRoute exact path="/mount" component={CharacterScreen}/>
       </Switch>
     )
   }

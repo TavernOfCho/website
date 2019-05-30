@@ -175,7 +175,6 @@ class Drawer extends React.Component {
               </Link>
             </React.Fragment>
           }
-
         </List>
         <Divider />
         {auth.loggedIn &&
@@ -186,7 +185,13 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='character' defaultMessage="Character"/>}/>
             </ListItem>
           </Link>
-          {['Achievements', 'Dashboard', 'BattlePet', 'Help', 'Mount'].map((text, index) => (
+          <Link to="/mount" style={{textDecoration: 'none'}}>
+            <ListItem button key={<FormattedMessage id='mount' defaultMessage="Mount"/>}>
+              <ListItemIcon><GroupIcon/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='mount' defaultMessage="Mount"/>}/>
+            </ListItem>
+          </Link>
+          {['Achievements', 'Dashboard', 'BattlePet', 'Help'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
               <ListItemText primary={text}/>
