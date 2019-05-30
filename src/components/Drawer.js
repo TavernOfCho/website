@@ -146,7 +146,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, alert } = this.props;
+    const { classes, theme, alert, auth } = this.props;
 
     const drawer = (
       <div>
@@ -173,20 +173,22 @@ class Drawer extends React.Component {
           </Link>
         </List>
         <Divider />
+        {auth.loggedIn &&
         <List>
-          <Link to="/character" style={{ textDecoration: 'none'}}>
-            <ListItem button key={<FormattedMessage id='character' defaultMessage="Character" />}>
-              <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='character' defaultMessage="Character" />} />
+          <Link to="/character" style={{textDecoration: 'none'}}>
+            <ListItem button key={<FormattedMessage id='character' defaultMessage="Character"/>}>
+              <ListItemIcon><GroupIcon/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='character' defaultMessage="Character"/>}/>
             </ListItem>
           </Link>
           {['Achievements', 'Dashboard', 'BattlePet', 'Help', 'Mount'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+              <ListItemText primary={text}/>
             </ListItem>
           ))}
         </List>
+        }
       </div>
     );
 
