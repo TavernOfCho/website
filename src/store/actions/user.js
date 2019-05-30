@@ -38,7 +38,7 @@ function register(username, plainPassword, email) {
         user => {
           // Dispatch info
           history.push('/login');
-          dispatch(alertActions.info("Compte créé, veuillez-vous connecter."));
+          dispatch(alertActions.success("Compte créé, veuillez-vous connecter."));
         },
         error => {
           dispatch(failure(error));
