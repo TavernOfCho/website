@@ -10,7 +10,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import AuthService from '../services/AuthService';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { userActions } from '../store/actions/user';
@@ -60,7 +59,6 @@ class Signin extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.Auth = new AuthService();
   }
 
   handleSubmit = event => {
