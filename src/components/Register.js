@@ -10,7 +10,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { userActions } from "../store/actions/user";
@@ -64,18 +63,6 @@ class Register extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  setRedirect = () => {
-    this.setState({
-      redirect: true
-    })
-  }
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/' />
-    }
-  }
-
-
   handleSubmit = event => {
     event.preventDefault();
 
@@ -97,9 +84,6 @@ class Register extends React.Component {
 
     return (
       <main className={classes.main}>
-
-        {/* Handling component for redirection */}
-        {this.renderRedirect()}
 
         <CssBaseline />
         <Paper className={classes.paper}>

@@ -30,6 +30,8 @@ function login(username, password) {
   return fetch(`${domain}/login_check`, requestOptions)
     .then(handleResponse)
     .then(user => {
+      // Adding user name
+      user.username = username;
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem('user', JSON.stringify(user));
 
@@ -52,6 +54,8 @@ function register(username, plainPassword, email) {
   return fetch(`${domain}/users`, requestOptions)
     .then(handleResponse)
     .then(user => {
+      // Adding user name
+      user.username = username;
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem('user', JSON.stringify(user));
 
