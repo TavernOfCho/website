@@ -4,6 +4,7 @@ import LoginScreen from "../screens/LoginScreen";
 import CharacterScreen from "../screens/CharacterScreen";
 import React from "react";
 import RegisterScreen from "../screens/RegisterScreen";
+import { PrivateRoute } from './PrivateRoute';
 
 
 class Routing extends React.Component {
@@ -15,7 +16,7 @@ class Routing extends React.Component {
         <Route exact path="/" component={() => <HomeScreen/>}/>
         <Route exact path="/login" component={LoginScreen}/>
         <Route exact path="/register" component={RegisterScreen}/>
-        <Route exact path="/character" component={CharacterScreen}/>
+        <PrivateRoute exact path="/character" component={CharacterScreen}/>
       </Switch>
     )
   }
