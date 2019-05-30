@@ -30,11 +30,6 @@ function login(username, password) {
   function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
-function logout() {
-  userService.logout();
-  return { type: userConstants.LOGOUT };
-}
-
 function register(username, plainPassword, email) {
   return dispatch => {
 
@@ -56,4 +51,9 @@ function register(username, plainPassword, email) {
   function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
   function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 
+}
+
+function logout() {
+  userService.logout();
+  return { type: userConstants.LOGOUT };
 }

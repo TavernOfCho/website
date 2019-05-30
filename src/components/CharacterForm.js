@@ -110,7 +110,7 @@ class CharacterForm extends React.Component {
   render() {
     const { classes } = this.props;
 
-    const serversNames = this.getServerNames();
+    let serversNames = this.getServerNames();
 
     const selectServers = (
       <Select

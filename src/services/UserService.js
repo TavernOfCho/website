@@ -1,9 +1,11 @@
-
+import decode from 'jwt-decode';
 
 export const userService = {
   login,
   logout,
   register,
+  loggedIn,
+  getToken,
 };
 
 let domain = 'https://127.0.0.1:8052';
@@ -19,6 +21,35 @@ function authHeader() {
   }
 }
 
+function loggedIn() {
+  // Checks if there is a saved token and it's still valid
+  const token = getToken() // Getting token from localstorage
+  return !!token && !isTokenExpired(token) // handwaiving here
+}
+
+function isTokenExpired(token) {
+  try {
+    const decoded = decode(token);
+    if (decoded.exp < Date.now() / 1000) { // Checking if token is expired. N
+      return true;
+    }
+    else
+      return false;
+  }
+  catch (err) {
+    return false;
+  }
+}
+
+function getToken() {
+  // Retrieves the user token from localStorage
+  return JSON.parse(localStorage.getItem('user')).token;
+}
+
+function setUser(user) {
+  // Saves user informations to localStorage
+  localStorage.setItem('user', JSON.stringify(user))
+}
 
 function login(username, password) {
   const requestOptions = {
@@ -33,7 +64,7 @@ function login(username, password) {
       // Adding user name
       user.username = username;
       // store user details and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
 
       return user;
     });
@@ -57,7 +88,7 @@ function register(username, plainPassword, email) {
       // Adding user name
       user.username = username;
       // store user details and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
 
       return user;
     });
