@@ -95,11 +95,11 @@ class Signin extends React.Component {
             Connexion
           </Typography>
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="username">Pseudo</InputLabel>
               <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange}/>
             </FormControl>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="password">Mot de passe</InputLabel>
               <Input name="password" type="password" id="password" autoComplete="password" onChange={this.handleChange}/>
             </FormControl>

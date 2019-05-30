@@ -114,15 +114,15 @@ class Register extends React.Component {
             <Input id="email" name="email" autoComplete="email" onChange={this.handleChange} autoFocus/>
           </FormControl>
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="username">Pseudo</InputLabel>
               <Input id="username" name="username" autoComplete="username" onChange={this.handleChange}/>
             </FormControl>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="password">Mot de passe</InputLabel>
               <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="passwordConfirmation">Confirmation mot de passe</InputLabel>
               <Input name="passwordConfirmation" type="password" id="passwordConfirmation" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
