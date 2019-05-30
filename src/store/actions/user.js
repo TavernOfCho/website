@@ -36,9 +36,9 @@ function register(username, plainPassword, email) {
     userService.register(username, plainPassword, email)
       .then(
         user => {
-          // Dispatch success action
-          dispatch(success(user));
-          history.push('/');
+          // Dispatch info
+          history.push('/login');
+          dispatch(alertActions.info("Compte créé, veuillez-vous connecter."));
         },
         error => {
           dispatch(failure(error));

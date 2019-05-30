@@ -84,14 +84,14 @@ function register(username, plainPassword, email) {
 
   return fetch(`${domain}/users`, requestOptions)
     .then(handleResponse)
-    .then(user => {
+/*    .then(user => {
       // Adding user name
       user.username = username;
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       setUser(user);
 
       return user;
-    });
+    });*/
 }
 
 function getAll() {

@@ -1,4 +1,3 @@
-// import AuthService from "./AuthService";
 import { userService } from './UserService';
 
 export default class RequestService {
@@ -6,12 +5,9 @@ export default class RequestService {
   constructor(domain) {
     this.domain = domain || 'https://127.0.0.1:8052' // API server domain
     this.fetch = this.fetch.bind(this) // React binding stuff
-    // this.Auth = new AuthService();
   }
 
   getServers = () => {
-    console.log("hello", userService.loggedIn());
-    console.log("token", userService.getToken());
     return this.fetch(`${this.domain}/realms`, {
       method: 'GET'
     }).then(res => {
@@ -29,7 +25,6 @@ export default class RequestService {
 
 
   fetch(url, options) {
-    console.log('url:',url);
     // performs api calls sending the required authentication headers
     const headers = {
       'Accept': 'application/json',
