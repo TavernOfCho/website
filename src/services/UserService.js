@@ -94,6 +94,7 @@ function register(username, plainPassword, email) {
     });*/
 }
 
+// eslint-disable-next-line
 function getAll() {
   const requestOptions = {
     method: 'GET',
