@@ -33,6 +33,14 @@ export default class RequestService {
     })
   }
 
+  getMounts = () => {
+    return this.fetch(`${this.domainForRequest}/realms`, {
+      method: 'GET'
+    }).then(res => {
+      return Promise.resolve(res);
+    })
+  }
+
   getCharacter(character) {
     return this.fetch(`${this.domainForRequest}/characters/` + character + '?realm=dalaran', {
       method: 'GET'
