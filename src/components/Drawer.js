@@ -31,6 +31,9 @@ import { compose } from 'redux';
 import { alertActions } from "../store/actions/alert";
 import { history } from "../helpers/history";
 import { userActions } from "../store/actions/user";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDragon } from '@fortawesome/free-solid-svg-icons'
+
 
 const drawerWidth = 200;
 
@@ -187,7 +190,7 @@ class Drawer extends React.Component {
           </Link>
           <Link to="/mount" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='mount' defaultMessage="Mount"/>}>
-              <ListItemIcon><GroupIcon/></ListItemIcon>
+              <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='mount' defaultMessage="Mount"/>}/>
             </ListItem>
           </Link>

@@ -3,12 +3,30 @@ import { userService } from './UserService';
 export default class RequestService {
   // Initializing important variables
   constructor(domain) {
-    this.domain = domain || 'https://127.0.0.1:8052' // API server domain
     this.fetch = this.fetch.bind(this) // React binding stuff
+
+    this.domain = document.domain;
+    this.prodApiDomain = 'https://api.tavernofcho.com';
+    this.devApiDomain = 'https://127.0.0.1:8052';
+    this.domainForRequest = '';
+
+    switch(this.domain) {
+      case '127.0.0.1':
+        console.log("dev");
+        this.domainForRequest = this.devApiDomain;
+        break;
+      case 'tavernofcho.com':
+        console.log('prod');
+        this.domainForRequest = this.prodApiDomain;
+        break;
+      default:
+        this.domainForRequest = null;
+    }
+
   }
 
   getServers = () => {
-    return this.fetch(`${this.domain}/realms`, {
+    return this.fetch(`${this.domainForRequest}/realms`, {
       method: 'GET'
     }).then(res => {
       return Promise.resolve(res);
@@ -16,7 +34,7 @@ export default class RequestService {
   }
 
   getCharacter(character) {
-    return this.fetch(`${this.domain}/characters/` + character + '?realm=dalaran', {
+    return this.fetch(`${this.domainForRequest}/characters/` + character + '?realm=dalaran', {
       method: 'GET'
     }).then(res => {
       return Promise.resolve(res);
