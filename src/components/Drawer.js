@@ -31,6 +31,9 @@ import { compose } from 'redux';
 import { alertActions } from "../store/actions/alert";
 import { history } from "../helpers/history";
 import { userActions } from "../store/actions/user";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDragon } from '@fortawesome/free-solid-svg-icons'
+
 
 const drawerWidth = 200;
 
@@ -175,7 +178,6 @@ class Drawer extends React.Component {
               </Link>
             </React.Fragment>
           }
-
         </List>
         <Divider />
         {auth.loggedIn &&
@@ -186,7 +188,13 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='character' defaultMessage="Character"/>}/>
             </ListItem>
           </Link>
-          {['Achievements', 'Dashboard', 'BattlePet', 'Help', 'Mount'].map((text, index) => (
+          <Link to="/mount" style={{textDecoration: 'none'}}>
+            <ListItem button key={<FormattedMessage id='mount' defaultMessage="Mount"/>}>
+              <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='mount' defaultMessage="Mount"/>}/>
+            </ListItem>
+          </Link>
+          {['Achievements', 'Dashboard', 'BattlePet', 'Help'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
               <ListItemText primary={text}/>
