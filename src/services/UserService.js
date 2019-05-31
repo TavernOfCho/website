@@ -8,7 +8,21 @@ export const userService = {
   getToken,
 };
 
-let domain = 'https://127.0.0.1:8052';
+let domain = document.domain;
+let prodApiDomain = 'https://api.tavernofcho.com';
+let devApiDomain = 'https://127.0.0.1:8052';
+let domainForRequest = '';
+
+switch(domain) {
+  case '127.0.0.1':
+    domainForRequest = devApiDomain;
+    break;
+  case 'tavernofcho.com':
+    domainForRequest = prodApiDomain;
+    break;
+  default:
+    domainForRequest = null;
+}
 
 function authHeader() {
   // return authorization header with jwt token
@@ -58,7 +72,7 @@ function login(username, password) {
     body: JSON.stringify({ username, password })
   };
 
-  return fetch(`${domain}/login_check`, requestOptions)
+  return fetch(`${domainForRequest}/login_check`, requestOptions)
     .then(handleResponse)
     .then(user => {
       // Adding user name
@@ -82,16 +96,8 @@ function register(username, plainPassword, email) {
     body: JSON.stringify({ username, plainPassword, email })
   };
 
-  return fetch(`${domain}/users`, requestOptions)
+  return fetch(`${domainForRequest}/users`, requestOptions)
     .then(handleResponse)
-/*    .then(user => {
-      // Adding user name
-      user.username = username;
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
-      setUser(user);
-
-      return user;
-    });*/
 }
 
 // eslint-disable-next-line
@@ -101,7 +107,7 @@ function getAll() {
     headers: authHeader()
   };
 
-  return fetch(`${domain}/users`, requestOptions).then(handleResponse);
+  return fetch(`${domainForRequest}/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
