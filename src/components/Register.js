@@ -10,8 +10,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import AuthService from "../components/AuthService";
-import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { userActions } from "../store/actions/user";
 
 const styles = theme => ({
   main: {
@@ -60,32 +61,18 @@ class Register extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.Auth = new AuthService();
   }
-
-  setRedirect = () => {
-    this.setState({
-      redirect: true
-    })
-  }
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/login' />
-    }
-  }
-
 
   handleSubmit = event => {
     event.preventDefault();
 
-    this.Auth.register(this.state.username, this.state.password, this.state.email)
-      .then(res =>{
-        console.log("res in registerrr:",res);
-        this.setRedirect()
-      })
-      .catch(err =>{
-        alert(err);
-      })
+    const { username, password, email } = this.state;
+    const { dispatch } = this.props;
+
+    if(username && password && email) {
+      dispatch(userActions.register(username, password, email));
+    }
+
   }
 
   handleChange = event => {
@@ -97,9 +84,6 @@ class Register extends React.Component {
 
     return (
       <main className={classes.main}>
-
-        {/* Handling component for redirection */}
-        {this.renderRedirect()}
 
         <CssBaseline />
         <Paper className={classes.paper}>
@@ -114,15 +98,15 @@ class Register extends React.Component {
             <Input id="email" name="email" autoComplete="email" onChange={this.handleChange} autoFocus/>
           </FormControl>
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="username">Pseudo</InputLabel>
               <Input id="username" name="username" autoComplete="username" onChange={this.handleChange}/>
             </FormControl>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="password">Mot de passe</InputLabel>
               <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="passwordConfirmation">Confirmation mot de passe</InputLabel>
               <Input name="passwordConfirmation" type="password" id="passwordConfirmation" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
@@ -149,4 +133,14 @@ Register.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Register);
+function mapStateToProps(state) {
+  const { auth } = state;
+  return {
+    auth,
+  };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(Register);

@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
-import RequestService from "./RequestService";
+import RequestService from "../services/RequestService";
 import CharacterInfos from "./CharacterInfos";
 
 
@@ -110,7 +110,7 @@ class CharacterForm extends React.Component {
   render() {
     const { classes } = this.props;
 
-    const serversNames = this.getServerNames();
+    let serversNames = this.getServerNames();
 
     const selectServers = (
       <Select

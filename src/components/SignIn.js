@@ -10,10 +10,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import AuthService from './AuthService';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import alertActions from "../store/actions/alert";
+import { userActions } from '../store/actions/user';
 
 
 const styles = theme => ({
@@ -60,22 +59,17 @@ class Signin extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.Auth = new AuthService();
   }
 
   handleSubmit = event => {
     event.preventDefault();
 
-    // Send login request
-    this.Auth.login(this.state.username,this.state.password)
-      .then(res =>{
-        window.location.href = "/";
-      })
-      .catch(err => {
-        if(err === 401) {
-          this.props.dispatch(alertActions.error("Identifiant / mot de passe invalide, veuillez-réessayer"));
-        };
-      })
+    const { username, password } = this.state;
+    const { dispatch } = this.props;
+
+    if (username && password) {
+      dispatch(userActions.login(username, password));
+    }
 
   };
 
@@ -99,11 +93,11 @@ class Signin extends React.Component {
             Connexion
           </Typography>
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="username">Pseudo</InputLabel>
               <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange}/>
             </FormControl>
-            <FormControl margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth required>
               <InputLabel htmlFor="password">Mot de passe</InputLabel>
               <Input name="password" type="password" id="password" autoComplete="password" onChange={this.handleChange}/>
             </FormControl>

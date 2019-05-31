@@ -24,16 +24,13 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
-import AuthService from '../components/AuthService';
-import withAuth from '../components/withAuth';
 import {FormattedMessage} from 'react-intl';
 import ContextMessage from "./ContextMessage";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { alertActions } from "../store/actions/alert";
 import { history } from "../helpers/history";
-
-const Auth = new AuthService();
+import { userActions } from "../store/actions/user";
 
 const drawerWidth = 200;
 
@@ -83,11 +80,15 @@ class Drawer extends React.Component {
       // clear alert on location change
       dispatch(alertActions.clear());
     });
+
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleLogout(){
-    Auth.logout()
-    window.location.href = "/login"
+    // When disconnect button is clicked
+    this.props.dispatch(userActions.logout);
+    // Redirecting to home
+    window.location.replace('/');
   }
 
   handleDrawerToggle = () => {
@@ -95,13 +96,13 @@ class Drawer extends React.Component {
   };
 
   getUserInfos(){
-    if(Auth.loggedIn() === true) {
-      return this.props.user
+    if(this.props.auth.loggedIn === true) {
+      return this.props.auth.user
     }
   }
 
   getUsername() {
-      if(Auth.loggedIn() === true) {
+      if(this.props.auth.loggedIn === true) {
         return this.capitalizeFirstLetter(this.getUserInfos().username);
       }
   }
@@ -111,7 +112,7 @@ class Drawer extends React.Component {
   }
 
   displayWelcomeMessage() {
-    if (Auth.loggedIn() === true) {
+    if (this.props.auth.loggedIn === true) {
       return (
         <Grid item>
           <Typography variant="subtitle2" color="inherit" noWrap>
@@ -123,7 +124,7 @@ class Drawer extends React.Component {
   }
 
   displayDisconnectButton() {
-    if(Auth.loggedIn() === true) {
+    if(this.props.auth.loggedIn === true) {
       return (
       <Tooltip title={<FormattedMessage id='disconnect' defaultMessage='Disconnect' />} aria-label={<FormattedMessage id='disconnect' defaultMessage='Disconnect' />}>
           <Grid item>
@@ -145,7 +146,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, alert } = this.props;
+    const { classes, theme, alert, auth } = this.props;
 
     const drawer = (
       <div>
@@ -158,34 +159,41 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='homescreen' defaultMessage="Homescreen" />} />
             </ListItem>
           </Link>
-          <Link to="/login" style={{ textDecoration: 'none'}}>
-            <ListItem button key={<FormattedMessage id='connection' defaultMessage="Connection" />}>
-              <ListItemIcon><PersonIcon /></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='connection' defaultMessage="Connection" />} />
-            </ListItem>
-          </Link>
-          <Link to="/register" style={{ textDecoration: 'none'}}>
-            <ListItem button key={<FormattedMessage id='register' defaultMessage="Register" />}>
-              <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='register' defaultMessage="Register" />} />
-            </ListItem>
-          </Link>
+          {!auth.loggedIn &&
+            <React.Fragment>
+              <Link to="/login" style={{ textDecoration: 'none'}}>
+                <ListItem button key={<FormattedMessage id='connection' defaultMessage="Connection" />}>
+                  <ListItemIcon><PersonIcon /></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='connection' defaultMessage="Connection" />} />
+                </ListItem>
+              </Link>
+              <Link to="/register" style={{ textDecoration: 'none'}}>
+                <ListItem button key={<FormattedMessage id='register' defaultMessage="Register" />}>
+                  <ListItemIcon><GroupIcon /></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='register' defaultMessage="Register" />} />
+                </ListItem>
+              </Link>
+            </React.Fragment>
+          }
+
         </List>
         <Divider />
+        {auth.loggedIn &&
         <List>
-          <Link to="/character" style={{ textDecoration: 'none'}}>
-            <ListItem button key={<FormattedMessage id='character' defaultMessage="Character" />}>
-              <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='character' defaultMessage="Character" />} />
+          <Link to="/character" style={{textDecoration: 'none'}}>
+            <ListItem button key={<FormattedMessage id='character' defaultMessage="Character"/>}>
+              <ListItemIcon><GroupIcon/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='character' defaultMessage="Character"/>}/>
             </ListItem>
           </Link>
           {['Achievements', 'Dashboard', 'BattlePet', 'Help', 'Mount'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+              <ListItemText primary={text}/>
             </ListItem>
           ))}
         </List>
+        }
       </div>
     );
 
@@ -268,7 +276,7 @@ class Drawer extends React.Component {
           <div className={classes.toolbar} />
 
           {/* Manage alert message*/}
-          {alert.message && <ContextMessage message={alert.message}/>}
+          {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
 
           {/* Routing for the whole app */}
           <Routing/>
@@ -285,14 +293,14 @@ Drawer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { alert } = state;
+  const { alert, auth } = state;
   return {
     alert,
+    auth
   };
 }
 
 export default compose(
-  withAuth,
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)
 )(Drawer);

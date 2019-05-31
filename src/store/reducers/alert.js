@@ -5,13 +5,25 @@ export default function alert(state = {}, action) {
     case alertConstants.SUCCESS:
       return {
         ...state,
-        type: 'alert-success',
+        type: 'success',
         message: action.message
       };
     case alertConstants.ERROR:
       return {
         ...state,
-        type: 'alert-danger',
+        type: 'error',
+        message: action.message
+      };
+    case alertConstants.INFO:
+      return {
+        ...state,
+        type: 'info',
+        message: action.message
+      };
+    case alertConstants.WARNING:
+      return {
+        ...state,
+        type: 'warning',
         message: action.message
       };
     case alertConstants.CLEAR:
