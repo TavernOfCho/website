@@ -1,6 +1,7 @@
 import React from "react";
 import HeroUnit from "../components/HeroUnit";
 import HeroBanner from "../components/HeroBanner";
+// eslint-disable-next-line
 import CharacterForm from "../components/CharacterForm";
 import { FormattedMessage } from 'react-intl';
 
