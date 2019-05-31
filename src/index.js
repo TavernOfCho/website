@@ -23,9 +23,14 @@ var firstLocale = locale.split('-');
 var domain = "https://tavernofcho.com/";
 var devdomain = "127.0.0.1";
 if(document.domain !== domain && document.domain !== devdomain)
-  window.location.replace("https://tavernofcho.com/");
+  document.location.href="https://tavernofcho.com/";
+  
+const language = firstLocale[0];
 
-  const language = firstLocale[0];
+var rc1 = "color: rgb(228, 38, 24); font-size:48px;font-weight : bold;text-shadow: 1px 1px 5px rgba(0,0,0,.3);";
+var rc2 = "color: #999; font-size:48px;text-shadow: 1px 1px 5px rgba(0,0,0,.3);"
+var rc3 = "color: #bbb; font-size:16px;"
+console.log("%cCho's%cTavern %c  v0.0.8 ", rc1, rc2, rc3);
 
 // Add new method to localstorage
 Storage.prototype.getObj = function(key) {
