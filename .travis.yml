@@ -15,6 +15,7 @@ before_deploy:
   - "echo 'ready?'"
   - yarn build
 deploy:
+  skip_cleanup: true
   provider: firebase
   token:
     secure: $FIREBASE_TOKEN
