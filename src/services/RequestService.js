@@ -12,11 +12,9 @@ export default class RequestService {
 
     switch(this.domain) {
       case '127.0.0.1':
-        console.log("dev");
         this.domainForRequest = this.devApiDomain;
         break;
       case 'tavernofcho.com':
-        console.log('prod');
         this.domainForRequest = this.prodApiDomain;
         break;
       default:

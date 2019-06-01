@@ -20,7 +20,7 @@ const messages = {
 var locale = window.navigator.language;
 var firstLocale = locale.split('-');
 
-var domain = "tavernofcho.com";
+// var domain = "tavernofcho.com";
 
 // if(document.domain != domain)
 //   document.location.href="https://tavernofcho.com/";

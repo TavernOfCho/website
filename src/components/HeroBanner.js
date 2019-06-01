@@ -41,7 +41,7 @@ class HeroBanner extends React.Component {
               {description}
             </Typography>
             <div className={classes.heroButtons}>
-              <Grid container spacing={16} justify="center">
+              <Grid container justify="center">
                 <Grid item>
                   { hasButton &&
                   <Button component={Link} to="/login" variant="contained" color="primary">

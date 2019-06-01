@@ -11,7 +11,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
-import CharacterInfos from "./CharacterInfos";
 import ProgressBars from "./ProgressBars";
 
 
