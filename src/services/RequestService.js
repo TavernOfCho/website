@@ -34,9 +34,10 @@ export default class RequestService {
   }
 
   getMounts = () => {
-    return this.fetch(`${this.domainForRequest}/realms`, {
+    return this.fetch(`${this.domainForRequest}/characters/aikisugi/Dalaran/mounts`, {
       method: 'GET'
     }).then(res => {
+      console.log('In service res:',res);
       return Promise.resolve(res);
     })
   }
