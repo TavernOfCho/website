@@ -17,10 +17,10 @@ const styles = theme => ({
     backgroundColor: `rgba(255, 255, 255, 0.4)`,
   },
   heroContent: {
-    padding: `${theme.spacing.unit * 8}px 8px ${theme.spacing.unit * 6}px`,
+    padding: `${theme.spacing(8)}px 8px ${theme.spacing(6)}px`,
   },
   heroButtons: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing(1),
   },
 })
 
