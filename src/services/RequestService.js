@@ -31,8 +31,8 @@ export default class RequestService {
     })
   }
 
-  getMounts = () => {
-    return this.fetch(`${this.domainForRequest}/characters/aikisugi/Dalaran/mounts`, {
+  getMounts = (name) => {
+    return this.fetch(`${this.domainForRequest}/characters/${name}/Dalaran/mounts`, {
       method: 'GET'
     }).then(res => {
       console.log('In service res:',res);

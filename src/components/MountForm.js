@@ -50,15 +50,15 @@ class MountForm extends React.Component {
       servers: [],
       name: 'aikisugi',
       resMounts: [],
-      mountsCollected: 0.0,
-      mountsNotCollected: 0.0,
-      mountsCollectedPercentage: 0.0,
+      mountsCollected: 0,
+      mountsNotCollected: 0,
+      mountsCollectedPercentage: 0,
       isLoaderDisplayed: false,
-      isCharInfosDisplayed: false,
+      isMountsInfoDisplayed: false,
     };
 
     // Bind this
-    this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
+    this.handleRequest = this.handleRequest.bind(this);
     this.Request = new RequestService();
   }
 
@@ -79,13 +79,13 @@ class MountForm extends React.Component {
     return name.toLowerCase().replace(/\s|-|'/g, '');
   }
 
-  handleCharacterRequest = event => {
+  handleRequest = event => {
 
     event.preventDefault();
 
     this.setState({isLoaderDisplayed: true});
 
-    this.Request.getMounts()
+    this.Request.getMounts(this.state.name)
       .then(res => {
         this.setState({
           resMounts: res,
@@ -93,6 +93,7 @@ class MountForm extends React.Component {
           mountsCollected: res.numCollected,
           mountsNotCollected: res.numNotCollected,
           mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
+          isMountsInfoDisplayed: true,
         })
       })
       .catch(err => {
@@ -146,7 +147,7 @@ class MountForm extends React.Component {
 
     return (
       <div>
-        <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
+        <form autoComplete="off" onSubmit={this.handleRequest}>
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
@@ -179,7 +180,7 @@ class MountForm extends React.Component {
         {/* Displaying datas */}
         {/*{this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}*/}
 
-        <ProgressBars/>
+        {this.state.isMountsInfoDisplayed && <ProgressBars progression={this.state.mountsCollectedPercentage}/>}
 
       </div>
 
