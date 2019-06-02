@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
-import CharacterInfos from "./CharacterInfos";
+import ProgressBars from "./ProgressBars";
 
 
 const styles = theme => ({
@@ -38,7 +38,7 @@ const styles = theme => ({
 
 
 
-class CharacterForm extends React.Component {
+class MountForm extends React.Component {
 
 
   constructor(props){
@@ -49,13 +49,16 @@ class CharacterForm extends React.Component {
       labelWidth: 0,
       servers: [],
       name: 'aikisugi',
-      characterInfos: [],
+      resMounts: [],
+      mountsCollected: 0,
+      mountsNotCollected: 0,
+      mountsCollectedPercentage: 0,
       isLoaderDisplayed: false,
-      isCharInfosDisplayed: false,
+      isMountsInfoDisplayed: false,
     };
 
     // Bind this
-    this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
+    this.handleRequest = this.handleRequest.bind(this);
     this.Request = new RequestService();
   }
 
@@ -76,20 +79,32 @@ class CharacterForm extends React.Component {
     return name.toLowerCase().replace(/\s|-|'/g, '');
   }
 
-  handleCharacterRequest = event => {
+  handleRequest = event => {
 
     event.preventDefault();
 
-    this.setState({isLoaderDisplayed: true, isCharInfosDisplayed: false});
+    this.setState({isLoaderDisplayed: true});
 
-    this.Request.getCharacter(this.state.name)
+    this.Request.getMounts(this.state.name)
       .then(res => {
-        this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderDisplayed:false})
+        this.setState({
+          resMounts: res,
+          isLoaderDisplayed:false,
+          mountsCollected: res.numCollected,
+          mountsNotCollected: res.numNotCollected,
+          mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
+          isMountsInfoDisplayed: true,
+        })
       })
       .catch(err => {
         alert(err)
       })
+
   };
+
+  getPercentage(collected, notCollected) {
+    return Math.round((collected / (collected + notCollected))*100);
+  }
 
   componentDidMount() {
 
@@ -132,7 +147,7 @@ class CharacterForm extends React.Component {
 
     return (
       <div>
-        <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
+        <form autoComplete="off" onSubmit={this.handleRequest}>
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
@@ -163,7 +178,9 @@ class CharacterForm extends React.Component {
         { this.state.isLoaderDisplayed && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}
+        {/*{this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}*/}
+
+        {this.state.isMountsInfoDisplayed && <ProgressBars progression={this.state.mountsCollectedPercentage}/>}
 
       </div>
 
@@ -171,8 +188,8 @@ class CharacterForm extends React.Component {
   }
 }
 
-CharacterForm.propTypes = {
+MountForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CharacterForm);
+export default withStyles(styles)(MountForm);

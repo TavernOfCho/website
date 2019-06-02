@@ -12,11 +12,9 @@ export default class RequestService {
 
     switch(this.domain) {
       case '127.0.0.1':
-        console.log("dev");
         this.domainForRequest = this.devApiDomain;
         break;
       case 'tavernofcho.com':
-        console.log('prod');
         this.domainForRequest = this.prodApiDomain;
         break;
       default:
@@ -29,6 +27,15 @@ export default class RequestService {
     return this.fetch(`${this.domainForRequest}/realms`, {
       method: 'GET'
     }).then(res => {
+      return Promise.resolve(res);
+    })
+  }
+
+  getMounts = (name) => {
+    return this.fetch(`${this.domainForRequest}/characters/${name}/Dalaran/mounts`, {
+      method: 'GET'
+    }).then(res => {
+      console.log('In service res:',res);
       return Promise.resolve(res);
     })
   }
