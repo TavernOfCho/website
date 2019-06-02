@@ -143,7 +143,7 @@ class Drawer extends React.Component {
     }
   }
 
-  change(value) {
+  changeLanguage(value) {
     console.log(value);
   }
 
@@ -233,13 +233,13 @@ class Drawer extends React.Component {
                   className={classes.flag}
                   src={require("./img/Uk.png")}
                   alt="en"
-                  onClick={() => this.change("en")}
+                  onClick={() => this.changeLanguage("en")}
                 />
                 <img
                   className={classes.flag}
                   src={require("./img/France.png")}
                   alt="fr"
-                  onClick={() => this.change("fr")}
+                  onClick={() => this.changeLanguage("fr")}
                 />
               </div>
 
