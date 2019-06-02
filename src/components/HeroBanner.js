@@ -17,10 +17,10 @@ const styles = theme => ({
     backgroundColor: `rgba(255, 255, 255, 0.4)`,
   },
   heroContent: {
-    padding: `${theme.spacing.unit * 8}px 8px ${theme.spacing.unit * 6}px`,
+    padding: `${theme.spacing(8)}px 8px ${theme.spacing(6)}px`,
   },
   heroButtons: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing(1),
   },
 })
 
@@ -41,7 +41,7 @@ class HeroBanner extends React.Component {
               {description}
             </Typography>
             <div className={classes.heroButtons}>
-              <Grid container spacing={16} justify="center">
+              <Grid container justify="center">
                 <Grid item>
                   { hasButton &&
                   <Button component={Link} to="/login" variant="contained" color="primary">
