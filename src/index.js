@@ -24,7 +24,7 @@ var domain = "tavernofcho.com";
 
 if(document.domain != domain)
   document.location.href="https://tavernofcho.com/";
-  
+
 const language = firstLocale[0];
 
 var rc1 = "color: rgb(228, 38, 24); font-size:48px;font-weight : bold;text-shadow: 1px 1px 5px rgba(0,0,0,.3);";
