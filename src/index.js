@@ -13,12 +13,12 @@ import { store } from "./store/configureStore";
 import { IntlProvider } from 'react-intl-redux'
 import { addLocaleData } from 'react-intl';
 import frLocaleData from 'react-intl/locale-data/fr';
+/*
 import SwitchLocale from './components/SwitchLocale';
 import Greeting from './components/Greeting';
+*/
 addLocaleData(frLocaleData);
-
 const UPDATE_LOCALES = 'UPDATE_LOCALES'
-
 /*
 import messages_fr from "./translation/fr.json"
 import messages_en from "./translation/en.json"
@@ -98,15 +98,7 @@ class MainApp extends React.Component {
     return (
       <Provider store={store}>
         <IntlProvider>
-          <div>
-            <p>
-              <Greeting />
-              <button type="button" onClick={this.handleLoadlLocales}>
-                Local locales
-              </button>{' '}
-              <SwitchLocale />
-            </p>
-          </div>
+          <App />
         </IntlProvider>
       </Provider>
     )
