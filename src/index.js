@@ -52,11 +52,7 @@ Storage.prototype.setObj = function(key, obj) {
 }
 
 ReactDOM.render(
-<IntlProvider 
-  key={language}
-  locale={language} 
-  messages={messages[language]}
->
+<IntlProvider>
   <Provider store={store}>
     <App />
   </Provider>
