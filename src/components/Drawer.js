@@ -34,6 +34,8 @@ import { userActions } from "../store/actions/user";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDragon } from '@fortawesome/free-solid-svg-icons'
 
+import { updateIntl } from 'react-intl-redux'
+import { store } from "../store/configureStore";
 
 const drawerWidth = 200;
 
@@ -144,7 +146,12 @@ class Drawer extends React.Component {
   }
 
   changeLanguage(value) {
-    console.log(value);
+    console.log(store.getState());
+    store.dispatch(
+      updateIntl({
+        locale: value,
+      })
+    )
   }
 
   render() {

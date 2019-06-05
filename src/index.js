@@ -12,14 +12,14 @@ import { store } from "./store/configureStore";
 /* react-intl import */
 import { IntlProvider } from 'react-intl-redux'
 import { addLocaleData } from 'react-intl';
-
 import frLocaleData from 'react-intl/locale-data/fr';
-
-
+import SwitchLocale from './components/SwitchLocale';
+import Greeting from './components/Greeting';
 addLocaleData(frLocaleData);
 
-/*
 const UPDATE_LOCALES = 'UPDATE_LOCALES'
+
+/*
 import messages_fr from "./translation/fr.json"
 import messages_en from "./translation/en.json"
 const messages = {
@@ -55,13 +55,64 @@ Storage.prototype.setObj = function(key, obj) {
   return this.setItem(key, JSON.stringify(obj))
 }
 
-ReactDOM.render(
-  <Provider store={store}>
-    <IntlProvider>
-      <App />
-    </IntlProvider>
-  </Provider>,
-document.getElementById('root')
-);
+class MainApp extends React.Component {
+  handleLoadlLocales = () => {
+    store.dispatch({
+      type: UPDATE_LOCALES,
+      payload: {
+        en: {
+          'app.greeting': 'Hello!',
+          "character": "Character",
+          "character.helper": "Please fill your server and the name of your character.",
+          "chotavern": "Cho's Tavern",
+          "connection": "Connection",
+          "disconnect": "Disconnect",
+          "hello": "Hello",
+          "homescreen": "Homescreen",
+          "homescreen.welcome": "Let's choose the next achievement you want to do and find new friends",
+          "herounit.description": "Welcome to the tavern of Cho !",
+          "register": "Register",
+          "welcome": "Welcome ",
+          "mount": "Mount"
+        },
+        fr: {
+          'app.greeting': 'Bonjour!',
+          "character": "Personnage",
+          "character.helper": "Veuillez sélectionner votre serveur et le nom de votre personnage.",
+          "chotavern": "Taverne de Cho",
+          "connection": "Connexion",
+          "disconnect": "Déconnecter",
+          "hello": "Bonjour",
+          "homescreen": "Accueil",
+          "homescreen.welcome": "Venez planifier vos prochains exploits et trouver d'autres aventuriers",
+          "herounit.description": "Bienvenue dans la taverne de Cho !",
+          "register": "Inscription",
+          "welcome": "Bienvenue ",
+          "mount": "Monture "
+        },
+      },
+    })
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <IntlProvider>
+          <div>
+            <p>
+              <Greeting />
+              <button type="button" onClick={this.handleLoadlLocales}>
+                Local locales
+              </button>{' '}
+              <SwitchLocale />
+            </p>
+          </div>
+        </IntlProvider>
+      </Provider>
+    )
+  }
+};
+
+ReactDOM.render(<MainApp />, document.getElementById('root'));
 
 serviceWorker.register();
