@@ -6,25 +6,30 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // Redux import
-import Provider from "react-redux/es/components/Provider";
+import { Provider } from 'react-redux'
 import { store } from "./store/configureStore";
 
 /* react-intl import */
-import { IntlProvider, addLocaleData } from 'react-intl';
+import { IntlProvider } from 'react-intl-redux'
+import { addLocaleData } from 'react-intl';
 
 import frLocaleData from 'react-intl/locale-data/fr';
-import messages_fr from "./translation/fr.json"
-import messages_en from "./translation/en.json"
+
 
 addLocaleData(frLocaleData);
 
+/*
+const UPDATE_LOCALES = 'UPDATE_LOCALES'
+import messages_fr from "./translation/fr.json"
+import messages_en from "./translation/en.json"
 const messages = {
   'fr': messages_fr,
   'en': messages_en
 }
-
 var locale = window.navigator.language;
 var firstLocale = locale.split('-');
+const language = firstLocale[0];
+*/
 
 var domain = "tavernofcho.com";
 
@@ -34,7 +39,6 @@ if(document.domain !== "https://127.0.0.1:8054/"){
   document.location.href="https://tavernofcho.com/";
 }
   
-const language = firstLocale[0];
 
 var rc1 = "color: #00cc95; font-size:26px;font-weight : bold;text-shadow: 1px 1px 5px rgba(0,0,0,.3);";
 var rc2 = "color: #c5b212; font-size:26px;text-shadow: 1px 1px 5px rgba(0,0,0,.3);"
@@ -52,11 +56,11 @@ Storage.prototype.setObj = function(key, obj) {
 }
 
 ReactDOM.render(
-<IntlProvider>
   <Provider store={store}>
-    <App />
-  </Provider>
-</IntlProvider>,
+    <IntlProvider>
+      <App />
+    </IntlProvider>
+  </Provider>,
 document.getElementById('root')
 );
 
