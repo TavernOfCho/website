@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './redirection';
 
 // Redux import
 import Provider from "react-redux/es/components/Provider";
@@ -25,14 +26,6 @@ const messages = {
 
 var locale = window.navigator.language;
 var firstLocale = locale.split('-');
-
-var domain = "tavernofcho.com";
-
-if(document.domain !== "https://127.0.0.1:8054/"){
-  console.log('Salut les devs');
-}else if(document.domain !== domain){
-  document.location.href="https://tavernofcho.com/";
-}
   
 const language = firstLocale[0];
 
@@ -50,6 +43,7 @@ Storage.prototype.getObj = function(key) {
 Storage.prototype.setObj = function(key, obj) {
   return this.setItem(key, JSON.stringify(obj))
 }
+
 
 ReactDOM.render(
 <IntlProvider 
