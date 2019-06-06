@@ -150,6 +150,7 @@ class Drawer extends React.Component {
     store.dispatch(
       updateIntl({
         locale: value,
+        //messages: locales[value],
       })
     )
   }
