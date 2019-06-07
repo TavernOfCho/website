@@ -13,23 +13,15 @@ import { IntlProvider } from 'react-intl-redux'
 import { addLocaleData } from 'react-intl';
 import frLocaleData from 'react-intl/locale-data/fr';
 import { updateIntl } from 'react-intl-redux'
-/*
-import SwitchLocale from './components/SwitchLocale';
-import Greeting from './components/Greeting';
-*/
-addLocaleData(frLocaleData);
-const UPDATE_LOCALES = 'UPDATE_LOCALES'
-/*
 import messages_fr from "./translation/fr.json"
 import messages_en from "./translation/en.json"
-const messages = {
-  'fr': messages_fr,
-  'en': messages_en
-}
+
+addLocaleData(frLocaleData);
+const UPDATE_LOCALES = 'UPDATE_LOCALES'
+
 var locale = window.navigator.language;
 var firstLocale = locale.split('-');
-const language = firstLocale[0];
-*/
+const navLang = firstLocale[0];
 
 var domain = "tavernofcho.com";
 
@@ -55,47 +47,20 @@ Storage.prototype.setObj = function(key, obj) {
   return this.setItem(key, JSON.stringify(obj))
 }
 
-
+// Add the messages on the store
 store.dispatch({
   type: UPDATE_LOCALES,
   payload: {
-    en: {
-      'app.greeting': 'Hello!',
-      "character": "Character",
-      "character.helper": "Please fill your server and the name of your character.",
-      "chotavern": "Cho's Tavern",
-      "connection": "Connection",
-      "disconnect": "Disconnect",
-      "hello": "Hello",
-      "homescreen": "Homescreen",
-      "homescreen.welcome": "Let's choose the next achievement you want to do and find new friends",
-      "herounit.description": "Welcome to the tavern of Cho !",
-      "register": "Register",
-      "welcome": "Welcome ",
-      "mount": "Mount"
-    },
-    fr: {
-      'app.greeting': 'Bonjour!',
-      "character": "Personnage",
-      "character.helper": "Veuillez sélectionner votre serveur et le nom de votre personnage.",
-      "chotavern": "Taverne de Cho",
-      "connection": "Connexion",
-      "disconnect": "Déconnecter",
-      "hello": "Bonjour",
-      "homescreen": "Accueil",
-      "homescreen.welcome": "Venez planifier vos prochains exploits et trouver d'autres aventuriers",
-      "herounit.description": "Bienvenue dans la taverne de Cho !",
-      "register": "Inscription",
-      "welcome": "Bienvenue ",
-      "mount": "Monture "
-    },
+    en: messages_en,
+    fr: messages_fr,
   },
 });
 
+// Init the first lang based on the navigator
 store.dispatch(
   updateIntl({
-    locale: "en",
-    messages: store.getState().locales["en"],
+    locale: navLang,
+    messages: store.getState().locales[navLang],
   })
 )
 class MainApp extends React.Component {
