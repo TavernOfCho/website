@@ -146,11 +146,10 @@ class Drawer extends React.Component {
   }
 
   changeLanguage(value) {
-    console.log(store.getState());
     store.dispatch(
       updateIntl({
         locale: value,
-        //messages: locales[value],
+        messages: store.getState().locales[value],
       })
     )
   }

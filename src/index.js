@@ -13,6 +13,7 @@ import { store } from "./store/configureStore";
 import { IntlProvider } from 'react-intl-redux'
 import { addLocaleData } from 'react-intl';
 import frLocaleData from 'react-intl/locale-data/fr';
+import { updateIntl } from 'react-intl-redux'
 /*
 import SwitchLocale from './components/SwitchLocale';
 import Greeting from './components/Greeting';
@@ -92,6 +93,12 @@ store.dispatch({
   },
 });
 
+store.dispatch(
+  updateIntl({
+    locale: "en",
+    messages: store.getState().locales["en"],
+  })
+)
 class MainApp extends React.Component {
   render() {
     return (
