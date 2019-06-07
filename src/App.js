@@ -3,11 +3,9 @@ import './App.css';
 import { Router } from 'react-router-dom';
 import Drawer from './components/Drawer';
 import { history } from "./helpers/history";
-
+import { connect } from 'react-redux'
 
 class App extends React.Component {
-
-
   render() {
     
     return (
@@ -20,5 +18,4 @@ class App extends React.Component {
   }
 }
 
-
-export default App;
+export default connect()(App);
