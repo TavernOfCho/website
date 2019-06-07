@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './redirection';
 
 // Redux import
 import { Provider } from 'react-redux'
@@ -22,15 +23,6 @@ const UPDATE_LOCALES = 'UPDATE_LOCALES'
 var locale = window.navigator.language;
 var firstLocale = locale.split('-');
 const navLang = firstLocale[0];
-
-var domain = "tavernofcho.com";
-
-if(document.domain !== "https://127.0.0.1:8054/"){
-  console.log('Salut les devs');
-}else if(document.domain !== domain){
-  document.location.href="https://tavernofcho.com/";
-}
-  
 
 var rc1 = "color: #00cc95; font-size:26px;font-weight : bold;text-shadow: 1px 1px 5px rgba(0,0,0,.3);";
 var rc2 = "color: #c5b212; font-size:26px;text-shadow: 1px 1px 5px rgba(0,0,0,.3);"
