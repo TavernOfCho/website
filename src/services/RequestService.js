@@ -2,7 +2,7 @@ import { userService } from './UserService';
 
 export default class RequestService {
   // Initializing important variables
-  constructor(domain) {
+  constructor() {
     this.fetch = this.fetch.bind(this) // React binding stuff
 
     this.domain = document.domain;
@@ -26,8 +26,6 @@ export default class RequestService {
   getServers = () => {
     return this.fetch(`${this.domainForRequest}/realms`, {
       method: 'GET'
-    }).then(res => {
-      return Promise.resolve(res);
     })
   }
 

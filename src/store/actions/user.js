@@ -32,13 +32,12 @@ function login(username, password) {
 
 function register(username, plainPassword, email) {
   return dispatch => {
-
     userService.register(username, plainPassword, email)
       .then(
         user => {
           // Dispatch info
-          history.push('/login');
-          dispatch(alertActions.success("Compte créé, veuillez-vous connecter."));
+          dispatch(success(user, username, plainPassword));
+          dispatch(alertActions.success("Compte créé, bienvenue " + username));
         },
         error => {
           dispatch(failure(error));
@@ -47,8 +46,12 @@ function register(username, plainPassword, email) {
       );
   };
 
-  // eslint-disable-next-line
-  function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+  function success(user, username, plainPassword) {
+    return dispatch => {
+      dispatch(login(username, plainPassword));
+      return { type: userConstants.REGISTER_SUCCESS, user };
+    };
+  }
   function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 
 }
