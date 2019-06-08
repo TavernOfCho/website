@@ -178,8 +178,6 @@ class MountForm extends React.Component {
         { this.state.isLoaderDisplayed && <Loader/> }
 
         {/* Displaying datas */}
-        {/*{this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}*/}
-
         {this.state.isMountsInfoDisplayed && <ProgressBars progression={this.state.mountsCollectedPercentage}/>}
 
       </div>
