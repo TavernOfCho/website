@@ -24,8 +24,7 @@ const styles = theme => ({
     minWidth: 120,
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    margin: theme.spacing(1),
     width: 200,
   },
   selectEmpty: {
@@ -33,6 +32,7 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
 });
 
@@ -40,18 +40,20 @@ const styles = theme => ({
 
 class CharacterForm extends React.Component {
 
-
   constructor(props){
     super(props);
 
     this.state = {
       server: '',
       labelWidth: 0,
+      labelWidthLocale: 0,
       servers: [],
-      name: 'aikisugi',
+      name: '',
       characterInfos: [],
-      isLoaderDisplayed: false,
+      isLoaderServer: false,
+      isLoaderChar: false,
       isCharInfosDisplayed: false,
+      locale: 'frFR',
     };
 
     // Bind this
@@ -80,26 +82,58 @@ class CharacterForm extends React.Component {
 
     event.preventDefault();
 
-    this.setState({isLoaderDisplayed: true, isCharInfosDisplayed: false});
+    // Conditioning display
+    this.setState({isLoaderChar: true, isCharInfosDisplayed: false});
 
-    this.Request.getCharacter(this.state.name)
+    // Character request
+    this.Request.getCharacter(this.state.name, this.state.server)
       .then(res => {
-        this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderDisplayed:false})
+        this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderChar:false})
       })
       .catch(err => {
+        this.setState({isLoaderChar:false})
         alert(err)
       })
   };
 
+  handleChangeLocale = event => {
+
+    // Checking if it isn't the same locality
+    if(this.state.locale !== event.target.value) {
+
+      this.setState({isLoaderServer: true})
+
+      // API call for servers with locale param
+      this.setState(
+        { [event.target.name]: event.target.value },
+        () => {
+          this.Request.getServers(this.state.locale)
+            .then(res => {
+              this.setState({servers: res['hydra:member'], isLoaderServer: false})
+            })
+            .catch(err => {
+              this.setState({isLoaderServer: false});
+              alert(err);
+            })
+        }
+      );
+
+    }
+
+  };
+
   componentDidMount() {
 
+    // Setting labels for select inputs
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+      labelWidthLocale: ReactDOM.findDOMNode(this.InputLabelRefLocale).offsetWidth,
     });
 
-    this.Request.getServers()
+    // Request for servers
+    this.Request.getServers(this.state.locale)
       .then(res => {
-        this.setState({servers: res})
+        this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
         alert(err)
@@ -130,9 +164,45 @@ class CharacterForm extends React.Component {
       </Select>
     );
 
+    const selectLocale = (
+      <Select
+        value={this.state.locale}
+        onChange={this.handleChangeLocale}
+        input={
+          <OutlinedInput
+            labelWidth={this.state.labelWidthLocale}
+            name="locale"
+            id="locale-select"
+          />
+        }
+      >
+        <MenuItem value='frFR'>FR</MenuItem>
+        <MenuItem value='ruRU'>RU</MenuItem>
+        <MenuItem value='enGB'>EN</MenuItem>
+        <MenuItem value='deDE'>DE</MenuItem>
+        <MenuItem value='itIT'>IT</MenuItem>
+        <MenuItem value='esES'>ES</MenuItem>
+      </Select>
+    );
+
     return (
       <div>
         <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
+
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel
+              ref={ref => {
+                this.InputLabelRefLocale = ref;
+              }}
+              htmlFor="locale-select"
+            >
+              Localité
+            </InputLabel>
+            {selectLocale}
+          </FormControl>
+
+          { this.state.isLoaderServer && <Loader/> }
+          { !this.state.isLoaderServer &&
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
@@ -143,11 +213,12 @@ class CharacterForm extends React.Component {
               Serveur
             </InputLabel>
             {selectServers}
+          </FormControl>
+          }
 
             <TextField
               id="standard-name"
               label="Nom du personnage"
-              defaultValue="Aikusigi"
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
@@ -156,11 +227,10 @@ class CharacterForm extends React.Component {
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             Afficher
           </Button>
-          </FormControl>
         </form>
 
         {/* Displaying loader during the request time */}
-        { this.state.isLoaderDisplayed && <Loader/> }
+        { this.state.isLoaderChar && <Loader/> }
 
         {/* Displaying datas */}
         {this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}

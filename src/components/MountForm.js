@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
-import ProgressBars from "./ProgressBars";
+import ProgressBar from "./ProgressBar";
 
 
 const styles = theme => ({
@@ -225,7 +225,8 @@ class MountForm extends React.Component {
               Serveur
             </InputLabel>
             {selectServers}
-          </FormControl>}
+          </FormControl>
+          }
 
           <TextField
               id="standard-name"
@@ -236,7 +237,6 @@ class MountForm extends React.Component {
               variant="outlined"
             />
 
-
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             Afficher
           </Button>
@@ -246,7 +246,7 @@ class MountForm extends React.Component {
         { this.state.isLoaderMount && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isMountsInfoDisplayed && <ProgressBars progression={this.state.mountsCollectedPercentage}/>}
+        {this.state.isMountsInfoDisplayed && <ProgressBar progression={this.state.mountsCollectedPercentage}/>}
 
       </div>
 
