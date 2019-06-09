@@ -23,8 +23,8 @@ export default class RequestService {
 
   }
 
-  getServers = () => {
-    return this.fetch(`${this.domainForRequest}/realms?locale=frFR`, {
+  getServers = (locale) => {
+    return this.fetch(`${this.domainForRequest}/realms?locale=${locale}`, {
       method: 'GET'
     })
   }
