@@ -35,12 +35,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ProgressBars(props) {
+function ProgressBar(props) {
   const classes = useStyles();
 
   const { progression } = props;
-
-  console.log('prog:',progression);
 
   return (
 
@@ -67,4 +65,4 @@ function ProgressBars(props) {
   );
 }
 
-export default ProgressBars;
+export default ProgressBar;

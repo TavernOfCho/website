@@ -12,9 +12,9 @@ const styles = theme => ({
 function Loader(props) {
   const { classes } = props;
   return (
-    <div>
+    <React.Fragment>
       <CircularProgress className={classes.progress} />
-    </div>
+    </React.Fragment>
   );
 }
 
