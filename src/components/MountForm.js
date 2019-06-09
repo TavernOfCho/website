@@ -271,7 +271,7 @@ class MountForm extends React.Component {
         }
 
         <div className={this.props.classes.rootCard}>
-          <Grid container spacing={1}>
+          <Grid container justify="center" alignItems="center" spacing={1}>
             {this.getMounts()}
           </Grid>
         </div>

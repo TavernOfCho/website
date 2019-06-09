@@ -4,7 +4,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid/Grid";
-import CardMedia from '@material-ui/core/CardMedia';
+import Avatar from '@material-ui/core/Avatar';
+
 
 const useStyles = makeStyles({
   card: {
@@ -28,6 +29,11 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
+  },
 });
 
 export default function MountCard(props) {
@@ -36,22 +42,13 @@ export default function MountCard(props) {
   const srcImage = "https://render-us.worldofwarcraft.com/icons/56/" + props.icon + ".jpg";
 
   return (
-
-    <div className={classes.root}>
-      <Grid container spacing={0}>
-        <Card className={classes.card} key={props.key}>
-          <CardMedia
-            className={classes.media}
-            image={srcImage}
-            title={props.icon}
-          />
-          <CardContent>
-            <Typography className={classes.title} color="textSecondary" gutterBottom>
-              {props.name}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    </div>
+    <Card className={classes.card} key={props.key}>
+      <CardContent>
+        <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+          {props.name}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 }
