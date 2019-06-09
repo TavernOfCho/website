@@ -85,8 +85,9 @@ class MountForm extends React.Component {
 
     this.setState({isLoaderDisplayed: true});
 
-    this.Request.getMounts(this.state.name)
+    this.Request.getMounts(this.state.name, this.state.server)
       .then(res => {
+        console.log('tgiu',res);
         this.setState({
           resMounts: res,
           isLoaderDisplayed:false,
@@ -114,7 +115,7 @@ class MountForm extends React.Component {
 
     this.Request.getServers()
       .then(res => {
-        this.setState({servers: res})
+        this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
         alert(err)

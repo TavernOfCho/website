@@ -24,17 +24,14 @@ export default class RequestService {
   }
 
   getServers = () => {
-    return this.fetch(`${this.domainForRequest}/realms`, {
+    return this.fetch(`${this.domainForRequest}/realms?locale=frFR`, {
       method: 'GET'
     })
   }
 
-  getMounts = (name) => {
-    return this.fetch(`${this.domainForRequest}/characters/${name}/Dalaran/mounts`, {
+  getMounts = (name, server) => {
+    return this.fetch(`${this.domainForRequest}/characters/${name}/${server}/mounts`, {
       method: 'GET'
-    }).then(res => {
-      console.log('In service res:',res);
-      return Promise.resolve(res);
     })
   }
 
@@ -50,8 +47,8 @@ export default class RequestService {
   fetch(url, options) {
     // performs api calls sending the required authentication headers
     const headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Accept': 'application/ld+json',
+      'Content-Type': 'application/ld+json'
     }
 
     // Setting Authorization header
