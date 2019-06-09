@@ -12,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
 import ProgressBar from "./ProgressBar";
+import MountCard from "./MountCard";
+import Grid from "@material-ui/core/Grid/Grid";
 
 
 const styles = theme => ({
@@ -19,6 +21,9 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
 },
+  rootCard: {
+    flexGrow: 1,
+  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -114,6 +119,7 @@ class MountForm extends React.Component {
 
     this.Request.getMounts(this.state.name, this.state.server)
       .then(res => {
+        console.log('reso',res);
         this.setState({
           resMounts: res,
           isLoaderMount:false,
@@ -121,7 +127,7 @@ class MountForm extends React.Component {
           mountsNotCollected: res.numNotCollected,
           mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
           isMountsInfoDisplayed: true,
-        })
+        }/*, this.getMounts*/)
       })
       .catch(err => {
         this.setState({isLoaderMount:false});
@@ -132,6 +138,20 @@ class MountForm extends React.Component {
 
   getPercentage(collected, notCollected) {
     return Math.round((collected / (collected + notCollected))*100);
+  }
+
+  getMounts = () => {
+    console.log('resmounts', this.state.resMounts.length);
+    if(typeof this.state.resMounts.length === 'undefined') {
+      return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
+            <Grid item xs={12} sm={4}>
+              <MountCard name={item.name} key={index} icon={item.icon}/>
+            </Grid>
+          )
+        )
+      )
+    }
+
   }
 
   componentDidMount() {
@@ -246,7 +266,15 @@ class MountForm extends React.Component {
         { this.state.isLoaderMount && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isMountsInfoDisplayed && <ProgressBar progression={this.state.mountsCollectedPercentage}/>}
+        {this.state.isMountsInfoDisplayed &&
+          <ProgressBar progression={this.state.mountsCollectedPercentage}/>
+        }
+
+        <div className={this.props.classes.rootCard}>
+          <Grid container spacing={1}>
+            {this.getMounts()}
+          </Grid>
+        </div>
 
       </div>
 
