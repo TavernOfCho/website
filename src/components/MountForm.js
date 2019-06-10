@@ -23,6 +23,7 @@ const styles = theme => ({
 },
   rootCard: {
     flexGrow: 1,
+    margin: theme.spacing(5),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -271,7 +272,7 @@ class MountForm extends React.Component {
         }
 
         <div className={this.props.classes.rootCard}>
-          <Grid container justify="center" alignItems="center" spacing={1}>
+          <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
             {this.getMounts()}
           </Grid>
         </div>

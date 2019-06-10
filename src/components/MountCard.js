@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Grid from "@material-ui/core/Grid/Grid";
 import Avatar from '@material-ui/core/Avatar';
 
 
@@ -45,7 +44,7 @@ export default function MountCard(props) {
     <Card className={classes.card} key={props.key}>
       <CardContent>
         <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        <Typography className={classes.title} color="textPrimary" gutterBottom>
           {props.name}
         </Typography>
       </CardContent>
