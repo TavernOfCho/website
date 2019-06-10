@@ -128,7 +128,7 @@ class MountForm extends React.Component {
           mountsNotCollected: res.numNotCollected,
           mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
           isMountsInfoDisplayed: true,
-        }/*, this.getMounts*/)
+        })
       })
       .catch(err => {
         this.setState({isLoaderMount:false});
@@ -138,22 +138,21 @@ class MountForm extends React.Component {
   };
 
   getPercentage(collected, notCollected) {
-    return Math.round((collected / (collected + notCollected))*100);
+    return Math.round((collected / (collected + notCollected)) * 100);
   }
 
-  getMounts = () => {
-    console.log('resmounts', this.state.resMounts.length);
-    if(typeof this.state.resMounts.length === 'undefined') {
+  getMountsCards = () => {
+    // Condition can be refacto
+    if(typeof this.state.resMounts.name !== 'undefined') {
       return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
-            <Grid item xs={12} sm={4} key={index}>
+            <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
               <MountCard name={item.name} icon={item.icon}/>
             </Grid>
           )
         )
       )
     }
-
-  }
+  };
 
   componentDidMount() {
 
@@ -268,14 +267,15 @@ class MountForm extends React.Component {
 
         {/* Displaying datas */}
         {this.state.isMountsInfoDisplayed &&
-          <ProgressBar progression={this.state.mountsCollectedPercentage}/>
+          <React.Fragment>
+            <ProgressBar progression={this.state.mountsCollectedPercentage}/>
+            <div className={this.props.classes.rootCard}>
+              <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+                {this.getMountsCards()}
+              </Grid>
+            </div>
+          </React.Fragment>
         }
-
-        <div className={this.props.classes.rootCard}>
-          <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-            {this.getMounts()}
-          </Grid>
-        </div>
 
       </div>
 

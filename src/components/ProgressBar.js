@@ -23,15 +23,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   margin: {
-    margin: theme.spacing(1),
-  },
-  fab: {
-    margin: theme.spacing(2),
-  },
-  absolute: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(3),
+    margin: theme.spacing(5),
   },
 }));
 
