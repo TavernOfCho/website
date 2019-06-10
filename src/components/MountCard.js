@@ -4,16 +4,11 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles({
   card: {
     minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
   },
   root: {
     flexGrow: 1,
@@ -25,13 +20,14 @@ const useStyles = makeStyles({
   title: {
     fontSize: 14,
   },
-  pos: {
-    marginBottom: 12,
-  },
   bigAvatar: {
     margin: 10,
     width: 60,
     height: 60,
+  },
+  align: {
+    display: 'flex',
+    justifyContent: 'center',
   },
 });
 
@@ -43,7 +39,11 @@ export default function MountCard(props) {
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
+        <span className={classes.align}>
+          <Link data-wowhead={`item=${props.itemId}`}>
+            <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
+          </Link>
+        </span>
         <Typography className={classes.title} color="textPrimary" gutterBottom>
           {props.name}
         </Typography>

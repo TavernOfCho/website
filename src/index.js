@@ -56,6 +56,20 @@ store.dispatch(
   })
 )
 class MainApp extends React.Component {
+
+  componentDidMount() {
+
+    // Wowhead script
+    const scriptWowheadConfig = document.createElement("script");
+    scriptWowheadConfig.innerHTML = "var whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};";
+    document.body.appendChild(scriptWowheadConfig);
+
+    const scriptWowhead = document.createElement("script");
+    scriptWowhead.src = "https://wow.zamimg.com/widgets/power.js";
+    document.body.appendChild(scriptWowhead);
+
+  }
+
   render() {
     return (
       <Provider store={store}>

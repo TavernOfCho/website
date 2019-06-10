@@ -146,7 +146,7 @@ class MountForm extends React.Component {
     if(typeof this.state.resMounts.name !== 'undefined') {
       return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
             <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon}/>
+              <MountCard name={item.name} icon={item.icon} itemId={item.itemId}/>
             </Grid>
           )
         )
