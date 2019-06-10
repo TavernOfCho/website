@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles({
   card: {
@@ -40,7 +40,9 @@ export default function MountCard(props) {
     <Card className={classes.card}>
       <CardContent>
         <span className={classes.align}>
-          <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
+          <Link data-wowhead={`item=${props.itemId}`}>
+            <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
+          </Link>
         </span>
         <Typography className={classes.title} color="textPrimary" gutterBottom>
           {props.name}

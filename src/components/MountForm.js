@@ -146,7 +146,7 @@ class MountForm extends React.Component {
     if(typeof this.state.resMounts.name !== 'undefined') {
       return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
             <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon}/>
+              <MountCard name={item.name} icon={item.icon} itemId={item.itemId}/>
             </Grid>
           )
         )
@@ -270,7 +270,7 @@ class MountForm extends React.Component {
           <React.Fragment>
             <ProgressBar progression={this.state.mountsCollectedPercentage}/>
             <div className={this.props.classes.rootCard}>
-              <Grid container direction="row" justify="center" alignItems="center" textAlign='center' spacing={3}>
+              <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
                 {this.getMountsCards()}
               </Grid>
             </div>
