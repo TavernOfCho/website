@@ -41,7 +41,7 @@ export default function MountCard(props) {
   const srcImage = "https://render-us.worldofwarcraft.com/icons/56/" + props.icon + ".jpg";
 
   return (
-    <Card className={classes.card} key={props.key}>
+    <Card className={classes.card}>
       <CardContent>
         <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
         <Typography className={classes.title} color="textPrimary" gutterBottom>
