@@ -118,9 +118,8 @@ class MountForm extends React.Component {
 
     this.setState({isLoaderMount: true});
 
-    this.Request.getMounts(this.state.name, this.state.server)
+    this.Request.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
       .then(res => {
-        console.log('reso',res);
         this.setState({
           resMounts: res,
           isLoaderMount:false,
@@ -146,7 +145,7 @@ class MountForm extends React.Component {
     if(typeof this.state.resMounts.name !== 'undefined') {
       return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
             <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon} itemId={item.itemId}/>
+              <MountCard name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
             </Grid>
           )
         )

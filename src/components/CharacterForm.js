@@ -86,7 +86,7 @@ class CharacterForm extends React.Component {
     this.setState({isLoaderChar: true, isCharInfosDisplayed: false});
 
     // Character request
-    this.Request.getCharacter(this.state.name, this.state.server)
+    this.Request.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
       .then(res => {
         this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderChar:false})
       })
