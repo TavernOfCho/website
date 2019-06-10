@@ -21,9 +21,10 @@ const BorderLinearProgress = withStyles({
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    margin: theme.spacing(3)
   },
   margin: {
-    margin: theme.spacing(5),
+    margin: theme.spacing(1),
   },
 }));
 
