@@ -12,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
 import ProgressBar from "./ProgressBar";
+import MountCard from "./MountCard";
+import Grid from "@material-ui/core/Grid/Grid";
 
 
 const styles = theme => ({
@@ -19,6 +21,10 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
 },
+  rootCard: {
+    flexGrow: 1,
+    margin: theme.spacing(5),
+  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -114,6 +120,7 @@ class MountForm extends React.Component {
 
     this.Request.getMounts(this.state.name, this.state.server)
       .then(res => {
+        console.log('reso',res);
         this.setState({
           resMounts: res,
           isLoaderMount:false,
@@ -131,8 +138,21 @@ class MountForm extends React.Component {
   };
 
   getPercentage(collected, notCollected) {
-    return Math.round((collected / (collected + notCollected))*100);
+    return Math.round((collected / (collected + notCollected)) * 100);
   }
+
+  getMountsCards = () => {
+    // Condition can be refacto
+    if(typeof this.state.resMounts.name !== 'undefined') {
+      return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
+            <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
+              <MountCard name={item.name} icon={item.icon}/>
+            </Grid>
+          )
+        )
+      )
+    }
+  };
 
   componentDidMount() {
 
@@ -246,7 +266,16 @@ class MountForm extends React.Component {
         { this.state.isLoaderMount && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isMountsInfoDisplayed && <ProgressBar progression={this.state.mountsCollectedPercentage}/>}
+        {this.state.isMountsInfoDisplayed &&
+          <React.Fragment>
+            <ProgressBar progression={this.state.mountsCollectedPercentage}/>
+            <div className={this.props.classes.rootCard}>
+              <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+                {this.getMountsCards()}
+              </Grid>
+            </div>
+          </React.Fragment>
+        }
 
       </div>
 
