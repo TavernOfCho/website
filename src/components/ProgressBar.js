@@ -21,26 +21,17 @@ const BorderLinearProgress = withStyles({
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    margin: theme.spacing(3)
   },
   margin: {
     margin: theme.spacing(1),
   },
-  fab: {
-    margin: theme.spacing(2),
-  },
-  absolute: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(3),
-  },
 }));
 
-function ProgressBars(props) {
+function ProgressBar(props) {
   const classes = useStyles();
 
   const { progression } = props;
-
-  console.log('prog:',progression);
 
   return (
 
@@ -67,4 +58,4 @@ function ProgressBars(props) {
   );
 }
 
-export default ProgressBars;
+export default ProgressBar;

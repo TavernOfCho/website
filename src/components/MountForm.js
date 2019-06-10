@@ -11,21 +11,26 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
-import ProgressBars from "./ProgressBars";
+import ProgressBar from "./ProgressBar";
+import MountCard from "./MountCard";
+import Grid from "@material-ui/core/Grid/Grid";
 
 
 const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
+},
+  rootCard: {
+    flexGrow: 1,
+    margin: theme.spacing(5),
   },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    margin: theme.spacing(1),
     width: 200,
   },
   selectEmpty: {
@@ -33,10 +38,9 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
 });
-
-
 
 class MountForm extends React.Component {
 
@@ -47,14 +51,17 @@ class MountForm extends React.Component {
     this.state = {
       server: '',
       labelWidth: 0,
+      labelWidthLocale: 0,
       servers: [],
-      name: 'aikisugi',
+      name: '',
       resMounts: [],
       mountsCollected: 0,
       mountsNotCollected: 0,
       mountsCollectedPercentage: 0,
-      isLoaderDisplayed: false,
+      isLoaderMount: false,
+      isLoaderServer: false,
       isMountsInfoDisplayed: false,
+      locale: 'frFR',
     };
 
     // Bind this
@@ -71,6 +78,32 @@ class MountForm extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleChangeLocale = event => {
+
+    // Checking if it isn't the same locality
+    if(this.state.locale !== event.target.value) {
+
+      this.setState({isLoaderServer: true})
+
+      // API call for servers with locale param
+      this.setState(
+        { [event.target.name]: event.target.value },
+        () => {
+          this.Request.getServers(this.state.locale)
+            .then(res => {
+              this.setState({servers: res['hydra:member'], isLoaderServer: false})
+            })
+            .catch(err => {
+              this.setState({isLoaderServer: false});
+              alert(err);
+            })
+        }
+      );
+
+    }
+
+  };
+
   handleChangeName = name => event => {
     this.setState({ [name]: event.target.value });
   };
@@ -83,13 +116,14 @@ class MountForm extends React.Component {
 
     event.preventDefault();
 
-    this.setState({isLoaderDisplayed: true});
+    this.setState({isLoaderMount: true});
 
-    this.Request.getMounts(this.state.name)
+    this.Request.getMounts(this.state.name, this.state.server)
       .then(res => {
+        console.log('reso',res);
         this.setState({
           resMounts: res,
-          isLoaderDisplayed:false,
+          isLoaderMount:false,
           mountsCollected: res.numCollected,
           mountsNotCollected: res.numNotCollected,
           mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
@@ -97,24 +131,41 @@ class MountForm extends React.Component {
         })
       })
       .catch(err => {
-        alert(err)
+        this.setState({isLoaderMount:false});
+        alert(err);
       })
 
   };
 
   getPercentage(collected, notCollected) {
-    return Math.round((collected / (collected + notCollected))*100);
+    return Math.round((collected / (collected + notCollected)) * 100);
   }
+
+  getMountsCards = () => {
+    // Condition can be refacto
+    if(typeof this.state.resMounts.name !== 'undefined') {
+      return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
+            <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
+              <MountCard name={item.name} icon={item.icon} itemId={item.itemId}/>
+            </Grid>
+          )
+        )
+      )
+    }
+  };
 
   componentDidMount() {
 
+    // Setting labels for select inputs
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+      labelWidthLocale: ReactDOM.findDOMNode(this.InputLabelRefLocale).offsetWidth,
     });
 
-    this.Request.getServers()
+    // Call API for getting servers
+    this.Request.getServers(this.state.locale)
       .then(res => {
-        this.setState({servers: res})
+        this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
         alert(err)
@@ -145,9 +196,45 @@ class MountForm extends React.Component {
       </Select>
     );
 
+    const selectLocale = (
+      <Select
+        value={this.state.locale}
+        onChange={this.handleChangeLocale}
+        input={
+          <OutlinedInput
+            labelWidth={this.state.labelWidthLocale}
+            name="locale"
+            id="locale-select"
+          />
+        }
+      >
+        <MenuItem value='frFR'>FR</MenuItem>
+        <MenuItem value='ruRU'>RU</MenuItem>
+        <MenuItem value='enGB'>EN</MenuItem>
+        <MenuItem value='deDE'>DE</MenuItem>
+        <MenuItem value='itIT'>IT</MenuItem>
+        <MenuItem value='esES'>ES</MenuItem>
+      </Select>
+    );
+
     return (
       <div>
         <form autoComplete="off" onSubmit={this.handleRequest}>
+
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel
+              ref={ref => {
+                this.InputLabelRefLocale = ref;
+              }}
+              htmlFor="locale-select"
+            >
+              Localité
+            </InputLabel>
+            {selectLocale}
+          </FormControl>
+
+          { this.state.isLoaderServer && <Loader/> }
+          { !this.state.isLoaderServer &&
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
@@ -158,29 +245,37 @@ class MountForm extends React.Component {
               Serveur
             </InputLabel>
             {selectServers}
+          </FormControl>
+          }
 
-            <TextField
+          <TextField
               id="standard-name"
               label="Nom du personnage"
-              defaultValue="Aikusigi"
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
               variant="outlined"
             />
+
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             Afficher
           </Button>
-          </FormControl>
         </form>
 
         {/* Displaying loader during the request time */}
-        { this.state.isLoaderDisplayed && <Loader/> }
+        { this.state.isLoaderMount && <Loader/> }
 
         {/* Displaying datas */}
-        {/*{this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}*/}
-
-        {this.state.isMountsInfoDisplayed && <ProgressBars progression={this.state.mountsCollectedPercentage}/>}
+        {this.state.isMountsInfoDisplayed &&
+          <React.Fragment>
+            <ProgressBar progression={this.state.mountsCollectedPercentage}/>
+            <div className={this.props.classes.rootCard}>
+              <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+                {this.getMountsCards()}
+              </Grid>
+            </div>
+          </React.Fragment>
+        }
 
       </div>
 
