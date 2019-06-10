@@ -43,7 +43,7 @@ export default function MountCard(props) {
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} style={{alignSelf: 'center'}}/>
+        <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
         <Typography className={classes.title} color="textPrimary" gutterBottom>
           {props.name}
         </Typography>
