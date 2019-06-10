@@ -270,7 +270,7 @@ class MountForm extends React.Component {
           <React.Fragment>
             <ProgressBar progression={this.state.mountsCollectedPercentage}/>
             <div className={this.props.classes.rootCard}>
-              <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+              <Grid container direction="row" justify="center" alignItems="center" textAlign='center' spacing={3}>
                 {this.getMountsCards()}
               </Grid>
             </div>
