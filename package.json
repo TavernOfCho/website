@@ -15,7 +15,6 @@
     "firebase": "^5.9.4",
     "history": "^4.9.0",
     "jwt-decode": "^2.2.0",
-    "querystring": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.3",
     "react-history": "^0.18.2",
