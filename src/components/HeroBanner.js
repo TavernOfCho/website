@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Grid from "@material-ui/core/Grid/Grid";
 import Button from "@material-ui/core/Button/Button";
 import { Link } from 'react-router-dom';
+import {FormattedMessage} from 'react-intl';
 
 
 const styles = theme => ({
@@ -45,7 +46,7 @@ class HeroBanner extends React.Component {
                 <Grid item>
                   { hasButton &&
                   <Button component={Link} to="/login" variant="contained" color="primary">
-                    Connexion
+                    <FormattedMessage id='drawer.connect' defaultMessage="Log In" />
                   </Button>
                   }
                 </Grid>

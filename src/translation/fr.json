@@ -1,4 +1,5 @@
 {
+    "connect": "Se connecter",
     "character": "Personnage",
     "character.helper": "Veuillez sélectionner votre serveur et le nom de votre personnage.",
     "chotavern": "Taverne de Cho",
@@ -12,7 +13,11 @@
     "drawer.help": "Aide",
     "drawer.homescreen": "Accueil",
     "form.characterName": "Nom du personnage",
+    "form.connect": "Se connecter",
     "form.go": "Afficher",
+    "form.log": "Pseudo",
+    "form.password": "Mot de passe",
+    "form.register": "Inscription",
     "form.server": "Serveur",
     "hello": "Bonjour",
     "homescreen": "Accueil",

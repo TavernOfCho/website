@@ -172,9 +172,9 @@ class Drawer extends React.Component {
           {!auth.loggedIn &&
             <React.Fragment>
               <Link to="/login" style={{ textDecoration: 'none'}}>
-                <ListItem button key={<FormattedMessage id='drawer.connect' defaultMessage="Connection" />}>
+                <ListItem button key={<FormattedMessage id='drawer.connect' defaultMessage="Log In" />}>
                   <ListItemIcon><PersonIcon /></ListItemIcon>
-                  <ListItemText primary={<FormattedMessage id='drawer.connect' defaultMessage="Connection" />} />
+                  <ListItemText primary={<FormattedMessage id='drawer.connect' defaultMessage="Log In" />} />
                 </ListItem>
               </Link>
               <Link to="/register" style={{ textDecoration: 'none'}}>
