@@ -32,7 +32,9 @@ import { alertActions } from "../store/actions/alert";
 import { history } from "../helpers/history";
 import { userActions } from "../store/actions/user";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCrown } from '@fortawesome/free-solid-svg-icons'
 import { faDragon } from '@fortawesome/free-solid-svg-icons'
+import { faPaw } from '@fortawesome/free-solid-svg-icons'
 
 import { updateIntl } from 'react-intl-redux'
 import { store } from "../store/configureStore";
@@ -200,12 +202,24 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='mount' defaultMessage="Mount"/>}/>
             </ListItem>
           </Link>
-          {['Achievements', 'Dashboard', 'BattlePet', 'Help'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-              <ListItemText primary={text}/>
+          <Link to="/achievement" style={{textDecoration: 'none'}}>
+            <ListItem button key={<FormattedMessage id='achievement' defaultMessage="Achievement"/>}>
+              <ListItemIcon><FontAwesomeIcon icon={faCrown} style={{marginRight: '3', marginLeft: '3'}}/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='achievement' defaultMessage="Achievement"/>}/>
             </ListItem>
-          ))}
+          </Link>
+          <Link to="battlepet" style={{textDecoration: 'none'}}>
+            <ListItem button key={<FormattedMessage id='battlepet' defaultMessage="BattlePet"/>}>
+              <ListItemIcon><FontAwesomeIcon icon={faPaw} style={{marginRight: '3', marginLeft: '4'}}/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='battlepet' defaultMessage="BattlePet"/>}/>
+            </ListItem>
+          </Link>
+          <Link to="" style={{textDecoration: 'none'}}>
+            <ListItem button key={<FormattedMessage id='help' defaultMessage="Help"/>}>
+              <ListItemIcon><InboxIcon/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='help' defaultMessage="Help"/>}/>
+            </ListItem>
+          </Link>
         </List>
         }
       </div>
