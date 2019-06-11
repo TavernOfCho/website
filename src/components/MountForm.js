@@ -14,6 +14,7 @@ import RequestService from "../services/RequestService";
 import ProgressBar from "./ProgressBar";
 import MountCard from "./MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
+import {FormattedMessage} from 'react-intl';
 
 
 const styles = theme => ({
@@ -241,7 +242,7 @@ class MountForm extends React.Component {
               }}
               htmlFor="outlined-server-simple"
             >
-              Serveur
+              <FormattedMessage id='form.server' defaultMessage='Server' />
             </InputLabel>
             {selectServers}
           </FormControl>
@@ -249,7 +250,7 @@ class MountForm extends React.Component {
 
           <TextField
               id="standard-name"
-              label="Nom du personnage"
+              label={<FormattedMessage id='form.characterName' defaultMessage='Character Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
@@ -257,7 +258,7 @@ class MountForm extends React.Component {
             />
 
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-            Afficher
+            <FormattedMessage id='form.go' defaultMessage='Go !' />
           </Button>
         </form>
 
