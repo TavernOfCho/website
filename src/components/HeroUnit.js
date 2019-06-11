@@ -40,7 +40,6 @@ const styles = theme => ({
 
 function HeroUnit(props) {
   const { classes, hasButton } = props;
-  console.log(props);
 
   return (
     <React.Fragment>

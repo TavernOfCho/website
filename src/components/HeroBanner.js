@@ -2,19 +2,25 @@ import React from "react";
 import Typography from "@material-ui/core/Typography/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-
+import Image from './img/pandaria.png';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   heroUnit: {
-    backgroundImage: `url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9dbc5a81-3642-4819-b76a-ac18f697c622/d8h6t64-4a30f625-6232-43ae-be46-3c39ac309547.png/v1/fill/w_1360,h_588,q_70,strp/world_of_warcraft_banner__of_games__by_theexhaustedgamer_d8h6t64-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NjkyIiwicGF0aCI6IlwvZlwvOWRiYzVhODEtMzY0Mi00ODE5LWI3NmEtYWMxOGY2OTdjNjIyXC9kOGg2dDY0LTRhMzBmNjI1LTYyMzItNDNhZS1iZTQ2LTNjMzlhYzMwOTU0Ny5wbmciLCJ3aWR0aCI6Ijw9MTYwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.vDEaSmF4ZLJd1-cBv9WYrB1u2ooHa1R25C1L6UDA_dg")`,
+    backgroundImage: `url(${Image})`,
   },
   heroCont: {
     maxWidth: 2000,
     margin: '0 auto',
-    backgroundColor: `rgba(255, 255, 255, 0.4)`,
   },
   heroContent: {
     padding: `${theme.spacing(8)}px 8px ${theme.spacing(6)}px`,
+  },
+  paper: {
+    maxWidth: 600,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+    background: `linear-gradient(0deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.6) 60%, rgba(255,255,255,0.5) 100%)`
   },
 })
 
@@ -28,12 +34,14 @@ class HeroBanner extends React.Component {
       <div className={classes.heroUnit}>
         <div className={classes.heroCont}>
           <div className={classes.heroContent}>
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom className={classes.opa}>
-              {title}
-            </Typography>
-            <Typography variant="h6" align="center" color="textPrimary" paragraph>
-              {description}
-            </Typography>
+            <Paper className={classes.paper}>
+              <Typography variant="h2" align="center" gutterBottom>
+                {title}
+              </Typography>
+              <Typography variant="h6" align="center" paragraph>
+                {description}
+              </Typography>
+            </Paper>
           </div>
         </div>
       </div>
