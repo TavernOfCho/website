@@ -16,9 +16,6 @@ const styles = theme => ({
   heroContent: {
     padding: `${theme.spacing(8)}px 8px ${theme.spacing(6)}px`,
   },
-  heroButtons: {
-    marginTop: theme.spacing(1),
-  },
 })
 
 class HeroBanner extends React.Component {

@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Button from "@material-ui/core/Button/Button";
+import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
 
 const styles = theme => ({
@@ -30,6 +31,11 @@ const styles = theme => ({
     width: 60,
     height: 60,
   },
+  paper: {
+    maxWidth: 450,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+  },
 });
 
 function HeroUnit(props) {
@@ -45,17 +51,22 @@ function HeroUnit(props) {
           <Grid container justify="center" alignItems="center">
             <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.bigAvatar} />
             <Typography variant="h6" align="center" color="textSecondary" component="p">
-              <FormattedMessage id='herounit.description' description='' defaultMessage='Hello' />
+              <FormattedMessage id='herounit.description' defaultMessage='Welcome to the tavern of Cho !' />
             </Typography>
           </Grid>
           { hasButton &&
-            <div className={classes.heroButtons}>
               <Grid
                 container
                 direction="row"
                 justify="center"
-                alignItems="center"
+                alignItems="baseline"
               >
+                <Paper className={classes.paper}>
+                  <Typography variant="h6" align="center" color="textSecondary" component="p">
+                    <FormattedMessage id='herounit.pleaseregister' defaultMessage='Please, register to the application.' />
+                  </Typography>
+                </Paper>
+
                 <Grid item xs={6}>
                   <Button component={Link} to="/register" variant="contained" color="primary">
                     <FormattedMessage id='drawer.register' defaultMessage="Register" />
@@ -67,7 +78,6 @@ function HeroUnit(props) {
                   </Button>
                 </Grid>
               </Grid>
-            </div>
           }
         </div>
         {/* End hero unit */}
