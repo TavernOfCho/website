@@ -4,6 +4,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import {FormattedMessage} from 'react-intl';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
 
 
 // Functional component, the most basic react component.
@@ -24,6 +26,11 @@ const styles = theme => ({
     margin: '0 auto',
     padding: `${theme.spacing(8)}px 0 ${theme.spacing(6)}px`,
   },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
+  },
 });
 
 function HeroUnit(props) {
@@ -40,9 +47,12 @@ function HeroUnit(props) {
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
             {title}
           </Typography>
-          <Typography variant="h6" align="center" color="textSecondary" component="p">
-            <FormattedMessage id='herounit.description' description='' defaultMessage='Lorem Ipsum' />
-          </Typography>
+          <Grid container justify="center" alignItems="center">
+            <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.bigAvatar} />
+            <Typography variant="h6" align="center" color="textSecondary" component="p">
+              <FormattedMessage id='herounit.description' description='' defaultMessage='Hello' />
+            </Typography>
+          </Grid>
         </div>
         {/* End hero unit */}
       </main>
