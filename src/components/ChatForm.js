@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
 import { requestChatService } from "../services/ChatRequestService";
+import querystring from 'querystring';
 
 
 const styles = theme => ({
@@ -55,7 +56,18 @@ class ChatForm extends React.Component {
 
     this.setState({isLoaderMount: true});
 
-    requestChatService.insertMessage('alloooooo');
+    const data = querystring.stringify({
+      'topic': 'http://api/messages/1',
+      'data': JSON.stringify({"@context":"\/contexts\/Message","@id":"\/messages\/1","@type":"Message","id":1,"text":"test2codcssss"})
+    });
+
+    requestChatService.insertMessage(data)
+      .then(res => {
+        console.log("mercurocrom:",res);
+      })
+      .catch(err => {
+        alert(err);
+      })
 
   };
 
@@ -71,7 +83,6 @@ class ChatForm extends React.Component {
 
   render() {
     const { classes } = this.props;
-
 
     return (
       <div>
