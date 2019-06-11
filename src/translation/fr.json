@@ -12,12 +12,15 @@
     "drawer.register": "Inscription",
     "drawer.help": "Aide",
     "drawer.homescreen": "Accueil",
-    "form.characterName": "Nom du personnage",
     "form.connect": "Se connecter",
     "form.go": "Afficher",
     "form.local": "Localité",
     "form.log": "Pseudo",
     "form.mail": "Courriel",
+    "form.name.achievement": "Nom du Haut-Fait",
+    "form.name.battlepet": "Nom de la mascotte",
+    "form.name.character": "Nom du personnage",
+    "form.name.mount": "Nom de la monture",
     "form.password": "Mot de passe",
     "form.password.confirm": "Confirmer le mot de passe",
     "form.register": "Inscription",
@@ -26,6 +29,9 @@
     "homescreen": "Taverne",
     "homescreen.welcome": "Venez planifier vos prochains exploits et trouver d'autres aventuriers",
     "herounit.description": "Bienvenue dans la taverne de Cho !",
-    "welcome": "Bienvenue ",
-    "mount": "Monture "
+    "title.achievement": "Voulez-vous que je vous compte une légende?",
+    "title.battlepet": "Je connais toutes les sortes de mascottes, essayez pour voir !",
+    "title.character": "Je connais tout le monde, voulez-vous essayez ?",
+    "title.mount": "Si vous pouvez monter dessus, je sais ce que c'est",
+    "welcome": "Bienvenue "
 }

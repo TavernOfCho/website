@@ -7,9 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 
-
-// Functional component, the most basic react component.
-
 const styles = theme => ({
   layout: {
     width: 'auto',

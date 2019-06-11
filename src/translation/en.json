@@ -12,12 +12,15 @@
     "drawer.register": "Register",
     "drawer.help": "Help",
     "drawer.homescreen": "Homescreen",
-    "form.characterName": "Character Name",
     "form.connect": "Login",
     "form.go": "Go !",
     "form.local": "Local",
     "form.log": "Login",
     "form.mail": "Mail",
+    "form.name.achievement": "Achievement Name",
+    "form.name.battlepet": "Battlepet Name",
+    "form.name.character": "Character Name",
+    "form.name.mount": "Mount Name",
     "form.password": "Password",
     "form.password.confirm": "Confirm your password",
     "form.register": "Register",
@@ -26,6 +29,9 @@
     "homescreen": "Tavern",
     "homescreen.welcome": "Let's choose the next achievement you want to do and find new friends",
     "herounit.description": "Welcome to the tavern of Cho !",
-    "welcome": "Welcome ",
-    "mount": "Mount"
+    "title.achievement": "Do you want me to sing your legend?",
+    "title.battlepet": "I know any species of battlepet, challenge me!",
+    "title.character": "I know everyone, do you want to try?",
+    "title.mount": "If you can ride it, I know the name",
+    "welcome": "Welcome "
 }

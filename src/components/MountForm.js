@@ -250,7 +250,7 @@ class MountForm extends React.Component {
 
           <TextField
               id="standard-name"
-              label={<FormattedMessage id='form.characterName' defaultMessage='Character Name' />}
+              label={<FormattedMessage id='form.name.mount' defaultMessage='Mount Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
