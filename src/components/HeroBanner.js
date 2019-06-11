@@ -2,10 +2,6 @@ import React from "react";
 import Typography from "@material-ui/core/Typography/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import Grid from "@material-ui/core/Grid/Grid";
-import Button from "@material-ui/core/Button/Button";
-import { Link } from 'react-router-dom';
-import {FormattedMessage} from 'react-intl';
 
 
 const styles = theme => ({
@@ -29,7 +25,7 @@ class HeroBanner extends React.Component {
 
   render() {
 
-    const { classes, title, description, hasButton } = this.props;
+    const { classes, title, description } = this.props;
 
     return (
       <div className={classes.heroUnit}>
@@ -41,17 +37,6 @@ class HeroBanner extends React.Component {
             <Typography variant="h6" align="center" color="textPrimary" paragraph>
               {description}
             </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container justify="center">
-                <Grid item>
-                  { hasButton &&
-                  <Button component={Link} to="/login" variant="contained" color="primary">
-                    <FormattedMessage id='drawer.connect' defaultMessage="Login" />
-                  </Button>
-                  }
-                </Grid>
-              </Grid>
-            </div>
           </div>
         </div>
       </div>

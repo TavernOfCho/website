@@ -25,9 +25,9 @@ class HomeScreen extends React.Component {
     return (
       <div>
         <HeroBanner title={<FormattedMessage id='chotavern' defaultMessage="Cho's Tavern" />}
-        description={<FormattedMessage id='homescreen.welcome' defaultMessage="Let's choose the next achievement you want to do and find new friends" />}
+        description={<FormattedMessage id='homescreen.welcome' defaultMessage="Let's choose the next achievement you want to do and find new friends" />}/>
+        <HeroUnit title={<FormattedMessage id='homescreen' defaultMessage='Home' />}
         hasButton={this.state.hasButton}/>
-        <HeroUnit title={<FormattedMessage id='homescreen' defaultMessage='Home' />}/>
       </div>
     );
   }
