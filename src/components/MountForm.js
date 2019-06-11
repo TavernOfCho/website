@@ -228,7 +228,7 @@ class MountForm extends React.Component {
               }}
               htmlFor="locale-select"
             >
-              Localité
+              <FormattedMessage id='form.local' defaultMessage='Local' />
             </InputLabel>
             {selectLocale}
           </FormControl>

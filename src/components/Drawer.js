@@ -164,9 +164,9 @@ class Drawer extends React.Component {
         <Divider />
         <List>
           <Link to="/" style={{ textDecoration: 'none'}}>
-            <ListItem button key={<FormattedMessage id='drawer.homescreen' defaultMessage="Homescreen" />} >
+            <ListItem button key={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} >
               <ListItemIcon><HomeIcon /></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='drawer.homescreen' defaultMessage="Homescreen" />} />
+              <ListItemText primary={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} />
             </ListItem>
           </Link>
           {!auth.loggedIn &&
@@ -213,12 +213,10 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}/>
             </ListItem>
           </Link>
-          <Link to="" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}>
               <ListItemIcon><InboxIcon/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}/>
             </ListItem>
-          </Link>
         </List>
         }
       </div>
@@ -251,14 +249,14 @@ class Drawer extends React.Component {
               <div>
                 <img
                   className={classes.flag}
-                  src={require("./img/Uk.png")}
-                  alt="en"
+                  src={require("./img/flag-en.png")}
+                  alt="flag-en"
                   onClick={() => this.changeLanguage("en")}
                 />
                 <img
                   className={classes.flag}
-                  src={require("./img/France.png")}
-                  alt="fr"
+                  src={require("./img/flag-fr.png")}
+                  alt="flag-fr"
                   onClick={() => this.changeLanguage("fr")}
                 />
               </div>
