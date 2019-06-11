@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
 import CharacterInfos from "./CharacterInfos";
+import {FormattedMessage} from 'react-intl';
 
 
 const styles = theme => ({
@@ -196,7 +197,7 @@ class CharacterForm extends React.Component {
               }}
               htmlFor="locale-select"
             >
-              Localité
+              <FormattedMessage id='form.local' defaultMessage='Local' />
             </InputLabel>
             {selectLocale}
           </FormControl>
@@ -210,7 +211,7 @@ class CharacterForm extends React.Component {
               }}
               htmlFor="outlined-server-simple"
             >
-              Serveur
+              <FormattedMessage id='form.server' defaultMessage='Server' />
             </InputLabel>
             {selectServers}
           </FormControl>
@@ -218,14 +219,14 @@ class CharacterForm extends React.Component {
 
             <TextField
               id="standard-name"
-              label="Nom du personnage"
+              label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
               variant="outlined"
             />
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-            Afficher
+            <FormattedMessage id='form.go' defaultMessage='Go !' />
           </Button>
         </form>
 

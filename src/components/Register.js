@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { userActions } from "../store/actions/user";
+import {FormattedMessage} from 'react-intl';
 
 const styles = theme => ({
   main: {
@@ -91,23 +92,31 @@ class Register extends React.Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Inscription
+            <FormattedMessage id='form.register' defaultMessage="Register" />
           </Typography>
           <FormControl margin="normal" fullWidth>
-            <InputLabel htmlFor="email">E-mail</InputLabel>
+            <InputLabel htmlFor="email">
+              <FormattedMessage id='form.mail' defaultMessage="Mail" />
+            </InputLabel>
             <Input id="email" name="email" autoComplete="email" onChange={this.handleChange} autoFocus/>
           </FormControl>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" fullWidth required>
-              <InputLabel htmlFor="username">Pseudo</InputLabel>
+              <InputLabel htmlFor="username">
+                <FormattedMessage id='form.log' defaultMessage="Login" />
+              </InputLabel>
               <Input id="username" name="username" autoComplete="username" onChange={this.handleChange}/>
             </FormControl>
             <FormControl margin="normal" fullWidth required>
-              <InputLabel htmlFor="password">Mot de passe</InputLabel>
+              <InputLabel htmlFor="password">
+                <FormattedMessage id='form.password' defaultMessage="Password" />
+              </InputLabel>
               <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
             <FormControl margin="normal" fullWidth required>
-              <InputLabel htmlFor="passwordConfirmation">Confirmation mot de passe</InputLabel>
+              <InputLabel htmlFor="passwordConfirmation">
+                <FormattedMessage id='form.password.confirm' defaultMessage="Confirm your password" />
+              </InputLabel>
               <Input name="passwordConfirmation" type="password" id="passwordConfirmation" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
             <Button
@@ -117,7 +126,7 @@ class Register extends React.Component {
               color="primary"
               className={classes.submit}
             >
-              S'enregistrer
+              <FormattedMessage id='form.register' defaultMessage="Register" />
             </Button>
           </form>
         </Paper>

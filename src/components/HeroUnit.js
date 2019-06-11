@@ -4,9 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import {FormattedMessage} from 'react-intl';
-
-
-// Functional component, the most basic react component.
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+import Button from "@material-ui/core/Button/Button";
+import Paper from '@material-ui/core/Paper';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   layout: {
@@ -24,12 +26,20 @@ const styles = theme => ({
     margin: '0 auto',
     padding: `${theme.spacing(8)}px 0 ${theme.spacing(6)}px`,
   },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
+  },
+  paper: {
+    maxWidth: 450,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+  },
 });
 
 function HeroUnit(props) {
-  const { classes,
-    title="Props Title"
-  } = props;
+  const { classes, hasButton } = props;
 
   return (
     <React.Fragment>
@@ -37,12 +47,37 @@ function HeroUnit(props) {
       <main className={classes.layout}>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-            {title}
-          </Typography>
-          <Typography variant="h6" align="center" color="textSecondary" component="p">
-            <FormattedMessage id='herounit.description' description='' defaultMessage='Lorem Ipsum' />
-          </Typography>
+          <Grid container justify="center" alignItems="center">
+            <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.bigAvatar} />
+            <Typography variant="h6" align="center" color="textSecondary" component="p">
+              <FormattedMessage id='herounit.description' defaultMessage='Welcome to the tavern of Cho !' />
+            </Typography>
+          </Grid>
+          { hasButton &&
+              <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="baseline"
+              >
+                <Paper className={classes.paper}>
+                  <Typography variant="h6" align="center" color="textSecondary" component="p">
+                    <FormattedMessage id='herounit.pleaseregister' defaultMessage='Please, register to the application.' />
+                  </Typography>
+                </Paper>
+
+                <Grid item xs={6}>
+                  <Button component={Link} to="/register" variant="contained" color="primary">
+                    <FormattedMessage id='drawer.register' defaultMessage="Register" />
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button component={Link} to="/login" variant="contained" color="primary">
+                    <FormattedMessage id='drawer.connect' defaultMessage="Login" />
+                  </Button>
+                </Grid>
+              </Grid>
+          }
         </div>
         {/* End hero unit */}
       </main>

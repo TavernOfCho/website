@@ -43,7 +43,7 @@ const styles = theme => ({
   },
 });
 
-class MountForm extends React.Component {
+class BattlepetForm extends React.Component {
 
 
   constructor(props){
@@ -250,7 +250,7 @@ class MountForm extends React.Component {
 
           <TextField
               id="standard-name"
-              label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
+              label={<FormattedMessage id='form.name.character' defaultMessage='Battlepet Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
@@ -283,8 +283,8 @@ class MountForm extends React.Component {
   }
 }
 
-MountForm.propTypes = {
+BattlepetForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MountForm);
+export default withStyles(styles)(BattlepetForm);
