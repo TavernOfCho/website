@@ -250,7 +250,7 @@ class BattlepetForm extends React.Component {
 
           <TextField
               id="standard-name"
-              label={<FormattedMessage id='form.name.battlepet' defaultMessage='Battlepet Name' />}
+              label={<FormattedMessage id='form.name.character' defaultMessage='Battlepet Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
