@@ -1,5 +1,6 @@
 {
     "connect": "Login",
+    "chat": "Chat",
     "character": "Character",
     "character.helper": "Please select your server and the name of your character.",
     "chotavern": "Tavern of Cho",
@@ -49,6 +50,8 @@
     "herounit.mount": "Discover a new mount",
     "herounit.pleaseregister": "Hello, I am the Loremaster Cho. Could you introduce yourself ?",
     "issue": "Report a bug",
+    "mount": "Mount",
+    "register": "Register",
     "tavernproject": "TavernOfCho project",
     "title.achievement": "Do you want me to tell you a legend?",
     "title.battlepet": "I know a lot of battlepet, challenge me if you wish!",

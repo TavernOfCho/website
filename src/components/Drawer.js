@@ -201,6 +201,12 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}/>
             </ListItem>
           </Link>
+          <Link to="/chat" style={{textDecoration: 'none'}}>
+            <ListItem button key={<FormattedMessage id='chat' defaultMessage="Chat"/>}>
+              <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='chat' defaultMessage="Chat"/>}/>
+            </ListItem>
+          </Link>
           <Link to="battlepet" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}>
               <ListItemIcon><FontAwesomeIcon icon={faPaw} style={{marginRight: '3', marginLeft: '4'}}/></ListItemIcon>
