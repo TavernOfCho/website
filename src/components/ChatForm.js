@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
+import { requestChatService } from "../services/ChatRequestService";
 
 
 const styles = theme => ({
@@ -22,7 +23,7 @@ const styles = theme => ({
   },
   textField: {
     margin: theme.spacing(1),
-    width: 200,
+    width: 500,
   },
   button: {
     margin: theme.spacing(1),
@@ -54,6 +55,12 @@ class ChatForm extends React.Component {
 
     this.setState({isLoaderMount: true});
 
+    requestChatService.insertMessage('alloooooo');
+
+  };
+
+  handleChangeName = name => event => {
+    this.setState({ [name]: event.target.value });
   };
 
 
@@ -72,7 +79,7 @@ class ChatForm extends React.Component {
 
           <TextField
               id="standard-name"
-              label="Nom du personnage"
+              label="Message"
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
@@ -80,7 +87,7 @@ class ChatForm extends React.Component {
             />
 
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-            Afficher
+            Send
           </Button>
         </form>
 
