@@ -4,6 +4,7 @@ import LoginScreen from "../screens/LoginScreen";
 import AchievementScreen from '../screens/AchievementScreen';
 import BattlepetScreen from '../screens/BattlepetScreen';
 import CharacterScreen from "../screens/CharacterScreen";
+import HelpScreen from '../screens/HelpScreen';
 import MountScreen from '../screens/MountScreen';
 import React from "react";
 import RegisterScreen from "../screens/RegisterScreen";
@@ -22,6 +23,7 @@ class Routing extends React.Component {
         <PrivateRoute exact path="/achievement" component={AchievementScreen}/>
         <PrivateRoute exact path="/battlepet" component={BattlepetScreen}/>
         <PrivateRoute exact path="/character" component={CharacterScreen}/>
+        <PrivateRoute exact path="/help" component={HelpScreen}/>
         <PrivateRoute exact path="/mount" component={MountScreen}/>
       </Switch>
     )

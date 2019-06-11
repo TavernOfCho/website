@@ -41,9 +41,6 @@ function HeroUnit(props) {
       <main className={classes.layout}>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-            {title}
-          </Typography>
           <Grid container justify="center" alignItems="center">
             <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.bigAvatar} />
             <Typography variant="h6" align="center" color="textSecondary" component="p">

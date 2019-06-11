@@ -213,10 +213,12 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}/>
             </ListItem>
           </Link>
+          <Link to="/help" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}>
               <ListItemIcon><InboxIcon/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}/>
             </ListItem>
+          </Link>
         </List>
         }
       </div>

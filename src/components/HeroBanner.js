@@ -46,7 +46,7 @@ class HeroBanner extends React.Component {
                 <Grid item>
                   { hasButton &&
                   <Button component={Link} to="/login" variant="contained" color="primary">
-                    <FormattedMessage id='drawer.connect' defaultMessage="Log In" />
+                    <FormattedMessage id='drawer.connect' defaultMessage="Login" />
                   </Button>
                   }
                 </Grid>
