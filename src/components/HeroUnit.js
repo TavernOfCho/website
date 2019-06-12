@@ -115,7 +115,7 @@ function HeroUnit(props) {
                   </Grid>
                   <Grid item xs={12}>
                     <Button component={Link} to="/help" variant="contained" color="primary">
-                      <FormattedMessage id='herounit.help' defaultMessage="HEEEEEEEEEEEEEEEELP" />
+                      <FormattedMessage id='herounit.help' defaultMessage="I'm lost! :(" />
                     </Button>
                   </Grid>
                 </Grid>
