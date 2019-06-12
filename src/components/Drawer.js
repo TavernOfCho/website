@@ -69,6 +69,10 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
   },
+  link: {
+    color: 'rgba(0, 0, 0, 0.87)',
+    textDecoration: 'none',
+  }
 });
 
 class Drawer extends React.Component {
@@ -201,7 +205,7 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}/>
             </ListItem>
           </Link>
-          <Link to="/chat" style={{textDecoration: 'none'}}>
+          <Link to="/chat" className={classes.link}>
             <ListItem button key={<FormattedMessage id='chat' defaultMessage="Chat"/>}>
               <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='chat' defaultMessage="Chat"/>}/>
