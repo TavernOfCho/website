@@ -1,7 +1,7 @@
 import React from "react";
 import HeroBanner from "../components/HeroBanner";
 import { FormattedMessage } from 'react-intl';
-import BattlepetForm from "../components/BattlepetForm";
+import BattlepetForm from "../components/form/BattlepetForm";
 
 export default class MountScreen extends React.Component {
   render() {

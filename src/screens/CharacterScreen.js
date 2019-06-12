@@ -1,6 +1,6 @@
 import React from "react";
 import HeroBanner from "../components/HeroBanner";
-import CharacterForm from "../components/CharacterForm";
+import CharacterForm from "../components/form/CharacterForm";
 import {FormattedMessage} from 'react-intl';
 
 export default class CharacterScreen extends React.Component {

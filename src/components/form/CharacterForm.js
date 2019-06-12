@@ -9,22 +9,16 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Loader from "./Loader";
-import RequestService from "../services/RequestService";
-import ProgressBar from "./ProgressBar";
-import MountCard from "./MountCard";
-import Grid from "@material-ui/core/Grid/Grid";
+import Loader from "../Loader";
+import RequestService from "../../services/RequestService";
+import CharacterInfos from "../CharacterInfos";
 import {FormattedMessage} from 'react-intl';
-
+import Helper from "../Helper";
 
 const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-},
-  rootCard: {
-    flexGrow: 1,
-    margin: theme.spacing(5),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -43,8 +37,9 @@ const styles = theme => ({
   },
 });
 
-class BattlepetForm extends React.Component {
 
+
+class CharacterForm extends React.Component {
 
   constructor(props){
     super(props);
@@ -55,18 +50,15 @@ class BattlepetForm extends React.Component {
       labelWidthLocale: 0,
       servers: [],
       name: '',
-      resMounts: [],
-      mountsCollected: 0,
-      mountsNotCollected: 0,
-      mountsCollectedPercentage: 0,
-      isLoaderMount: false,
+      characterInfos: [],
       isLoaderServer: false,
-      isMountsInfoDisplayed: false,
+      isLoaderChar: false,
+      isCharInfosDisplayed: false,
       locale: 'frFR',
     };
 
     // Bind this
-    this.handleRequest = this.handleRequest.bind(this);
+    this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
     this.Request = new RequestService();
   }
 
@@ -77,6 +69,32 @@ class BattlepetForm extends React.Component {
 
   handleChangeServer = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleChangeName = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  serverNameTrim(name){
+    return name.toLowerCase().replace(/\s|-|'/g, '');
+  }
+
+  handleCharacterRequest = event => {
+
+    event.preventDefault();
+
+    // Conditioning display
+    this.setState({isLoaderChar: true, isCharInfosDisplayed: false});
+
+    // Character request
+    this.Request.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+      .then(res => {
+        this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderChar:false})
+      })
+      .catch(err => {
+        this.setState({isLoaderChar:false})
+        alert(err)
+      })
   };
 
   handleChangeLocale = event => {
@@ -105,55 +123,6 @@ class BattlepetForm extends React.Component {
 
   };
 
-  handleChangeName = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-
-  serverNameTrim(name){
-    return name.toLowerCase().replace(/\s|-|'/g, '');
-  }
-
-  handleRequest = event => {
-
-    event.preventDefault();
-
-    this.setState({isLoaderMount: true});
-
-    this.Request.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
-      .then(res => {
-        this.setState({
-          resMounts: res,
-          isLoaderMount:false,
-          mountsCollected: res.numCollected,
-          mountsNotCollected: res.numNotCollected,
-          mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
-          isMountsInfoDisplayed: true,
-        })
-      })
-      .catch(err => {
-        this.setState({isLoaderMount:false});
-        alert(err);
-      })
-
-  };
-
-  getPercentage(collected, notCollected) {
-    return Math.round((collected / (collected + notCollected)) * 100);
-  }
-
-  getMountsCards = () => {
-    // Condition can be refacto
-    if(typeof this.state.resMounts.name !== 'undefined') {
-      return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
-            <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
-            </Grid>
-          )
-        )
-      )
-    }
-  };
-
   componentDidMount() {
 
     // Setting labels for select inputs
@@ -162,7 +131,7 @@ class BattlepetForm extends React.Component {
       labelWidthLocale: ReactDOM.findDOMNode(this.InputLabelRefLocale).offsetWidth,
     });
 
-    // Call API for getting servers
+    // Request for servers
     this.Request.getServers(this.state.locale)
       .then(res => {
         this.setState({servers: res['hydra:member']})
@@ -219,7 +188,7 @@ class BattlepetForm extends React.Component {
 
     return (
       <div>
-        <form autoComplete="off" onSubmit={this.handleRequest}>
+        <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
 
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel
@@ -248,34 +217,25 @@ class BattlepetForm extends React.Component {
           </FormControl>
           }
 
-          <TextField
+            <TextField
               id="standard-name"
-              label={<FormattedMessage id='form.name.character' defaultMessage='Battlepet Name' />}
+              label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
               variant="outlined"
             />
-
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             <FormattedMessage id='form.go' defaultMessage='Go !' />
           </Button>
         </form>
+        <Helper />
 
         {/* Displaying loader during the request time */}
-        { this.state.isLoaderMount && <Loader/> }
+        { this.state.isLoaderChar && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isMountsInfoDisplayed &&
-          <React.Fragment>
-            <ProgressBar progression={this.state.mountsCollectedPercentage}/>
-            <div className={this.props.classes.rootCard}>
-              <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-                {this.getMountsCards()}
-              </Grid>
-            </div>
-          </React.Fragment>
-        }
+        {this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}
 
       </div>
 
@@ -283,8 +243,8 @@ class BattlepetForm extends React.Component {
   }
 }
 
-BattlepetForm.propTypes = {
+CharacterForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BattlepetForm);
+export default withStyles(styles)(CharacterForm);

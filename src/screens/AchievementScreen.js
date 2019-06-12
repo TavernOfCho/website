@@ -1,5 +1,6 @@
 import React from "react";
 import HeroBanner from "../components/HeroBanner";
+import AchievementForm from "../components/form/AchievementForm";
 import { FormattedMessage } from 'react-intl';
 
 export default class MountScreen extends React.Component {
@@ -8,6 +9,8 @@ export default class MountScreen extends React.Component {
       <div>
         <HeroBanner title={<FormattedMessage id='chotavern' defaultMessage="Cho's Tavern" />} 
         description={<FormattedMessage id="title.achievement" defaultMessage="Do you want me to sing your legend?" />}/>
+        <p><FormattedMessage id='character.helper' defaultMessage="Please fill your server and the name of your character." /></p>
+        <AchievementForm />
       </div>
     );
   }

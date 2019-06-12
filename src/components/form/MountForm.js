@@ -9,13 +9,13 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Loader from "./Loader";
-import RequestService from "../services/RequestService";
-import ProgressBar from "./ProgressBar";
-import MountCard from "./MountCard";
+import Loader from "../Loader";
+import RequestService from "../../services/RequestService";
+import ProgressBar from "../ProgressBar";
+import MountCard from "../MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
-
+import Helper from "../Helper";
 
 const styles = theme => ({
   root: {
@@ -261,6 +261,7 @@ class MountForm extends React.Component {
             <FormattedMessage id='form.go' defaultMessage='Go !' />
           </Button>
         </form>
+        <Helper />
 
         {/* Displaying loader during the request time */}
         { this.state.isLoaderMount && <Loader/> }
