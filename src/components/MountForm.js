@@ -15,6 +15,7 @@ import ProgressBar from "./ProgressBar";
 import MountCard from "./MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
+import Helper from "./Helper";
 
 
 const styles = theme => ({
@@ -261,6 +262,7 @@ class MountForm extends React.Component {
             <FormattedMessage id='form.go' defaultMessage='Go !' />
           </Button>
         </form>
+        <Helper></Helper>
 
         {/* Displaying loader during the request time */}
         { this.state.isLoaderMount && <Loader/> }

@@ -80,7 +80,7 @@ function Help(props) {
                             <FormattedMessage id='help.q.who' defaultMessage='Cho, who create this tavern?' />
                         </Typography>
                         <Typography variant="subtitle2" color="textSecondary" component="p">
-                            <FormattedMessage id='help.a.who' defaultMessage='DILMI Roman - MATHIEU François - EVRARD Axel' />
+                            <FormattedMessage id='help.a.who' defaultMessage='DILMI Roman MATHIEU François EVRARD Axel' />
                         </Typography>
                     </Paper>
                 </Grid>
