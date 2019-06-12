@@ -35,6 +35,8 @@ const styles = theme => ({
     maxWidth: 450,
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
 });
 
@@ -75,6 +77,47 @@ function HeroUnit(props) {
                   <Button component={Link} to="/login" variant="contained" color="primary">
                     <FormattedMessage id='drawer.connect' defaultMessage="Login" />
                   </Button>
+                </Grid>
+              </Grid>
+          }
+          { !hasButton &&
+              <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="baseline"
+              >
+                <Paper className={classes.paper}>
+                  <Typography variant="h6" align="center" color="textSecondary" component="p">
+                    <FormattedMessage id='herounit.explore' defaultMessage="Let's talk! What you want to do today?" />
+                  </Typography>
+                </Paper>
+                <Grid container spacing={3}>
+                  <Grid item xs={6}>
+                    <Button component={Link} to="/character" variant="contained" color="primary">
+                      <FormattedMessage id='herounit.character' defaultMessage="Trust new people" />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button component={Link} to="/mount" variant="contained" color="primary">
+                      <FormattedMessage id='herounit.mount' defaultMessage="Discover new mount" />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button component={Link} to="/achievement" variant="contained" color="primary">
+                      <FormattedMessage id='herounit.achievement' defaultMessage="Find new achievement" />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button component={Link} to="/battlepet" variant="contained" color="primary">
+                      <FormattedMessage id='herounit.battlepet' defaultMessage="Discover new battlepet" />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button component={Link} to="/help" variant="contained" color="primary">
+                      <FormattedMessage id='herounit.help' defaultMessage="HEEEEEEEEEEEEEEEELP" />
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
           }
