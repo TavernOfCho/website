@@ -1,13 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 import { FormattedMessage } from 'react-intl';
 
-export default function AlertDialog() {
+function ResponsiveDialog(props) {
+  const { fullScreen } = props;
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -24,16 +27,17 @@ export default function AlertDialog() {
         <FormattedMessage id='helper.help' defaultMessage='I need help!' />
       </Button>
       <Dialog
+        fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="alert-dialog-title">{<FormattedMessage id='helper.title' defaultMessage='Keep calm and listen' />}</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">{<FormattedMessage id='helper.title' defaultMessage='Keep calm and listen' />}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText>
             <FormattedMessage id='helper.description' defaultMessage='Green is your server, Blue is your name' />
           </DialogContentText>
+           <img src={require("./img/loginwow.png")} style={{width: '500px'}} alt={"login wow"} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>
@@ -44,3 +48,9 @@ export default function AlertDialog() {
     </div>
   );
 }
+
+ResponsiveDialog.propTypes = {
+  fullScreen: PropTypes.bool.isRequired,
+};
+
+export default withMobileDialog()(ResponsiveDialog);
