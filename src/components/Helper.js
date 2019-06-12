@@ -29,7 +29,7 @@ export default function AlertDialog() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{<FormattedMessage id='helper.title' defaultMessage='How to fill this form' />}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{<FormattedMessage id='helper.title' defaultMessage='Keep calm and listen' />}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <FormattedMessage id='helper.description' defaultMessage='Green is your server, Blue is your name' />

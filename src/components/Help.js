@@ -49,7 +49,7 @@ function Help(props) {
                         </Typography>
                         <Typography variant="subtitle2" color="textSecondary" component="p">
                             <FormattedMessage id='help.a.bug' defaultMessage='If you find any issue on our tavern, please give us a message on ' />
-                            <Button variant="contained" color="primary" target="_blank" href="https://github.com/TavernOfCho/website/issues">
+                            <Button variant="contained" color="primary" target="_blank" href="https://github.com/TavernOfCho/website/issues/new/choose">
                             <FormattedMessage id='issue' defaultMessage='Issue Website' />
                             </Button>
                         </Typography>
