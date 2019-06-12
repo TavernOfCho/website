@@ -16,7 +16,7 @@ function insertMessage(message) {
       'Content-Type': 'application/ld+json',
       'Authorization': 'Bearer ' + userService.getToken(),
     },
-    body: JSON.stringify({ message })
+    body: JSON.stringify( message )
   };
 
   return fetch(`${domain}/messages`, requestOptions);
