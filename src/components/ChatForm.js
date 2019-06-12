@@ -55,7 +55,8 @@ class ChatForm extends React.Component {
 
     this.setState({isLoaderMount: true});
 
-    let data = {'text': 'amaziiiing mercurocrom'};
+    let data = {'text': 'amaziiiing mercurocrom2'};
+    // let data = 'amaziiiing mercurocrom';
 
     requestChatService.insertMessage(data)
       .then(res => {
