@@ -251,13 +251,13 @@ class Drawer extends React.Component {
               <div>
                 <img
                   className={classes.flag}
-                  src={require("./img/flag-en.png")}
+                  src={require("./img/flag-en.webp")}
                   alt="flag-en"
                   onClick={() => this.changeLanguage("en")}
                 />
                 <img
                   className={classes.flag}
-                  src={require("./img/flag-fr.png")}
+                  src={require("./img/flag-fr.webp")}
                   alt="flag-fr"
                   onClick={() => this.changeLanguage("fr")}
                 />
