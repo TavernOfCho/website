@@ -163,7 +163,7 @@ class Drawer extends React.Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <Link to="/" onClick={this.handleDrawerToggle} style={{ textDecoration: 'none'}}>
+          <Link to="/" style={{ textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} >
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} />
@@ -171,13 +171,13 @@ class Drawer extends React.Component {
           </Link>
           {!auth.loggedIn &&
             <React.Fragment>
-              <Link to="/login" onClick={this.handleDrawerToggle} style={{ textDecoration: 'none'}}>
+              <Link to="/login" style={{ textDecoration: 'none'}}>
                 <ListItem button key={<FormattedMessage id='drawer.connect' defaultMessage="Log In" />}>
                   <ListItemIcon><PersonIcon /></ListItemIcon>
                   <ListItemText primary={<FormattedMessage id='drawer.connect' defaultMessage="Log In" />} />
                 </ListItem>
               </Link>
-              <Link to="/register" onClick={this.handleDrawerToggle} style={{ textDecoration: 'none'}}>
+              <Link to="/register" style={{ textDecoration: 'none'}}>
                 <ListItem button key={<FormattedMessage id='drawer.register' defaultMessage="Register" />}>
                   <ListItemIcon><GroupIcon /></ListItemIcon>
                   <ListItemText primary={<FormattedMessage id='drawer.register' defaultMessage="Register" />} />
@@ -189,31 +189,31 @@ class Drawer extends React.Component {
         <Divider />
         {auth.loggedIn &&
         <List>
-          <Link to="/character" onClick={this.handleDrawerToggle} style={{textDecoration: 'none'}}>
+          <Link to="/character" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='drawer.character' defaultMessage="Character"/>}>
               <ListItemIcon><GroupIcon/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.character' defaultMessage="Character"/>}/>
             </ListItem>
           </Link>
-          <Link to="/mount" onClick={this.handleDrawerToggle} style={{textDecoration: 'none'}}>
+          <Link to="/mount" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}>
               <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}/>
             </ListItem>
           </Link>
-          <Link to="battlepet" onClick={this.handleDrawerToggle} style={{textDecoration: 'none'}}>
+          <Link to="battlepet" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}>
               <ListItemIcon><FontAwesomeIcon icon={faPaw} style={{marginRight: '3', marginLeft: '4'}}/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}/>
             </ListItem>
           </Link>
-          <Link to="/achievement" onClick={this.handleDrawerToggle} style={{textDecoration: 'none'}}>
+          <Link to="/achievement" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}>
               <ListItemIcon><FontAwesomeIcon icon={faCrown} style={{marginRight: '3', marginLeft: '3'}}/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}/>
             </ListItem>
           </Link>
-          <Link to="/help" onClick={this.handleDrawerToggle} style={{textDecoration: 'none'}}>
+          <Link to="/help" style={{textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}>
               <ListItemIcon><InboxIcon/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}/>
