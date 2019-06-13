@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from "@material-ui/core/Typography/Typography";
-import {FormattedMessage} from 'react-intl';
+import Image from "./img/cho.jpg"
 
 const styles = theme => ({
   bigAvatar: {
@@ -22,7 +22,7 @@ class HeroBanner extends React.Component {
 
     return (
       <Grid container justify="center" alignItems="center">
-        <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.bigAvatar} />
+        <Avatar alt="Chroniqueur Cho" src={Image} className={classes.bigAvatar} />
         <Typography variant="h6" align="center" color="textSecondary" component="p">
           {message}
         </Typography>
