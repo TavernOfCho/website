@@ -70,13 +70,7 @@ class ChatForm extends React.Component {
   };
 
   getLatestMessages = () => {
-    console.log("hello");
-
-    let messagesPanels = this.state.historicalMessages.map(item => item.text);
-
-    console.log('messagespanels::',messagesPanels);
-
-    return messagesPanels;
+    return this.state.historicalMessages.map(item => item.text);;
   }
 
 
