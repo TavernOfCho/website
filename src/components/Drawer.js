@@ -163,7 +163,7 @@ class Drawer extends React.Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <Link to="/" onClick={this.closeDrawer} style={{ textDecoration: 'none'}}>
+          <Link to="/" style={{ textDecoration: 'none'}}>
             <ListItem button key={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} >
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} />
