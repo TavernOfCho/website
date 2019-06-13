@@ -9,12 +9,13 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Loader from "./Loader";
-import RequestService from "../services/RequestService";
-import ProgressBar from "./ProgressBar";
-import MountCard from "./MountCard";
+import Loader from "../Loader";
+import RequestService from "../../services/RequestService";
+import ProgressBar from "../ProgressBar";
+import MountCard from "../MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
-
+import {FormattedMessage} from 'react-intl';
+import Helper from "../Helper";
 
 const styles = theme => ({
   root: {
@@ -118,9 +119,8 @@ class MountForm extends React.Component {
 
     this.setState({isLoaderMount: true});
 
-    this.Request.getMounts(this.state.name, this.state.server)
+    this.Request.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
       .then(res => {
-        console.log('reso',res);
         this.setState({
           resMounts: res,
           isLoaderMount:false,
@@ -146,7 +146,7 @@ class MountForm extends React.Component {
     if(typeof this.state.resMounts.name !== 'undefined') {
       return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
             <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon} itemId={item.itemId}/>
+              <MountCard name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
             </Grid>
           )
         )
@@ -228,7 +228,7 @@ class MountForm extends React.Component {
               }}
               htmlFor="locale-select"
             >
-              Localité
+              <FormattedMessage id='form.local' defaultMessage='Local' />
             </InputLabel>
             {selectLocale}
           </FormControl>
@@ -242,7 +242,7 @@ class MountForm extends React.Component {
               }}
               htmlFor="outlined-server-simple"
             >
-              Serveur
+              <FormattedMessage id='form.server' defaultMessage='Server' />
             </InputLabel>
             {selectServers}
           </FormControl>
@@ -250,7 +250,7 @@ class MountForm extends React.Component {
 
           <TextField
               id="standard-name"
-              label="Nom du personnage"
+              label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
               margin="normal"
@@ -258,9 +258,10 @@ class MountForm extends React.Component {
             />
 
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-            Afficher
+            <FormattedMessage id='form.go' defaultMessage='Go !' />
           </Button>
         </form>
+        <Helper />
 
         {/* Displaying loader during the request time */}
         { this.state.isLoaderMount && <Loader/> }

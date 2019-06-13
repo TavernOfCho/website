@@ -6,13 +6,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { userActions } from '../store/actions/user';
+import {FormattedMessage} from 'react-intl';
 
 
 const styles = theme => ({
@@ -47,7 +47,7 @@ const styles = theme => ({
   },
 });
 
-class Signin extends React.Component {
+class Login extends React.Component {
 
   constructor(props) {
     super(props);
@@ -86,19 +86,21 @@ class Signin extends React.Component {
         <CssBaseline />
 
         <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.avatar} />
           <Typography component="h1" variant="h5">
-            Connexion
+            <FormattedMessage id='connect' defaultMessage="Login" />
           </Typography>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" fullWidth required>
-              <InputLabel htmlFor="username">Pseudo</InputLabel>
+              <InputLabel htmlFor="username">
+                <FormattedMessage id='form.log' defaultMessage="Login" />
+              </InputLabel>
               <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange}/>
             </FormControl>
             <FormControl margin="normal" fullWidth required>
-              <InputLabel htmlFor="password">Mot de passe</InputLabel>
+              <InputLabel htmlFor="password">
+                <FormattedMessage id='form.password' defaultMessage="Password" />
+              </InputLabel>
               <Input name="password" type="password" id="password" autoComplete="password" onChange={this.handleChange}/>
             </FormControl>
             <Button
@@ -108,7 +110,7 @@ class Signin extends React.Component {
               color="primary"
               className={classes.submit}
             >
-              S'enregistrer
+              <FormattedMessage id='form.connect' defaultMessage="Register" />
             </Button>
           </form>
         </Paper>
@@ -118,11 +120,11 @@ class Signin extends React.Component {
   }
 }
 
-Signin.propTypes = {
+Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
 export default compose(
   connect(),
   withStyles(styles)
-)(Signin);
+)(Login);

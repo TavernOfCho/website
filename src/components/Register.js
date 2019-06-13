@@ -6,13 +6,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { userActions } from "../store/actions/user";
+import {FormattedMessage} from 'react-intl';
 
 const styles = theme => ({
   main: {
@@ -87,27 +87,33 @@ class Register extends React.Component {
 
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.avatar} />
           <Typography component="h1" variant="h5">
-            Inscription
+            <FormattedMessage id='form.register' defaultMessage="Register" />
           </Typography>
           <FormControl margin="normal" fullWidth>
-            <InputLabel htmlFor="email">E-mail</InputLabel>
+            <InputLabel htmlFor="email">
+              <FormattedMessage id='form.mail' defaultMessage="Mail" />
+            </InputLabel>
             <Input id="email" name="email" autoComplete="email" onChange={this.handleChange} autoFocus/>
           </FormControl>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" fullWidth required>
-              <InputLabel htmlFor="username">Pseudo</InputLabel>
+              <InputLabel htmlFor="username">
+                <FormattedMessage id='form.log' defaultMessage="Login" />
+              </InputLabel>
               <Input id="username" name="username" autoComplete="username" onChange={this.handleChange}/>
             </FormControl>
             <FormControl margin="normal" fullWidth required>
-              <InputLabel htmlFor="password">Mot de passe</InputLabel>
+              <InputLabel htmlFor="password">
+                <FormattedMessage id='form.password' defaultMessage="Password" />
+              </InputLabel>
               <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
             <FormControl margin="normal" fullWidth required>
-              <InputLabel htmlFor="passwordConfirmation">Confirmation mot de passe</InputLabel>
+              <InputLabel htmlFor="passwordConfirmation">
+                <FormattedMessage id='form.password.confirm' defaultMessage="Confirm your password" />
+              </InputLabel>
               <Input name="passwordConfirmation" type="password" id="passwordConfirmation" autoComplete="current-password" onChange={this.handleChange}/>
             </FormControl>
             <Button
@@ -117,7 +123,7 @@ class Register extends React.Component {
               color="primary"
               className={classes.submit}
             >
-              S'enregistrer
+              <FormattedMessage id='form.register' defaultMessage="Register" />
             </Button>
           </form>
         </Paper>
