@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -88,9 +87,7 @@ class Register extends React.Component {
 
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.avatar} />
           <Typography component="h1" variant="h5">
             <FormattedMessage id='form.register' defaultMessage="Register" />
           </Typography>
