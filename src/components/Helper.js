@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
+import Grid from '@material-ui/core/Grid';
 import { FormattedMessage } from 'react-intl';
 
 function ResponsiveDialog(props) {
@@ -37,7 +38,9 @@ function ResponsiveDialog(props) {
           <DialogContentText>
             <FormattedMessage id='helper.description' defaultMessage='Green is your server, Blue is your name' />
           </DialogContentText>
-           <img src={require("./img/loginwow.png")} style={{width: '500px'}} alt={"login wow"} />
+          <Grid item xs={6}>
+           <img src={require("./img/login2wow.png")} style={{width: '500px'}} alt={"login wow"} />
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>

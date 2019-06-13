@@ -5,10 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import {FormattedMessage} from 'react-intl';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
 import Button from "@material-ui/core/Button/Button";
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
+import ChoMessage from "./ChoMessage";
 
 const styles = theme => ({
   layout: {
@@ -25,11 +25,6 @@ const styles = theme => ({
     maxWidth: 600,
     margin: '0 auto',
     padding: `${theme.spacing(8)}px 0 ${theme.spacing(6)}px`,
-  },
-  bigAvatar: {
-    margin: 10,
-    width: 60,
-    height: 60,
   },
   paper: {
     maxWidth: 450,
@@ -49,12 +44,7 @@ function HeroUnit(props) {
       <main className={classes.layout}>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Grid container justify="center" alignItems="center">
-            <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.bigAvatar} />
-            <Typography variant="h6" align="center" color="textSecondary" component="p">
-              <FormattedMessage id='herounit.description' defaultMessage='Welcome to the tavern of Cho !' />
-            </Typography>
-          </Grid>
+          <ChoMessage message={<FormattedMessage id='herounit.description' defaultMessage='Welcome to the tavern of Cho !' />} />
           { hasButton &&
               <Grid
                 container
