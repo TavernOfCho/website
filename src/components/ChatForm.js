@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
-import { requestChatService } from "../services/ChatService";
+import { chatService } from "../services/ChatService";
 
 
 const styles = theme => ({
@@ -40,6 +40,7 @@ class ChatForm extends React.Component {
     this.state = {
       server: '',
       message: '',
+      historicalMessages: [],
       isLoader: false,
       locale: 'frFR',
     };
@@ -55,7 +56,7 @@ class ChatForm extends React.Component {
 
     let data = {'text': this.state.message};
 
-    requestChatService.insertMessage(data)
+    chatService.insertMessage(data)
       .then(this.setState({message: ''}))
       .catch(err => {
         alert(err);
@@ -69,6 +70,10 @@ class ChatForm extends React.Component {
 
 
   componentDidMount() {
+
+    chatService.getMessages().then(res => {
+      this.setState({historicalMessages: res['hydra:member']});
+    });
 
     const hubURL = 'https://127.0.0.1:8053/hub';
     const topic = 'https://127.0.0.1:8052/messages/{id}';
@@ -87,6 +92,7 @@ class ChatForm extends React.Component {
 
           const messages = document.getElementById('messages');
 
+          // Clear default value
           if(!p) {
             messages.innerHTML = '';
           }
@@ -100,7 +106,7 @@ class ChatForm extends React.Component {
 
       es.onerror = () => {
         console.log('Event source onerror');
-      }
+        }
       }
 
   }
