@@ -34,14 +34,15 @@ export default function ExpansionPanels(props) {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel className={classes.panel} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography className={classes.heading}></Typography>
-          <Typography className={classes.heading}>Historique des messages</Typography>
+          <div className={classes.center}>
+            <Typography className={classes.heading}>Historique des messages</Typography>
+          </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <div className={classes.center}>

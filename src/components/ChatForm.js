@@ -140,6 +140,7 @@ class ChatForm extends React.Component {
                 <TextField
                     id="standard-message"
                     label="Message"
+                    helperText="Entrez votre texte."
                     className={classes.textField}
                     onChange={this.handleChangeName('message')}
                     margin="normal"
