@@ -40,7 +40,7 @@ class ChatForm extends React.Component {
     this.state = {
       server: '',
       message: '',
-      isLoaderMount: false,
+      isLoader: false,
       locale: 'frFR',
     };
 
@@ -53,14 +53,11 @@ class ChatForm extends React.Component {
 
     event.preventDefault();
 
-    this.setState({isLoaderMount: true});
-
     let data = {'text': this.state.message};
 
     requestChatService.insertMessage(data)
       .then(res => {
         console.log("mercurocrom:",res);
-        this.setState({isLoaderMount: false});
       })
       .catch(err => {
         alert(err);
@@ -81,18 +78,11 @@ class ChatForm extends React.Component {
     const subscribeURL = new URL(hubURL);
     subscribeURL.searchParams.append('topic', topic);
 
-    console.log('hihi');
-
-    const es = new EventSource(subscribeURL);
+    const es = new EventSource(subscribeURL.toString());
 
     let ul = null;
 
-    console.log(es);
-
     es.onmessage = ({data}) => {
-      console.log(data);
-      console.log('hello');
-      console.log(JSON.parse(data));
       const {id, text} = JSON.parse(data);
       if (!id || !text) throw new Error('Invalid payload');
 
@@ -105,16 +95,12 @@ class ChatForm extends React.Component {
       }
 
       const li = document.createElement('li');
-      li.append(document.createTextNode(`<${id}> ${text}`));
+      li.append(document.createTextNode(`${text}`));
       ul.append(li)
     };
 
-    es.onopen = () => {
-      console.log("openedddd");
-    }
-
     es.onerror = () => {
-      console.log('errrrroooooor');
+      console.log('Event source error');
     }
 
   }
@@ -142,7 +128,7 @@ class ChatForm extends React.Component {
         </form>
 
         {/* Displaying loader during the request time */}
-        { this.state.isLoaderMount && <Loader/> }
+        { this.state.isLoader && <Loader/> }
 
         <div id="messages">
           No messages
