@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import Image from './img/pandaria.png';
+import Image from './img/pandaria.webp';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({

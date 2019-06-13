@@ -86,7 +86,7 @@ class Login extends React.Component {
         <CssBaseline />
 
         <Paper className={classes.paper}>
-          <Avatar alt="Chroniqueur Cho" src={require("./img/cho.jpg")} className={classes.avatar} />
+          <Avatar alt="Chroniqueur Cho" src={require("./img/cho.webp")} className={classes.avatar} />
           <Typography component="h1" variant="h5">
             <FormattedMessage id='connect' defaultMessage="Login" />
           </Typography>

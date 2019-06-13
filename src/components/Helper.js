@@ -39,7 +39,7 @@ function ResponsiveDialog(props) {
             <FormattedMessage id='helper.description' defaultMessage='Green is your server, Blue is your name' />
           </DialogContentText>
           <Grid item xs={6}>
-           <img src={require("./img/login2wow.png")} style={{width: '500px'}} alt={"login wow"} />
+           <img src={require("./img/login2wow.webp")} style={{width: '500px'}} alt={"login wow"} />
           </Grid>
         </DialogContent>
         <DialogActions>
