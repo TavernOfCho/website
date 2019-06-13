@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
-import { requestChatService } from "../services/ChatRequestService";
+import { requestChatService } from "../services/ChatService";
 
 
 const styles = theme => ({
@@ -56,9 +56,7 @@ class ChatForm extends React.Component {
     let data = {'text': this.state.message};
 
     requestChatService.insertMessage(data)
-      .then(res => {
-        console.log("mercurocrom:",res);
-      })
+      .then(this.setState({message: ''}))
       .catch(err => {
         alert(err);
       })
@@ -80,27 +78,23 @@ class ChatForm extends React.Component {
 
     const es = new EventSource(subscribeURL.toString());
 
-    let ul = null;
+    let p = null;
 
     es.onmessage = ({data}) => {
       const {id, text} = JSON.parse(data);
       if (!id || !text) throw new Error('Invalid payload');
 
-      if (!ul) {
-        ul = document.createElement('ul');
+      p = document.createElement('p');
 
-        const messages = document.getElementById('messages');
-        messages.innerHTML = '';
-        messages.append(ul)
-      }
+      const messages = document.getElementById('messages');
+      messages.innerHTML = '';
+      messages.append(p)
 
-      const li = document.createElement('li');
-      li.append(document.createTextNode(`${text}`));
-      ul.append(li)
+      p.append(document.createTextNode(`${text}`));
     };
 
     es.onerror = () => {
-      console.log('Event source error');
+      console.log('Event source onerror');
     }
 
   }
@@ -120,6 +114,7 @@ class ChatForm extends React.Component {
               onChange={this.handleChangeName('message')}
               margin="normal"
               variant="outlined"
+              value= {this.state.message}
             />
 
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
