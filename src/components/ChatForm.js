@@ -7,6 +7,7 @@ import Loader from "./Loader";
 import RequestService from "../services/RequestService";
 import { chatService } from "../services/ChatService";
 import ExpansionPanels from "./ExpansionPanels";
+import Grid from "@material-ui/core/Grid/Grid";
 
 
 const styles = theme => ({
@@ -24,7 +25,7 @@ const styles = theme => ({
   },
   textField: {
     margin: theme.spacing(1),
-    width: 500,
+    width: '100%',
   },
   button: {
     margin: theme.spacing(1),
@@ -122,34 +123,51 @@ class ChatForm extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div>
+      <div className={classes.rootCard}>
 
-        <ExpansionPanels messages={this.getLatestMessages()}/>
+        <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
 
-        <form autoComplete="off" onSubmit={this.handleRequest}>
+          <Grid item xs={12} sm={12} md={10} lg={10}>
 
-          <TextField
-              id="standard-message"
-              label="Message"
-              className={classes.textField}
-              onChange={this.handleChangeName('message')}
-              margin="normal"
-              variant="outlined"
-              value= {this.state.message}
-              autoFocus
-            />
+            <ExpansionPanels messages={this.getLatestMessages()}/>
 
-          <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-            Send
-          </Button>
-        </form>
+          </Grid>
 
-        {/* Displaying loader during the request time */}
-        { this.state.isLoader && <Loader/> }
+          <Grid item xs={12} sm={12} md={6} lg={10}>
 
-        <div id="messages">
-          No messages
-        </div>
+            <form autoComplete="off" onSubmit={this.handleRequest}>
+
+                <TextField
+                    id="standard-message"
+                    label="Message"
+                    className={classes.textField}
+                    onChange={this.handleChangeName('message')}
+                    margin="normal"
+                    variant="outlined"
+                    value= {this.state.message}
+                    autoFocus
+                  />
+
+                <Button type="submit" variant="outlined" color="primary" className={classes.button}>
+                  Send
+                </Button>
+
+            </form>
+
+          </Grid>
+
+          {/* Displaying loader during the request time */}
+          { this.state.isLoader && <Loader/> }
+
+          <Grid item xs={12} sm={12} md={10} lg={10}>
+
+            <div id="messages">
+              No messages
+            </div>
+
+          </Grid>
+
+        </Grid>
 
       </div>
 

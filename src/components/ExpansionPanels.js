@@ -9,16 +9,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    // width: 1000,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  panel: {
-    width: 1000,
-    justifyContent: 'center',
   },
   heading: {
-    justifyContent: 'center',
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '33.33%',
     flexShrink: 0,
@@ -27,6 +19,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
   },
+  center: {
+    margin: "auto",
+  }
 }));
 
 export default function ExpansionPanels(props) {
@@ -45,13 +40,14 @@ export default function ExpansionPanels(props) {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
+          <Typography className={classes.heading}></Typography>
           <Typography className={classes.heading}>Historique des messages</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <div>
-            {props.messages.map((item, index) => (
-              <Typography key={index}>{item}</Typography>
-            ))}
+          <div className={classes.center}>
+              {props.messages.map((item, index) => (
+                <Typography key={index}>{item}</Typography>
+              ))}
           </div>
         </ExpansionPanelDetails>
       </ExpansionPanel>
