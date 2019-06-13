@@ -39,7 +39,7 @@ class ChatForm extends React.Component {
 
     this.state = {
       server: '',
-      name: '',
+      message: '',
       isLoaderMount: false,
       locale: 'frFR',
     };
@@ -55,11 +55,12 @@ class ChatForm extends React.Component {
 
     this.setState({isLoaderMount: true});
 
-    let data = {'text': 'amaziiiing mercurocrom3'};
+    let data = {'text': this.state.message};
 
     requestChatService.insertMessage(data)
       .then(res => {
         console.log("mercurocrom:",res);
+        this.setState({isLoaderMount: false});
       })
       .catch(err => {
         alert(err);
@@ -67,12 +68,54 @@ class ChatForm extends React.Component {
 
   };
 
-  handleChangeName = name => event => {
-    this.setState({ [name]: event.target.value });
+  handleChangeName = message => event => {
+    this.setState({ [message]: event.target.value });
   };
 
 
   componentDidMount() {
+
+    const hubURL = 'https://127.0.0.1:8053/hub';
+    const topic = 'https://127.0.0.1:8052/messages/{id}';
+
+    const subscribeURL = new URL(hubURL);
+    subscribeURL.searchParams.append('topic', topic);
+
+    console.log('hihi');
+
+    const es = new EventSource(subscribeURL);
+
+    let ul = null;
+
+    console.log(es);
+
+    es.onmessage = ({data}) => {
+      console.log(data);
+      console.log('hello');
+      console.log(JSON.parse(data));
+      const {id, text} = JSON.parse(data);
+      if (!id || !text) throw new Error('Invalid payload');
+
+      if (!ul) {
+        ul = document.createElement('ul');
+
+        const messages = document.getElementById('messages');
+        messages.innerHTML = '';
+        messages.append(ul)
+      }
+
+      const li = document.createElement('li');
+      li.append(document.createTextNode(`<${id}> ${text}`));
+      ul.append(li)
+    };
+
+    es.onopen = () => {
+      console.log("openedddd");
+    }
+
+    es.onerror = () => {
+      console.log('errrrroooooor');
+    }
 
   }
 
@@ -85,10 +128,10 @@ class ChatForm extends React.Component {
         <form autoComplete="off" onSubmit={this.handleRequest}>
 
           <TextField
-              id="standard-name"
+              id="standard-message"
               label="Message"
               className={classes.textField}
-              onChange={this.handleChangeName('name')}
+              onChange={this.handleChangeName('message')}
               margin="normal"
               variant="outlined"
             />
@@ -100,6 +143,10 @@ class ChatForm extends React.Component {
 
         {/* Displaying loader during the request time */}
         { this.state.isLoaderMount && <Loader/> }
+
+        <div id="messages">
+          No messages
+        </div>
 
       </div>
 
