@@ -14,7 +14,7 @@ const styles = theme => ({
   },
 })
 
-class HeroBanner extends React.Component {
+class ChoMessage extends React.Component {
 
   render() {
 
@@ -33,8 +33,8 @@ class HeroBanner extends React.Component {
 
 }
 
-HeroBanner.propTypes = {
+ChoMessage.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(HeroBanner);
+export default withStyles(styles)(ChoMessage);
