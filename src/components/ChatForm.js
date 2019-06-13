@@ -81,21 +81,27 @@ class ChatForm extends React.Component {
     let p = null;
 
     es.onmessage = ({data}) => {
-      const {id, text} = JSON.parse(data);
-      if (!id || !text) throw new Error('Invalid payload');
+        const {id, text} = JSON.parse(data);
+        if(text) {
+          if (!id || !text) throw new Error('Invalid payload');
 
-      p = document.createElement('p');
+          const messages = document.getElementById('messages');
 
-      const messages = document.getElementById('messages');
-      messages.innerHTML = '';
-      messages.append(p)
+          if(!p) {
+            messages.innerHTML = '';
+          }
 
-      p.append(document.createTextNode(`${text}`));
-    };
+          p = document.createElement('p');
 
-    es.onerror = () => {
-      console.log('Event source onerror');
-    }
+          p.append(document.createTextNode(`${text}`));
+          messages.append(p)
+
+        };
+
+      es.onerror = () => {
+        console.log('Event source onerror');
+      }
+      }
 
   }
 
