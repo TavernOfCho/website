@@ -71,7 +71,7 @@ export default function MountCard(props) {
       <CardContent>
         <span className={classes.align}>
           {/*Link for data wowhead*/}
-          <Link data-wowhead={`item=${props.itemId}`}>
+          <Link href={`https://${props.locale}.wowhead.com/item=${props.itemId}`} data-wowhead={`item=${props.itemId}`}>
             <Avatar alt={props.icon} src={srcImage} className={classes.bigAvatar} />
           </Link>
         </span>
