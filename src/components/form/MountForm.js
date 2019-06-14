@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
-import RequestService from "../../services/RequestService";
+import { requestService } from "../../services/RequestService";
 import ProgressBar from "../ProgressBar";
 import MountCard from "../MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -66,7 +66,6 @@ class MountForm extends React.Component {
 
     // Bind this
     this.handleRequest = this.handleRequest.bind(this);
-    this.Request = new RequestService();
   }
 
   getServerNames() {
@@ -88,7 +87,7 @@ class MountForm extends React.Component {
       this.setState(
         { [event.target.name]: event.target.value },
         () => {
-          this.Request.getServers(this.state.locale)
+          requestService.getServers(this.state.locale)
             .then(res => {
               this.setState({servers: res['hydra:member'], isLoaderServer: false})
             })
@@ -118,7 +117,7 @@ class MountForm extends React.Component {
     if(this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderMount: true});
 
-      this.Request.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
         .then(res => {
           this.setState({
             resMounts: res,
@@ -164,7 +163,7 @@ class MountForm extends React.Component {
     });
 
     // Call API for getting servers
-    this.Request.getServers(this.state.locale)
+    requestService.getServers(this.state.locale)
       .then(res => {
         this.setState({servers: res['hydra:member']})
       })

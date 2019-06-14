@@ -1,78 +1,63 @@
 import { userService } from './UserService';
+import { domainService } from './DomainService';
 
-export default class RequestService {
-  // Initializing important variables
-  constructor() {
-    this.fetch = this.fetch.bind(this) // React binding stuff
+export const requestService = {
+  getServers,
+  getMounts,
+  getCharacter,
+}
 
-    this.domain = document.domain;
-    this.prodApiDomain = 'https://api.tavernofcho.com';
-    this.devApiDomain = 'https://127.0.0.1:8052';
-    this.domainForRequest = '';
+let domain = domainService.getApiDomain();
 
-    switch(this.domain) {
-      case '127.0.0.1':
-        this.domainForRequest = this.devApiDomain;
-        break;
-      case 'tavernofcho.com':
-        this.domainForRequest = this.prodApiDomain;
-        break;
-      default:
-        this.domainForRequest = null;
-    }
+const getServers = (locale) => {
+  return this.fetch(`${domain}/realms?locale=${locale}`, {
+    method: 'GET'
+  })
+}
 
-  }
+const getMounts = (name, server) => {
+  return this.fetch(`${domain}/characters/${name}/${server}/mounts`, {
+    method: 'GET'
+  })
+}
 
-  getServers = (locale) => {
-    return this.fetch(`${this.domainForRequest}/realms?locale=${locale}`, {
-      method: 'GET'
-    })
-  }
-
-  getMounts = (name, server) => {
-    return this.fetch(`${this.domainForRequest}/characters/${name}/${server}/mounts`, {
-      method: 'GET'
-    })
-  }
-
-  getCharacter = (character, server) => {
-    return this.fetch(`${this.domainForRequest}/characters/${character}?realm=${server}`, {
-      method: 'GET'
-    })
-  }
+const getCharacter = (character, server) => {
+  return fetch(`${domain}/characters/${character}?realm=${server}`, {
+    method: 'GET'
+  })
+}
 
 
-  fetch = (url, options) => {
-    // performs api calls sending the required authentication headers
-    const headers = {
-      'Accept': 'application/ld+json',
-      'Content-Type': 'application/ld+json'
-    };
-
-    // Setting Authorization header
-    // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
-    if (userService.loggedIn()) {
-      headers['Authorization'] = 'Bearer ' + userService.getToken()
-    };
-
-    return fetch(url, {
-      headers,
-      ...options
-    })
-      .then(this._checkStatus)
-      .then(response => response.json())
+const fetch = (url, options) => {
+  // performs api calls sending the required authentication headers
+  const headers = {
+    'Accept': 'application/ld+json',
+    'Content-Type': 'application/ld+json'
   };
 
-  _checkStatus = (response) => {
-    console.log('resp status',response.status);
+  // Setting Authorization header
+  // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
+  if (userService.loggedIn()) {
+    headers['Authorization'] = 'Bearer ' + userService.getToken()
+  };
 
-    // raises an error in case response status is not a success
-    if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
-      return response;
-    } else {
-      var error = new Error(response.statusText);
-      error.response = response;
-      throw error;
-    }
+  return fetch(url, {
+    headers,
+    ...options
+  })
+    .then(_checkStatus)
+    .then(response => response.json())
+};
+
+const _checkStatus = (response) => {
+  console.log('resp status',response.status);
+
+  // raises an error in case response status is not a success
+  if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
+    return response;
+  } else {
+    var error = new Error(response.statusText);
+    error.response = response;
+    throw error;
   }
 }
