@@ -107,7 +107,6 @@ class ChatForm extends React.Component {
     let pUsername = null;
 
     es.onmessage = ({data}) => {
-      console.log('renvoi de mercure:',JSON.parse(data));
       const {text} = JSON.parse(data);
         if(text) {
           const userSender = JSON.parse(data).sender;
