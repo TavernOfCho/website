@@ -20,8 +20,8 @@ function getApiDomain() {
 
 function getMercureDomain() {
   let domain = document.domain;
-  let prodMercureDomain = 'https://api.tavernofcho.com';
-  let devMercureDomain = 'https://127.0.0.1:8052';
+  let prodMercureDomain = 'https://mercure.tavernofcho.com';
+  let devMercureDomain = 'https://127.0.0.1:8053';
 
   switch(domain) {
     case '127.0.0.1':

@@ -8,6 +8,7 @@ import RequestService from "../services/RequestService";
 import { chatService } from "../services/ChatService";
 import ExpansionPanels from "./ExpansionPanels";
 import Grid from "@material-ui/core/Grid/Grid";
+import {domainService} from "../services/DomainService";
 
 
 const styles = theme => ({
@@ -85,12 +86,13 @@ class ChatForm extends React.Component {
     // Getting messages for historical
     chatService.getMessages().then(res => {
       this.setState({historicalMessages: res['hydra:member']});
-      console.log('ress:',res['hydra:member']);
-
     });
 
-    const hubURL = 'https://127.0.0.1:8053/hub';
-    const topic = 'https://127.0.0.1:8052/messages/{id}';
+    let apiDomain = domainService.getApiDomain();
+    let mercureDomain = domainService.getMercureDomain();
+
+    const hubURL = `${mercureDomain}/hub`;
+    const topic = `${apiDomain}/messages/{id}`;
 
     const subscribeURL = new URL(hubURL);
     subscribeURL.searchParams.append('topic', topic);
