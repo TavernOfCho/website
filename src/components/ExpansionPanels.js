@@ -21,8 +21,15 @@ const useStyles = makeStyles(theme => ({
   },
   center: {
     margin: "auto",
-  }
+  },
+  marginBot: {
+    marginBottom: 10,
+  },
 }));
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 export default function ExpansionPanels(props) {
   const classes = useStyles();
@@ -47,9 +54,9 @@ export default function ExpansionPanels(props) {
         <ExpansionPanelDetails>
           <div className={classes.center}>
               {props.messages.map((item, index) => (
-                <div key={index}>
-                  Username
-                  <Typography key={index}>{item}</Typography>
+                <div key={index} className={classes.marginBot}>
+                  {capitalizeFirstLetter(item.sender.username)} :
+                  <Typography key={index}>{item.text}</Typography>
                 </div>
               ))}
           </div>

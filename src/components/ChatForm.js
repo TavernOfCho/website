@@ -72,7 +72,7 @@ class ChatForm extends React.Component {
   };
 
   getLatestMessages = () => {
-    return this.state.historicalMessages.map(item => item.text);;
+    return this.state.historicalMessages;
   }
 
 
@@ -81,6 +81,8 @@ class ChatForm extends React.Component {
     // Getting messages for historical
     chatService.getMessages().then(res => {
       this.setState({historicalMessages: res['hydra:member']});
+      console.log('ress:',res['hydra:member']);
+
     });
 
     const hubURL = 'https://127.0.0.1:8053/hub';
@@ -95,10 +97,8 @@ class ChatForm extends React.Component {
 
     es.onmessage = ({data}) => {
       console.log('renvoi de mercure:',JSON.parse(data));
-      const {id, text} = JSON.parse(data);
+      const {text} = JSON.parse(data);
         if(text) {
-          if (!id || !text) throw new Error('Invalid payload');
-
           const messages = document.getElementById('messages');
 
           // Clear default value
