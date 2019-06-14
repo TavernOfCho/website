@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from "@material-ui/core/Typography/Typography";
-import Image from "./img/cho.webp"
+import Image from "../../img/cho.webp"
 
 const styles = theme => ({
   bigAvatar: {

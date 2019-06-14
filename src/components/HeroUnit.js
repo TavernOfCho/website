@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button/Button";
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
-import ChoMessage from "./ChoMessage";
+import ChoMessage from "./feature/cho/ChoMessage";
 
 const styles = theme => ({
   layout: {
