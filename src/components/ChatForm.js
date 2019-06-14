@@ -99,23 +99,30 @@ class ChatForm extends React.Component {
 
     const es = new EventSource(subscribeURL.toString());
 
-    let p = null;
+    let pText = null;
+    let pUsername = null;
 
     es.onmessage = ({data}) => {
       console.log('renvoi de mercure:',JSON.parse(data));
       const {text} = JSON.parse(data);
         if(text) {
+          const userSender = JSON.parse(data).sender;
+          const username = userSender.username;
           const messages = document.getElementById('messages');
 
           // Clear default value
-          if(!p) {
+          if(!pText) {
             messages.innerHTML = '';
           }
 
-          p = document.createElement('p');
+          pText = document.createElement('p');
+          pText.append(document.createTextNode(`${text}`));
 
-          p.append(document.createTextNode(`${text}`));
-          messages.append(p)
+          pUsername = document.createElement('p');
+          pUsername.append(document.createTextNode(`${username} :`));
+
+          messages.append(pUsername);
+          messages.append(pText);
 
         }
 
