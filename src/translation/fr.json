@@ -2,6 +2,7 @@
     "connect": "Connexion",
     "chat": "Chat ",
     "chat.defaultLiveMessage": "Pas de messages en direct, envoyez le premier message de la session.",
+    "chat.message.history": "Historique des messages",
     "chat.send": "Envoyer",
     "chat.textfield.helper": "Entrez votre message ici.",
     "character": "Personnage",

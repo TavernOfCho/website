@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
 import { chatService } from "../services/ChatService";
-import ExpansionPanels from "./ExpansionPanels";
+import MessageHistoryPanel from "./MessageHistoryPanel";
 import Grid from "@material-ui/core/Grid/Grid";
 import {domainService} from "../services/DomainService";
 import Paper from '@material-ui/core/Paper';
@@ -141,7 +141,7 @@ class ChatForm extends React.Component {
 
           <Grid item xs={12} sm={12} md={10} lg={10}>
 
-            <ExpansionPanels messages={this.state.historicalMessages} user={this.state.user.data}/>
+            <MessageHistoryPanel messages={this.state.historicalMessages} user={this.state.user.data}/>
 
           </Grid>
 
