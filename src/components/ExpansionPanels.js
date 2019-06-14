@@ -32,6 +32,8 @@ export default function ExpansionPanels(props) {
     setExpanded(isExpanded ? panel : false);
   };
 
+  console.log('gtiusbiu',props.user);
+
   return (
     <div className={classes.root}>
       <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
@@ -41,7 +43,7 @@ export default function ExpansionPanels(props) {
           id="panel1bh-header"
         >
           <div className={classes.center}>
-            <Typography className={classes.heading}>Historique des messages</Typography>
+            <Typography className={classes.heading}>Historical messages</Typography>
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>

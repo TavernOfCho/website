@@ -5,7 +5,21 @@ export const chatService = {
   getMessages,
 };
 
-const domain = 'https://127.0.0.1:8052';
+let domain = document.domain;
+let prodApiDomain = 'https://api.tavernofcho.com';
+let devApiDomain = 'https://127.0.0.1:8052';
+let domainForRequest = '';
+
+switch(domain) {
+  case '127.0.0.1':
+    domainForRequest = devApiDomain;
+    break;
+  case 'tavernofcho.com':
+    domainForRequest = prodApiDomain;
+    break;
+  default:
+    domainForRequest = null;
+}
 
 function insertMessage(message) {
   const requestOptions = {
@@ -18,7 +32,7 @@ function insertMessage(message) {
     body: JSON.stringify( message )
   };
 
-  return fetch(`${domain}/messages`, requestOptions).then(handleResponse);
+  return fetch(`${domainForRequest}/messages`, requestOptions).then(handleResponse);
 }
 
 function getMessages() {
@@ -30,7 +44,7 @@ function getMessages() {
     }
   };
 
-  return fetch(`${domain}/messages`, requestOptions).then(handleResponse);
+  return fetch(`${domainForRequest}/messages`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

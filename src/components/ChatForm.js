@@ -79,7 +79,6 @@ class ChatForm extends React.Component {
 
     chatService.getMessages().then(res => {
       this.setState({historicalMessages: res['hydra:member']});
-      console.log('historical messages', res['hydra:member']);
     });
 
     const hubURL = 'https://127.0.0.1:8053/hub';
@@ -122,6 +121,10 @@ class ChatForm extends React.Component {
   render() {
     const { classes } = this.props;
 
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    console.log('token::',user);
+
     return (
       <div className={classes.rootCard}>
 
@@ -129,7 +132,7 @@ class ChatForm extends React.Component {
 
           <Grid item xs={12} sm={12} md={10} lg={10}>
 
-            <ExpansionPanels messages={this.getLatestMessages()}/>
+            <ExpansionPanels messages={this.getLatestMessages()} user={user.data}/>
 
           </Grid>
 
