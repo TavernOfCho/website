@@ -2,7 +2,7 @@ import React from "react";
 import HeroUnit from "../components/HeroUnit";
 import HeroBanner from "../components/HeroBanner";
 import { FormattedMessage } from 'react-intl';
-import ChatForm from "../components/ChatForm";
+import ChatForm from "../components/form/ChatForm";
 
 export default class ChatScreen extends React.Component {
   render() {

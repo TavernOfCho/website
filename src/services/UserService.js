@@ -1,4 +1,5 @@
 import decode from 'jwt-decode';
+import {domainService} from "./DomainService";
 
 export const userService = {
   login,
@@ -8,21 +9,7 @@ export const userService = {
   getToken,
 };
 
-let domain = document.domain;
-let prodApiDomain = 'https://api.tavernofcho.com';
-let devApiDomain = 'https://127.0.0.1:8052';
-let domainForRequest = '';
-
-switch(domain) {
-  case '127.0.0.1':
-    domainForRequest = devApiDomain;
-    break;
-  case 'tavernofcho.com':
-    domainForRequest = prodApiDomain;
-    break;
-  default:
-    domainForRequest = null;
-}
+let apiDomain = domainService.getApiDomain();
 
 function authHeader() {
   // return authorization header with jwt token
@@ -72,7 +59,7 @@ function login(username, password) {
     body: JSON.stringify({ username, password })
   };
 
-  return fetch(`${domainForRequest}/login_check`, requestOptions)
+  return fetch(`${apiDomain}/login_check`, requestOptions)
     .then(handleResponse)
     .then(user => {
       // Adding user name
@@ -96,7 +83,7 @@ function register(username, plainPassword, email) {
     body: JSON.stringify({ username, plainPassword, email })
   };
 
-  return fetch(`${domainForRequest}/users`, requestOptions)
+  return fetch(`${apiDomain}/users`, requestOptions)
     .then(handleResponse)
 }
 
@@ -107,7 +94,7 @@ function getAll() {
     headers: authHeader()
   };
 
-  return fetch(`${domainForRequest}/users`, requestOptions).then(handleResponse);
+  return fetch(`${apiDomain}/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
