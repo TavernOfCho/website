@@ -1,25 +1,12 @@
 import { userService } from './UserService';
+import { domainService } from './DomainService';
 
 export const chatService = {
   insertMessage,
   getMessages,
 };
 
-let domain = document.domain;
-let prodApiDomain = 'https://api.tavernofcho.com';
-let devApiDomain = 'https://127.0.0.1:8052';
-let domainForRequest = '';
-
-switch(domain) {
-  case '127.0.0.1':
-    domainForRequest = devApiDomain;
-    break;
-  case 'tavernofcho.com':
-    domainForRequest = prodApiDomain;
-    break;
-  default:
-    domainForRequest = null;
-}
+let domain = domainService.getApiDomain();
 
 function insertMessage(data) {
   const requestOptions = {
@@ -32,7 +19,7 @@ function insertMessage(data) {
     body: JSON.stringify( data )
   };
 
-  return fetch(`${domainForRequest}/messages`, requestOptions).then(handleResponse);
+  return fetch(`${domain}/messages`, requestOptions).then(handleResponse);
 }
 
 function getMessages() {
@@ -44,7 +31,7 @@ function getMessages() {
     }
   };
 
-  return fetch(`${domainForRequest}/messages`, requestOptions).then(handleResponse);
+  return fetch(`${domain}/messages`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

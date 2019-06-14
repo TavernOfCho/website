@@ -1,10 +1,9 @@
-
 export const domainService = {
   getApiDomain,
   getMercureDomain,
 };
 
-const getApiDomain = () => {
+function getApiDomain() {
   let domain = document.domain;
   let prodApiDomain = 'https://api.tavernofcho.com';
   let devApiDomain = 'https://127.0.0.1:8052';
@@ -19,7 +18,7 @@ const getApiDomain = () => {
   }
 }
 
-const getMercureDomain = () => {
+function getMercureDomain() {
   let domain = document.domain;
   let prodMercureDomain = 'https://api.tavernofcho.com';
   let devMercureDomain = 'https://127.0.0.1:8052';
