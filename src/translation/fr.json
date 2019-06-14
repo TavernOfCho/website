@@ -1,6 +1,9 @@
 {
     "connect": "Connexion",
     "chat": "Chat ",
+    "chat.defaultLiveMessage": "Pas de messages en direct, envoyez le premier message de la session.",
+    "chat.send": "Envoyer",
+    "chat.textfield.helper": "Entrez votre message ici.",
     "character": "Personnage",
     "character.helper": "Veuillez sélectionner votre serveur et le nom de votre personnage.",
     "chotavern": "Tavern of Cho",

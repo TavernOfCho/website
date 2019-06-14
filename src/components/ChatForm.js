@@ -10,6 +10,7 @@ import ExpansionPanels from "./ExpansionPanels";
 import Grid from "@material-ui/core/Grid/Grid";
 import {domainService} from "../services/DomainService";
 import Paper from '@material-ui/core/Paper';
+import {FormattedMessage} from "react-intl";
 
 
 const styles = theme => ({
@@ -61,7 +62,6 @@ class ChatForm extends React.Component {
   handleRequest = event => {
 
     event.preventDefault();
-
 
     if(this.state.message !== '') {
 
@@ -152,7 +152,7 @@ class ChatForm extends React.Component {
                 <TextField
                     id="standard-message"
                     label="Message"
-                    helperText="Entrez votre texte."
+                    helperText=<FormattedMessage id='chat.textfield.helper' defaultMessage='Send your message here.' />
                     className={classes.textField}
                     onChange={this.handleChangeName('message')}
                     margin="normal"
@@ -162,7 +162,7 @@ class ChatForm extends React.Component {
                   />
 
                 <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-                  Send
+                  <FormattedMessage id='chat.send' defaultMessage='Send' />
                 </Button>
 
             </form>
@@ -176,7 +176,7 @@ class ChatForm extends React.Component {
             <Paper className={classes.rootPaper}>
 
               <div id="messages">
-                No messages
+                <FormattedMessage id='chat.defaultLiveMessage' defaultMessage='No live messages, send the first message of this session.' />
               </div>
 
             </Paper>
