@@ -9,26 +9,26 @@ export const requestService = {
 
 let domain = domainService.getApiDomain();
 
-const getServers = (locale) => {
-  return this.fetch(`${domain}/realms?locale=${locale}`, {
+function getServers(locale) {
+  return fetching(`${domain}/realms?locale=${locale}`, {
     method: 'GET'
   })
 }
 
-const getMounts = (name, server) => {
-  return this.fetch(`${domain}/characters/${name}/${server}/mounts`, {
+function getMounts(name, server) {
+  return fetching(`${domain}/characters/${name}/${server}/mounts`, {
     method: 'GET'
   })
 }
 
-const getCharacter = (character, server) => {
-  return fetch(`${domain}/characters/${character}?realm=${server}`, {
+function getCharacter(character, server) {
+  return fetching(`${domain}/characters/${character}?realm=${server}`, {
     method: 'GET'
   })
 }
 
 
-const fetch = (url, options) => {
+function fetching(url, options) {
   // performs api calls sending the required authentication headers
   const headers = {
     'Accept': 'application/ld+json',
@@ -39,25 +39,25 @@ const fetch = (url, options) => {
   // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
   if (userService.loggedIn()) {
     headers['Authorization'] = 'Bearer ' + userService.getToken()
-  };
+  }
 
-  return fetch(url, {
-    headers,
-    ...options
-  })
-    .then(_checkStatus)
-    .then(response => response.json())
-};
+    return fetch(url, {
+      headers,
+      ...options
+    })
+      .then(_checkStatus)
+      .then(response => response.json())
+}
 
-const _checkStatus = (response) => {
+function _checkStatus(response) {
   console.log('resp status',response.status);
 
   // raises an error in case response status is not a success
   if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
-    return response;
+    return response
   } else {
-    var error = new Error(response.statusText);
-    error.response = response;
-    throw error;
+    var error = new Error(response.statusText)
+    error.response = response
+    throw error
   }
 }

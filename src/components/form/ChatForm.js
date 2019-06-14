@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
-import RequestService from "../../services/RequestService";
 import { chatService } from "../../services/ChatService";
 import MessageHistoryPanel from "../MessageHistoryPanel";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -55,7 +54,6 @@ class ChatForm extends React.Component {
 
     // Bind this
     this.handleRequest = this.handleRequest.bind(this);
-    this.Request = new RequestService();
   }
 
   handleRequest = event => {
