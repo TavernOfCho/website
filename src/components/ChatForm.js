@@ -78,6 +78,7 @@ class ChatForm extends React.Component {
 
   componentDidMount() {
 
+    // Getting messages for historical
     chatService.getMessages().then(res => {
       this.setState({historicalMessages: res['hydra:member']});
     });
@@ -118,7 +119,6 @@ class ChatForm extends React.Component {
       }
 
   }
-
 
   render() {
     const { classes } = this.props;
