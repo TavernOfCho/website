@@ -1,5 +1,6 @@
 {
     "connect": "Connexion",
+    "chat": "Chat ",
     "character": "Personnage",
     "character.helper": "Veuillez sélectionner votre serveur et le nom de votre personnage.",
     "chotavern": "Tavern of Cho",
@@ -49,6 +50,8 @@
     "herounit.mount": "Découvrir une nouvelle monture",
     "herounit.pleaseregister": "Je me présente, je suis le chroniqueur Cho. Comment vous appelez-vous ?",
     "issue": "Signaler une erreur",
+    "mount": "Monture ",
+    "register": "Inscription",
     "tavernproject": "Projet TavernOfCho",
     "title.achievement": "Voulez-vous que je vous conte une légende ?",
     "title.battlepet": "Je connais toute sorte de mascottes, essayez pour voir !",

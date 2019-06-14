@@ -9,6 +9,7 @@ import BattlepetScreen from '../screens/BattlepetScreen';
 import CharacterScreen from "../screens/CharacterScreen";
 import HelpScreen from '../screens/HelpScreen';
 import MountScreen from '../screens/MountScreen';
+import ChatScreen from "../screens/ChatScreen";
 
 class Routing extends React.Component {
 
@@ -24,11 +25,10 @@ class Routing extends React.Component {
         <PrivateRoute exact path="/character" component={() => <CharacterScreen/>}/>
         <PrivateRoute exact path="/help" component={() => <HelpScreen/>}/>
         <PrivateRoute exact path="/mount" component={() => <MountScreen/>}/>
+        <PrivateRoute exact path="/chat" component={() => <ChatScreen/>}/>
       </Switch>
     )
   }
 }
-
-
 
 export default Routing;

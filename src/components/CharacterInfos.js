@@ -12,7 +12,6 @@ const styles = {
     minWidth: 275,
     maxWidth: 275,
     margin: 'auto',
-    backgroundImage: `url("https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/13/a5/7b/13a57b53-a3ef-a9cc-af69-12581a05c61f/source/256x256bb.jpg")`,
 },
   title: {
     fontSize: 14,
