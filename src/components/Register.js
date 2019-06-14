@@ -70,7 +70,7 @@ class Register extends React.Component {
     const { dispatch } = this.props;
 
     if(username && password && email) {
-      dispatch(userActions.register(username, password, email));
+      dispatch(userActions.register(username.toLowerCase(), password, email.toLowerCase()));
     }
 
   }
