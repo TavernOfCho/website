@@ -70,12 +70,16 @@ class Register extends React.Component {
     const { username, password, email , passwordConfirmation} = this.state;
     const { dispatch } = this.props;
 
-    if(username && password && email && password === passwordConfirmation) {
-      dispatch(userActions.register(username.toLowerCase(), password, email.toLowerCase()));
+    if(username && password && email) {
+
+      if(password === passwordConfirmation) {
+        dispatch(userActions.register(username.toLowerCase(), password, email.toLowerCase()));
+      } else {
+        dispatch(alertActions.warning(<FormattedMessage id='register.notSamePassword' defaultMessage='Mismatch between passwords.'/>));
+      }
+
     }
-    else {
-      dispatch(alertActions.warning(<FormattedMessage id='register.notSamePassword' defaultMessage='Mismatch between passwords.'/>));
-    }
+
 
   }
 
