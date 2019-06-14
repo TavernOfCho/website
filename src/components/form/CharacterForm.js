@@ -13,7 +13,7 @@ import Loader from "../Loader";
 import RequestService from "../../services/RequestService";
 import CharacterInfos from "../CharacterInfos";
 import {FormattedMessage} from 'react-intl';
-import Helper from "../Helper";
+import Helper from "../feature/cho/Helper";
 
 const styles = theme => ({
   root: {

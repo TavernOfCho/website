@@ -15,7 +15,7 @@ import ProgressBar from "../ProgressBar";
 import MountCard from "../MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
-import Helper from "../Helper";
+import Helper from "../feature/cho/Helper";
 
 const styles = theme => ({
   root: {
