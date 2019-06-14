@@ -80,11 +80,6 @@ class ChatForm extends React.Component {
     this.setState({ [message]: event.target.value });
   };
 
-  getLatestMessages = () => {
-    return this.state.historicalMessages;
-  }
-
-
   componentDidMount() {
 
     // Getting messages for historical

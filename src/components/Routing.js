@@ -31,6 +31,4 @@ class Routing extends React.Component {
   }
 }
 
-
-
 export default Routing;
