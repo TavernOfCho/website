@@ -32,8 +32,6 @@ export default function ExpansionPanels(props) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  console.log('gtiusbiu',props.user);
-
   return (
     <div className={classes.root}>
       <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
@@ -49,7 +47,10 @@ export default function ExpansionPanels(props) {
         <ExpansionPanelDetails>
           <div className={classes.center}>
               {props.messages.map((item, index) => (
-                <Typography key={index}>{item}</Typography>
+                <div key={index}>
+                  Username
+                  <Typography key={index}>{item}</Typography>
+                </div>
               ))}
           </div>
         </ExpansionPanelDetails>

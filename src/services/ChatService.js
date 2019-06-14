@@ -21,7 +21,7 @@ switch(domain) {
     domainForRequest = null;
 }
 
-function insertMessage(message) {
+function insertMessage(data) {
   const requestOptions = {
     method: 'POST',
     headers: {
@@ -29,7 +29,7 @@ function insertMessage(message) {
       'Content-Type': 'application/ld+json',
       'Authorization': `Bearer ${userService.getToken()}`,
     },
-    body: JSON.stringify( message )
+    body: JSON.stringify( data )
   };
 
   return fetch(`${domainForRequest}/messages`, requestOptions).then(handleResponse);

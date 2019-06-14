@@ -45,6 +45,7 @@ class ChatForm extends React.Component {
       historicalMessages: [],
       isLoader: false,
       locale: 'frFR',
+      user: JSON.parse(localStorage.getItem('user')),
     };
 
     // Bind this
@@ -56,7 +57,7 @@ class ChatForm extends React.Component {
 
     event.preventDefault();
 
-    let data = {'text': this.state.message};
+    let data = {'text': this.state.message, 'sender': this.state.user.data['@id']};
 
     chatService.insertMessage(data)
       .then(this.setState({message: ''}))
@@ -92,7 +93,8 @@ class ChatForm extends React.Component {
     let p = null;
 
     es.onmessage = ({data}) => {
-        const {id, text} = JSON.parse(data);
+      console.log('renvoi de mercure:',JSON.parse(data));
+      const {id, text} = JSON.parse(data);
         if(text) {
           if (!id || !text) throw new Error('Invalid payload');
 
@@ -121,10 +123,6 @@ class ChatForm extends React.Component {
   render() {
     const { classes } = this.props;
 
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    console.log('token::',user);
-
     return (
       <div className={classes.rootCard}>
 
@@ -132,7 +130,7 @@ class ChatForm extends React.Component {
 
           <Grid item xs={12} sm={12} md={10} lg={10}>
 
-            <ExpansionPanels messages={this.getLatestMessages()} user={user.data}/>
+            <ExpansionPanels messages={this.getLatestMessages()} user={this.state.user.data}/>
 
           </Grid>
 
@@ -143,8 +141,6 @@ class ChatForm extends React.Component {
                 <TextField
                     id="standard-message"
                     label="Message"
-                    multiline
-                    rowsMax="4"
                     helperText="Entrez votre texte."
                     className={classes.textField}
                     onChange={this.handleChangeName('message')}
