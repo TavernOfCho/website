@@ -1,7 +1,7 @@
 import React from "react";
 import HeroBanner from "../components/HeroBanner";
 import { FormattedMessage } from 'react-intl';
-import Help from "../components/Help";
+import Help from "../components/feature/cho/Help";
 
 export default class MountScreen extends React.Component {
   render() {

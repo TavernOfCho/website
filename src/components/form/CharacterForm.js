@@ -13,7 +13,6 @@ import Loader from "../Loader";
 import RequestService from "../../services/RequestService";
 import CharacterInfos from "../CharacterInfos";
 import {FormattedMessage} from 'react-intl';
-import Helper from "../Helper";
 
 const styles = theme => ({
   root: {
@@ -229,7 +228,6 @@ class CharacterForm extends React.Component {
             <FormattedMessage id='form.go' defaultMessage='Go !' />
           </Button>
         </form>
-        <Helper />
 
         {/* Displaying loader during the request time */}
         { this.state.isLoaderChar && <Loader/> }
