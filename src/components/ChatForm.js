@@ -9,6 +9,7 @@ import { chatService } from "../services/ChatService";
 import ExpansionPanels from "./ExpansionPanels";
 import Grid from "@material-ui/core/Grid/Grid";
 import {domainService} from "../services/DomainService";
+import Paper from '@material-ui/core/Paper';
 
 
 const styles = theme => ({
@@ -31,6 +32,9 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1),
     marginTop: theme.spacing(2),
+  },
+  rootPaper: {
+    padding: theme.spacing(3, 2),
   },
 });
 
@@ -118,7 +122,7 @@ class ChatForm extends React.Component {
           pText = document.createElement('p');
           pText.append(document.createTextNode(`${text}`));
 
-          pUsername = document.createElement('p');
+          pUsername = document.createElement('span');
           pUsername.append(document.createTextNode(`${username} :`));
 
           messages.append(pUsername);
@@ -143,7 +147,7 @@ class ChatForm extends React.Component {
 
           <Grid item xs={12} sm={12} md={10} lg={10}>
 
-            <ExpansionPanels messages={this.getLatestMessages()} user={this.state.user.data}/>
+            <ExpansionPanels messages={this.state.historicalMessages} user={this.state.user.data}/>
 
           </Grid>
 
@@ -175,10 +179,13 @@ class ChatForm extends React.Component {
           { this.state.isLoader && <Loader/> }
 
           <Grid item xs={12} sm={12} md={10} lg={10}>
+            <Paper className={classes.rootPaper}>
 
-            <div id="messages">
-              No messages
-            </div>
+              <div id="messages">
+                No messages
+              </div>
+
+            </Paper>
 
           </Grid>
 
