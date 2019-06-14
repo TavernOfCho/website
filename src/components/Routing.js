@@ -25,7 +25,7 @@ class Routing extends React.Component {
         <PrivateRoute exact path="/character" component={() => <CharacterScreen/>}/>
         <PrivateRoute exact path="/help" component={() => <HelpScreen/>}/>
         <PrivateRoute exact path="/mount" component={() => <MountScreen/>}/>
-        <PrivateRoute exact path="/chat" component={ChatScreen}/>
+        <PrivateRoute exact path="/chat" component={() => <ChatScreen/>}/>
       </Switch>
     )
   }
