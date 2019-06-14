@@ -1,6 +1,10 @@
 {
     "connect": "Login",
     "chat": "Chat",
+    "chat.defaultLiveMessage": "No live messages, send the first message of this session.",
+    "chat.message.history": "Message history",
+    "chat.send": "Send",
+    "chat.textfield.helper": "Send your message here.",
     "character": "Character",
     "character.helper": "Please select your server and the name of your character.",
     "chotavern": "Tavern of Cho",

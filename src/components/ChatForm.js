@@ -6,10 +6,11 @@ import Button from '@material-ui/core/Button';
 import Loader from "./Loader";
 import RequestService from "../services/RequestService";
 import { chatService } from "../services/ChatService";
-import ExpansionPanels from "./ExpansionPanels";
+import MessageHistoryPanel from "./MessageHistoryPanel";
 import Grid from "@material-ui/core/Grid/Grid";
 import {domainService} from "../services/DomainService";
 import Paper from '@material-ui/core/Paper';
+import {FormattedMessage} from "react-intl";
 
 
 const styles = theme => ({
@@ -61,7 +62,6 @@ class ChatForm extends React.Component {
   handleRequest = event => {
 
     event.preventDefault();
-
 
     if(this.state.message !== '') {
 
@@ -141,7 +141,7 @@ class ChatForm extends React.Component {
 
           <Grid item xs={12} sm={12} md={10} lg={10}>
 
-            <ExpansionPanels messages={this.state.historicalMessages} user={this.state.user.data}/>
+            <MessageHistoryPanel messages={this.state.historicalMessages} user={this.state.user.data}/>
 
           </Grid>
 
@@ -152,7 +152,7 @@ class ChatForm extends React.Component {
                 <TextField
                     id="standard-message"
                     label="Message"
-                    helperText="Entrez votre texte."
+                    helperText=<FormattedMessage id='chat.textfield.helper' defaultMessage='Send your message here.' />
                     className={classes.textField}
                     onChange={this.handleChangeName('message')}
                     margin="normal"
@@ -162,7 +162,7 @@ class ChatForm extends React.Component {
                   />
 
                 <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-                  Send
+                  <FormattedMessage id='chat.send' defaultMessage='Send' />
                 </Button>
 
             </form>
@@ -176,7 +176,7 @@ class ChatForm extends React.Component {
             <Paper className={classes.rootPaper}>
 
               <div id="messages">
-                No messages
+                <FormattedMessage id='chat.defaultLiveMessage' defaultMessage='No live messages, send the first message of this session.' />
               </div>
 
             </Paper>

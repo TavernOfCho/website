@@ -73,7 +73,6 @@ class MountForm extends React.Component {
     return this.state.servers.map(server => server.name).sort();
   }
 
-
   handleChangeServer = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -95,7 +94,7 @@ class MountForm extends React.Component {
             })
             .catch(err => {
               this.setState({isLoaderServer: false});
-              alert(err);
+              console.log(err);
             })
         }
       );
@@ -116,23 +115,26 @@ class MountForm extends React.Component {
 
     event.preventDefault();
 
-    this.setState({isLoaderMount: true});
+    if(this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderMount: true});
 
-    this.Request.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
-      .then(res => {
-        this.setState({
-          resMounts: res,
-          isLoaderMount:false,
-          mountsCollected: res.numCollected,
-          mountsNotCollected: res.numNotCollected,
-          mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
-          isMountsInfoDisplayed: true,
+      this.Request.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+        .then(res => {
+          this.setState({
+            resMounts: res,
+            isLoaderMount:false,
+            mountsCollected: res.numCollected,
+            mountsNotCollected: res.numNotCollected,
+            mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
+            isMountsInfoDisplayed: true,
+          })
         })
-      })
-      .catch(err => {
-        this.setState({isLoaderMount:false});
-        alert(err);
-      })
+        .catch(err => {
+          this.setState({isLoaderMount:false});
+          console.log(err);
+        })
+
+    }
 
   };
 
@@ -167,7 +169,7 @@ class MountForm extends React.Component {
         this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
-        alert(err)
+        console.log(err)
       })
   }
 
@@ -176,24 +178,6 @@ class MountForm extends React.Component {
     const { classes } = this.props;
 
     let serversNames = this.getServerNames();
-
-    const selectServers = (
-      <Select
-        value={this.state.server}
-        onChange={this.handleChangeServer}
-        input={
-          <OutlinedInput
-            labelWidth={this.state.labelWidth}
-            name="server"
-            id="outlined-server-simple"
-          />
-        }
-      >
-        {serversNames.map((name,index) => (
-          <MenuItem value={name} key={index}>{name}</MenuItem>
-        ))}
-      </Select>
-    );
 
     const selectLocale = (
       <Select
@@ -216,11 +200,29 @@ class MountForm extends React.Component {
       </Select>
     );
 
+    const selectServers = (
+      <Select
+        value={this.state.server}
+        onChange={this.handleChangeServer}
+        input={
+          <OutlinedInput
+            labelWidth={this.state.labelWidth}
+            name="server"
+            id="outlined-server-simple"
+          />
+        }
+      >
+        {serversNames.map((name,index) => (
+          <MenuItem value={name} key={index}>{name}</MenuItem>
+        ))}
+      </Select>
+    );
+
     return (
       <div>
         <form autoComplete="off" onSubmit={this.handleRequest}>
 
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRefLocale = ref;
@@ -234,7 +236,7 @@ class MountForm extends React.Component {
 
           { this.state.isLoaderServer && <Loader/> }
           { !this.state.isLoaderServer &&
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRef = ref;
@@ -248,12 +250,13 @@ class MountForm extends React.Component {
           }
 
           <TextField
-              id="standard-name"
-              label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
-              className={classes.textField}
-              onChange={this.handleChangeName('name')}
-              margin="normal"
-              variant="outlined"
+            required
+            id="standard-name"
+            label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
+            className={classes.textField}
+            onChange={this.handleChangeName('name')}
+            margin="normal"
+            variant="outlined"
             />
 
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
