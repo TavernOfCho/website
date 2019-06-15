@@ -12,17 +12,6 @@ export const userService = {
 
 let apiDomain = domainService.getApiDomain();
 
-function authHeader() {
-  // return authorization header with jwt token
-  let user = JSON.parse(localStorage.getItem('user'));
-
-  if (user && user.token) {
-    return { 'Authorization': 'Bearer ' + user.token };
-  } else {
-    return {};
-  }
-}
-
 function loggedIn() {
   // Checks if there is a saved token and it's still valid
   const token = getToken() // Getting token from localstorage
