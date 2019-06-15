@@ -68,7 +68,7 @@ class Login extends React.Component {
     const { dispatch } = this.props;
 
     if (username && password) {
-      dispatch(userActions.login(username, password));
+      dispatch(userActions.login(username.toLowerCase(), password));
     }
 
   };

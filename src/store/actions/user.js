@@ -37,7 +37,7 @@ function register(username, plainPassword, email) {
         user => {
           // Dispatch info
           dispatch(success(user, username, plainPassword));
-          dispatch(alertActions.success("Compte créé, bienvenue " + username));
+          dispatch(alertActions.success(`Compte créé, bienvenue ${username} !`));
         },
         error => {
           dispatch(failure(error));

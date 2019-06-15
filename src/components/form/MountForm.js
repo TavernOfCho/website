@@ -10,11 +10,13 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
-import RequestService from "../../services/RequestService";
+import { requestService } from "../../services/RequestService";
 import ProgressBar from "../ProgressBar";
 import MountCard from "../MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const styles = theme => ({
   root: {
@@ -66,7 +68,6 @@ class MountForm extends React.Component {
 
     // Bind this
     this.handleRequest = this.handleRequest.bind(this);
-    this.Request = new RequestService();
   }
 
   getServerNames() {
@@ -88,7 +89,7 @@ class MountForm extends React.Component {
       this.setState(
         { [event.target.name]: event.target.value },
         () => {
-          this.Request.getServers(this.state.locale)
+          requestService.getServers(this.state.locale)
             .then(res => {
               this.setState({servers: res['hydra:member'], isLoaderServer: false})
             })
@@ -118,7 +119,7 @@ class MountForm extends React.Component {
     if(this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderMount: true});
 
-      this.Request.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
         .then(res => {
           this.setState({
             resMounts: res,
@@ -147,7 +148,7 @@ class MountForm extends React.Component {
     if(typeof this.state.resMounts.name !== 'undefined') {
       return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
             <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
+              <MountCard locale={this.props.intl.locale} name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
             </Grid>
           )
         )
@@ -164,7 +165,7 @@ class MountForm extends React.Component {
     });
 
     // Call API for getting servers
-    this.Request.getServers(this.state.locale)
+    requestService.getServers(this.state.locale)
       .then(res => {
         this.setState({servers: res['hydra:member']})
       })
@@ -289,4 +290,14 @@ MountForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MountForm);
+function mapStateToProps(state) {
+  const { intl } = state;
+  return {
+    intl,
+  };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(MountForm);
