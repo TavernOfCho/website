@@ -7,7 +7,7 @@ import Loader from "../Loader";
 import { chatService } from "../../services/ChatService";
 import MessageHistoryPanel from "../MessageHistoryPanel";
 import Grid from "@material-ui/core/Grid/Grid";
-import {domainService} from "../../services/DomainService";
+import {domainService} from "../../helpers/domain";
 import Paper from '@material-ui/core/Paper';
 import {FormattedMessage} from "react-intl";
 
