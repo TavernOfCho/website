@@ -44,8 +44,7 @@ function fetching(url, options) {
     return fetch(url, {
       headers,
       ...options
-    })
-      .then(handleResponse)
+    }).then(handleResponse)
 }
 
 function handleResponse(response) {
