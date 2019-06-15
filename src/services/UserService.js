@@ -90,16 +90,6 @@ function register(username, plainPassword, email) {
     .then(handleResponse)
 }
 
-// eslint-disable-next-line
-function getAll() {
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader()
-  };
-
-  return fetch(`${apiDomain}/users`, requestOptions).then(handleResponse);
-}
-
 function handleResponse(response) {
   return response.text().then(text => {
     const data = text && JSON.parse(text);
