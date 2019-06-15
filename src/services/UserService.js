@@ -7,6 +7,7 @@ export const userService = {
   register,
   loggedIn,
   getToken,
+  isTokenExpired,
 };
 
 let apiDomain = domainService.getApiDomain();
@@ -74,6 +75,8 @@ function login(username, password) {
 function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('user');
+  // Redirecting to home
+  window.location.replace('/');
 }
 
 function register(username, plainPassword, email) {

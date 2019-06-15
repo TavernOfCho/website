@@ -37,6 +37,8 @@ import { faDragon } from '@fortawesome/free-solid-svg-icons'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { updateIntl } from 'react-intl-redux'
 import { store } from "../store/configureStore";
+import { userService } from '../services/UserService';
+
 
 const drawerWidth = 200;
 
@@ -84,8 +86,10 @@ class Drawer extends React.Component {
       mobileOpen: false,
     }
 
+
     const { dispatch } = this.props;
-    history.listen((location, action) => {
+
+      history.listen((location, action) => {
       // clear alert on location change
       dispatch(alertActions.clear());
     });
@@ -96,8 +100,6 @@ class Drawer extends React.Component {
   handleLogout(){
     // When disconnect button is clicked
     this.props.dispatch(userActions.logout);
-    // Redirecting to home
-    window.location.replace('/');
   }
 
   handleDrawerToggle = () => {
@@ -157,6 +159,18 @@ class Drawer extends React.Component {
         messages: store.getState().locales[value],
       })
     )
+  }
+
+  componentWillUpdate() {
+
+    // Logic for expired token
+    const { dispatch, auth } = this.props;
+
+    if(auth.user) {
+      if(userService.isTokenExpired(auth.user.token)) {
+        dispatch(userActions.logout());
+      }
+    }
   }
 
   render() {
