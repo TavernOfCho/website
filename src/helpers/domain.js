@@ -1,4 +1,4 @@
-export const domainService = {
+export const domain = {
   getApiDomain,
   getMercureDomain,
 };

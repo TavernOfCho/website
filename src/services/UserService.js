@@ -1,5 +1,5 @@
 import decode from 'jwt-decode';
-import {domainService} from "./DomainService";
+import { domainService } from '../helpers/domain';
 
 export const userService = {
   login,

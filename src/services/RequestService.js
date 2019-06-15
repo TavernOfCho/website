@@ -1,5 +1,5 @@
 import { userService } from './UserService';
-import { domainService } from './DomainService';
+import { domainService } from '../helpers/domain';
 
 export const requestService = {
   getServers,

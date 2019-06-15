@@ -35,7 +35,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown } from '@fortawesome/free-solid-svg-icons'
 import { faDragon } from '@fortawesome/free-solid-svg-icons'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
-
 import { updateIntl } from 'react-intl-redux'
 import { store } from "../store/configureStore";
 
