@@ -1,5 +1,5 @@
 import { userService } from './UserService';
-import { domainService } from './DomainService';
+import { domainService } from '../helpers/domain';
 
 export const chatService = {
   insertMessage,
@@ -40,7 +40,7 @@ function handleResponse(response) {
     if (!response.ok) {
       if (response.status === 401) {
         // auto logout if 401 response returned from api
-        console.log('response status',response.status)
+        userService.logout();
       }
 
       const error = (data && data.message) || response.statusText;

@@ -1,5 +1,5 @@
 import { userService } from './UserService';
-import { domainService } from './DomainService';
+import { domainService } from '../helpers/domain';
 
 export const requestService = {
   getServers,
@@ -44,20 +44,22 @@ function fetching(url, options) {
     return fetch(url, {
       headers,
       ...options
-    })
-      .then(_checkStatus)
-      .then(response => response.json())
+    }).then(handleResponse)
 }
 
-function _checkStatus(response) {
-  console.log('resp status',response.status);
+function handleResponse(response) {
+  return response.text().then(text => {
+    const data = text && JSON.parse(text);
+    if (!response.ok) {
+      if (response.status === 401) {
+        // auto logout if 401 response returned from api
+        userService.logout();
+      }
 
-  // raises an error in case response status is not a success
-  if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
-    return response
-  } else {
-    var error = new Error(response.statusText)
-    error.response = response
-    throw error
-  }
+      const error = (data && data.message) || response.statusText;
+      return Promise.reject(error);
+    }
+
+    return data;
+  });
 }

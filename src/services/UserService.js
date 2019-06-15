@@ -1,5 +1,5 @@
 import decode from 'jwt-decode';
-import {domainService} from "./DomainService";
+import { domainService } from '../helpers/domain';
 
 export const userService = {
   login,
@@ -7,20 +7,10 @@ export const userService = {
   register,
   loggedIn,
   getToken,
+  isTokenExpired,
 };
 
 let apiDomain = domainService.getApiDomain();
-
-function authHeader() {
-  // return authorization header with jwt token
-  let user = JSON.parse(localStorage.getItem('user'));
-
-  if (user && user.token) {
-    return { 'Authorization': 'Bearer ' + user.token };
-  } else {
-    return {};
-  }
-}
 
 function loggedIn() {
   // Checks if there is a saved token and it's still valid
@@ -74,6 +64,8 @@ function login(username, password) {
 function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('user');
+  // Redirecting to home
+  window.location.replace('/');
 }
 
 function register(username, plainPassword, email) {
@@ -85,16 +77,6 @@ function register(username, plainPassword, email) {
 
   return fetch(`${apiDomain}/users`, requestOptions)
     .then(handleResponse)
-}
-
-// eslint-disable-next-line
-function getAll() {
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader()
-  };
-
-  return fetch(`${apiDomain}/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
