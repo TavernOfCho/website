@@ -62,12 +62,14 @@ class ChatForm extends React.Component {
 
     if(this.state.message !== '') {
 
-      let data = {'text': this.state.message, 'sender': this.state.user.data['@id']};
+      const sender = '/users/' + this.state.user.data.id.toString();
+
+      let data = {'text': this.state.message, 'sender': sender};
 
       chatService.insertMessage(data)
         .then(this.setState({message: ''}))
         .catch(err => {
-          alert(err);
+          console.log(err);
         })
     }
 
