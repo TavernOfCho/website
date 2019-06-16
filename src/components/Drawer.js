@@ -187,6 +187,12 @@ class Drawer extends React.Component {
               <ListItemText primary={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} />
             </ListItem>
           </Link>
+          <Link to="/help" className={classes.link}>
+            <ListItem button key={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}>
+              <ListItemIcon><InboxIcon/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}/>
+            </ListItem>
+          </Link>
           {!auth.loggedIn &&
             <React.Fragment>
               <Link to="/login" className={classes.link}>
@@ -235,12 +241,6 @@ class Drawer extends React.Component {
             <ListItem button key={<FormattedMessage id='chat' defaultMessage="Chat"/>}>
               <ListItemIcon><ChatIcon/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='chat' defaultMessage="Chat"/>}/>
-            </ListItem>
-          </Link>
-          <Link to="/help" className={classes.link}>
-            <ListItem button key={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}>
-              <ListItemIcon><InboxIcon/></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}/>
             </ListItem>
           </Link>
         </List>
