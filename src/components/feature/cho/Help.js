@@ -91,6 +91,20 @@ function Help(props) {
                             <FormattedMessage id='help.a.who' defaultMessage='DILMI Roman MATHIEU François EVRARD Axel' />
                         </Typography>
                     </Paper>
+                    <Paper className={classes.paper}>
+                        <Typography variant="subtitle1" color="textSecondary" component="p">
+                            <FormattedMessage id='help.q.support' defaultMessage='Can I support them?' />
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary" component="p">
+                            <FormattedMessage id='help.a.support.money' defaultMessage='Sure, you can contribute on ' />
+                            <a href="https://www.paypal.me/axelevrard" target="_blank">
+                              <FormattedMessage id='help.a.support.payment' defaultMessage='Paypal' />
+                            </a>
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary" component="p">
+                            <FormattedMessage id='help.a.support.ads' defaultMessage='Or watch freely ads to support us, but not today.'/>
+                        </Typography>
+                    </Paper>
                 </Grid>
             </Grid>
           </div>
