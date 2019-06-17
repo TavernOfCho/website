@@ -30,6 +30,25 @@ function login(username, password) {
   function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
+function renewToken(data) {
+  return dispatch => {
+    userService.renewToken(data)
+      .then(
+        user => {
+          // Dispatch success action
+          dispatch(success(user))
+        },
+        error => {
+          dispatch(failure(error));
+          dispatch(alertActions.error(error))
+        }
+      );
+  };
+
+  function success(user) { return { type: userConstants.RENEW_SUCCESS, user } }
+  function failure(error) { return { type: userConstants.RENEW_FAILURE, error } }
+}
+
 function register(username, plainPassword, email) {
   return dispatch => {
     userService.register(username, plainPassword, email)
