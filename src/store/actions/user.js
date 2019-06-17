@@ -7,6 +7,7 @@ export const userActions = {
   login,
   logout,
   register,
+  renewToken,
 };
 
 function login(username, password) {
@@ -31,6 +32,7 @@ function login(username, password) {
 }
 
 function renewToken(data) {
+  console.log("token renew");
   return dispatch => {
     userService.renewToken(data)
       .then(

@@ -114,7 +114,7 @@ class Drawer extends React.Component {
 
   getUsername() {
       if(this.props.auth.loggedIn === true) {
-        return this.capitalizeFirstLetter(this.getUserInfos().username);
+        return this.capitalizeFirstLetter(this.getUserInfos().data.username);
       }
   }
 
@@ -169,7 +169,9 @@ class Drawer extends React.Component {
     if(auth.user) {
       console.log('auth.user',auth.user);
       if(userService.isTokenExpired(auth.user.token)) {
-        dispatch(userActions.logout());
+        console.log('auth.user22',auth.user);
+        dispatch(userActions.renewToken(auth.user));
+        // dispatch(userActions.logout());
       }
     }
   }

@@ -63,6 +63,7 @@ function login(username, password) {
 }
 
 function renewToken(data) {
+  console.log('dataaa:',data);
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-type': 'application/json' },
@@ -73,6 +74,8 @@ function renewToken(data) {
     .then(handleResponse)
     .then(user => {
       console.log('user in renewtoken:',user);
+      setUser(user);
+      return user;
     })
 }
 
