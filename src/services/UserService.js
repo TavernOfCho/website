@@ -8,6 +8,7 @@ export const userService = {
   loggedIn,
   getToken,
   isTokenExpired,
+  renewToken,
 };
 
 let apiDomain = domainService.getApiDomain();
@@ -59,6 +60,20 @@ function login(username, password) {
 
       return user;
     });
+}
+
+function renewToken(data) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify(data)
+  };
+
+  return fetch(`${apiDomain}/token/refresh`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+      console.log('user in renewtoken:',user);
+    })
 }
 
 function logout() {
