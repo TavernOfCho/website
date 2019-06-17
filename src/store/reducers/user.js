@@ -23,6 +23,14 @@ export default function authentication(state = initialState, action) {
       };
     case userConstants.REGISTER_FAILURE:
       return {};
+    case userConstants.RENEW_SUCCESS:
+      return {
+        ...state,
+        loggedIn: true,
+        user: action.user
+      };
+    case userConstants.RENEW_FAILURE:
+      return {};
     default:
       return state
   }
