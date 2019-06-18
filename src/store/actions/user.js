@@ -32,17 +32,17 @@ function login(username, password) {
 }
 
 function renewToken(data) {
-  console.log("token renew");
   return dispatch => {
     userService.renewToken(data)
       .then(
         user => {
           // Dispatch success action
-          dispatch(success(user))
+          dispatch(success(user));
+          window.location.reload();
         },
         error => {
           dispatch(failure(error));
-          dispatch(alertActions.error(error))
+          dispatch(alertActions.error(error));
         }
       );
   };

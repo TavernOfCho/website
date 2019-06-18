@@ -67,7 +67,6 @@ function login(username, password) {
 }
 
 function renewToken(userInfos) {
-  console.log('dataaa:',userInfos);
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-type': 'application/json' },
@@ -77,7 +76,6 @@ function renewToken(userInfos) {
   return fetch(`${apiDomain}/token/refresh`, requestOptions)
     .then(handleResponse)
     .then(user => {
-      console.log('user in renewtoken:',user);
       user.data.id = userInfos.data.id;
       setUser(user);
       return user;
