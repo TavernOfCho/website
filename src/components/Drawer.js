@@ -14,7 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupIcon from '@material-ui/icons/Group';
-import EjectIcon from '@material-ui/icons/Eject';
+import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 import PersonIcon from '@material-ui/icons/Person';
 import ChatIcon from '@material-ui/icons/Chat';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -144,7 +144,7 @@ class Drawer extends React.Component {
               aria-label={<FormattedMessage id='drawer.disconnect' defaultMessage='Disconnect' />}
               onClick={this.handleLogout}
             >
-              <EjectIcon />
+              <LogoutIcon />
             </IconButton>
           </Grid>
         </Tooltip>
