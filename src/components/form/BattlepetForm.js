@@ -94,7 +94,7 @@ class BattlepetForm extends React.Component {
             })
             .catch(err => {
               this.setState({isLoaderServer: false});
-              alert(err);
+              console.log(err);
             })
         }
       );
@@ -130,7 +130,7 @@ class BattlepetForm extends React.Component {
       })
       .catch(err => {
         this.setState({isLoaderMount:false});
-        alert(err);
+        console.log(err);
       })
 
   };
@@ -166,7 +166,7 @@ class BattlepetForm extends React.Component {
         this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
-        alert(err)
+        console.log(err)
       })
   }
 
