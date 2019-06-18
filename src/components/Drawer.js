@@ -74,6 +74,9 @@ const styles = theme => ({
   link: {
     color: 'rgba(0, 0, 0, 0.87)',
     textDecoration: 'none',
+  },
+  changeLang: {
+    color: "black",
   }
 });
 
@@ -273,18 +276,22 @@ class Drawer extends React.Component {
               {this.displayWelcomeMessage()}
 
               <div>
-                <img
-                  className={classes.flag}
-                  src={require("./img/flag-en.webp")}
-                  alt="flag-en"
-                  onClick={() => this.changeLanguage("en")}
-                />
-                <img
-                  className={classes.flag}
-                  src={require("./img/flag-fr.webp")}
-                  alt="flag-fr"
-                  onClick={() => this.changeLanguage("fr")}
-                />
+                <a href="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
+                  <img
+                    className={classes.flag}
+                    src={require("./img/flagus.png")}
+                    alt="flag-en"
+                  />
+                  <FormattedMessage id='english' defaultMessage='English' />
+                </a>
+                <a href="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
+                  <img
+                    className={classes.flag}
+                    src={require("./img/flagfr.png")}
+                    alt="flag-fr"
+                  />
+                  <FormattedMessage id='french' defaultMessage='French' />
+                </a>
               </div>
 
               {this.displayDisconnectButton()}
