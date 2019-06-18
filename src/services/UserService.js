@@ -59,8 +59,6 @@ function login(username, password) {
   return fetch(`${apiDomain}/login_check`, requestOptions)
     .then(handleResponse)
     .then(user => {
-      // Adding user name
-      user.username = username;
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       setUser(user);
 
@@ -68,18 +66,19 @@ function login(username, password) {
     });
 }
 
-function renewToken(data) {
-  console.log('dataaa:',data);
+function renewToken(userInfos) {
+  console.log('dataaa:',userInfos);
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify(userInfos)
   };
 
   return fetch(`${apiDomain}/token/refresh`, requestOptions)
     .then(handleResponse)
     .then(user => {
       console.log('user in renewtoken:',user);
+      user.data.id = userInfos.data.id;
       setUser(user);
       return user;
     })
