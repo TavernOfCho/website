@@ -9,6 +9,7 @@ export const userService = {
   getToken,
   isTokenExpired,
   renewToken,
+  getUser,
 };
 
 let apiDomain = domainService.getApiDomain();
@@ -36,6 +37,11 @@ function isTokenExpired(token) {
 function getToken() {
   // Retrieves the user token from localStorage
   return JSON.parse(localStorage.getItem('user')).token;
+}
+
+function getUser() {
+  // Retrieves the user token from localStorage
+  return JSON.parse(localStorage.getItem('user'));
 }
 
 function setUser(user) {
@@ -103,7 +109,7 @@ function handleResponse(response) {
     if (!response.ok) {
       if (response.status === 401) {
         // auto logout if 401 response returned from api
-        logout();
+        renewToken(getUser());
       }
 
       const error = (data && data.message) || response.statusText;
