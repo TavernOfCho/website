@@ -16,8 +16,7 @@ import {FormattedMessage} from 'react-intl';
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    margin: theme.spacing(3),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -194,8 +193,8 @@ class CharacterForm extends React.Component {
     );
 
     return (
-      <div>
-        <form autoComplete="on" onSubmit={this.handleCharacterRequest}>
+      <div className={classes.root}>
+        <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
 
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel

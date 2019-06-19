@@ -17,6 +17,9 @@ const styles = {
   media: {
     height: 500,
   },
+  root: {
+    marginTop: 10,
+  },
   title: {
     fontSize: 14,
   },
@@ -37,8 +40,8 @@ function CharacterInfos(props) {
   const thumbnailUrl = blizzardImageUri + thumbnailFormatted;
 
   return (
-    <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-      <Grid item xs={10} sm={10} md={8} lg={6}>
+    <Grid container direction="row" justify="center" alignItems="center" spacing={3} className={classes.root}>
+      <Grid item xs={12} sm={12} md={8} lg={6}>
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
