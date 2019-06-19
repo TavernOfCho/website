@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { userActions } from "../store/actions/user";
 import {FormattedMessage} from 'react-intl';
+import alertActions from "../store/actions/alert";
 
 const styles = theme => ({
   main: {
@@ -66,12 +67,19 @@ class Register extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const { username, password, email } = this.state;
+    const { username, password, email , passwordConfirmation} = this.state;
     const { dispatch } = this.props;
 
     if(username && password && email) {
-      dispatch(userActions.register(username, password, email));
+
+      if(password === passwordConfirmation) {
+        dispatch(userActions.register(username.toLowerCase(), password, email.toLowerCase()));
+      } else {
+        dispatch(alertActions.warning(<FormattedMessage id='register.notSamePassword' defaultMessage='Mismatch between passwords.'/>));
+      }
+
     }
+
 
   }
 

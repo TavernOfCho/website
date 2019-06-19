@@ -1,4 +1,5 @@
 import decode from 'jwt-decode';
+import { domainService } from '../helpers/domain';
 
 export const userService = {
   login,
@@ -6,34 +7,12 @@ export const userService = {
   register,
   loggedIn,
   getToken,
+  isTokenExpired,
+  renewToken,
+  getUser,
 };
 
-let domain = document.domain;
-let prodApiDomain = 'https://api.tavernofcho.com';
-let devApiDomain = 'https://127.0.0.1:8052';
-let domainForRequest = '';
-
-switch(domain) {
-  case '127.0.0.1':
-    domainForRequest = devApiDomain;
-    break;
-  case 'tavernofcho.com':
-    domainForRequest = prodApiDomain;
-    break;
-  default:
-    domainForRequest = null;
-}
-
-function authHeader() {
-  // return authorization header with jwt token
-  let user = JSON.parse(localStorage.getItem('user'));
-
-  if (user && user.token) {
-    return { 'Authorization': 'Bearer ' + user.token };
-  } else {
-    return {};
-  }
-}
+let apiDomain = domainService.getApiDomain();
 
 function loggedIn() {
   // Checks if there is a saved token and it's still valid
@@ -60,6 +39,11 @@ function getToken() {
   return JSON.parse(localStorage.getItem('user')).token;
 }
 
+function getUser() {
+  // Retrieves the user token from localStorage
+  return JSON.parse(localStorage.getItem('user'));
+}
+
 function setUser(user) {
   // Saves user informations to localStorage
   localStorage.setItem('user', JSON.stringify(user))
@@ -72,11 +56,9 @@ function login(username, password) {
     body: JSON.stringify({ username, password })
   };
 
-  return fetch(`${domainForRequest}/login_check`, requestOptions)
+  return fetch(`${apiDomain}/login_check`, requestOptions)
     .then(handleResponse)
     .then(user => {
-      // Adding user name
-      user.username = username;
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       setUser(user);
 
@@ -84,9 +66,27 @@ function login(username, password) {
     });
 }
 
+function renewToken(userInfos) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify(userInfos)
+  };
+
+  return fetch(`${apiDomain}/token/refresh`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+      user.data.id = userInfos.data.id;
+      setUser(user);
+      return user;
+    })
+}
+
 function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('user');
+  // Redirecting to home
+  window.location.replace('/');
 }
 
 function register(username, plainPassword, email) {
@@ -96,18 +96,8 @@ function register(username, plainPassword, email) {
     body: JSON.stringify({ username, plainPassword, email })
   };
 
-  return fetch(`${domainForRequest}/users`, requestOptions)
+  return fetch(`${apiDomain}/users`, requestOptions)
     .then(handleResponse)
-}
-
-// eslint-disable-next-line
-function getAll() {
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader()
-  };
-
-  return fetch(`${domainForRequest}/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
@@ -115,8 +105,8 @@ function handleResponse(response) {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
-        // auto logout if 401 response returned from api
-        logout();
+        // renew token if 401 response returned from api
+        renewToken(getUser());
       }
 
       const error = (data && data.message) || response.statusText;

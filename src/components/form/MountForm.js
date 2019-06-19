@@ -10,11 +10,13 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
-import RequestService from "../../services/RequestService";
+import { requestService } from "../../services/RequestService";
 import ProgressBar from "../ProgressBar";
 import MountCard from "../MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const styles = theme => ({
   root: {
@@ -44,6 +46,7 @@ const styles = theme => ({
 
 class MountForm extends React.Component {
 
+  _isMounted = false;
 
   constructor(props){
     super(props);
@@ -66,13 +69,11 @@ class MountForm extends React.Component {
 
     // Bind this
     this.handleRequest = this.handleRequest.bind(this);
-    this.Request = new RequestService();
   }
 
   getServerNames() {
     return this.state.servers.map(server => server.name).sort();
   }
-
 
   handleChangeServer = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -89,13 +90,13 @@ class MountForm extends React.Component {
       this.setState(
         { [event.target.name]: event.target.value },
         () => {
-          this.Request.getServers(this.state.locale)
+          requestService.getServers(this.state.locale)
             .then(res => {
               this.setState({servers: res['hydra:member'], isLoaderServer: false})
             })
             .catch(err => {
               this.setState({isLoaderServer: false});
-              alert(err);
+              console.log(err);
             })
         }
       );
@@ -116,23 +117,26 @@ class MountForm extends React.Component {
 
     event.preventDefault();
 
-    this.setState({isLoaderMount: true});
+    if(this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderMount: true});
 
-    this.Request.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
-      .then(res => {
-        this.setState({
-          resMounts: res,
-          isLoaderMount:false,
-          mountsCollected: res.numCollected,
-          mountsNotCollected: res.numNotCollected,
-          mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
-          isMountsInfoDisplayed: true,
+      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+        .then(res => {
+          this.setState({
+            resMounts: res,
+            isLoaderMount:false,
+            mountsCollected: res.numCollected,
+            mountsNotCollected: res.numNotCollected,
+            mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
+            isMountsInfoDisplayed: true,
+          })
         })
-      })
-      .catch(err => {
-        this.setState({isLoaderMount:false});
-        alert(err);
-      })
+        .catch(err => {
+          this.setState({isLoaderMount:false});
+          console.log(err);
+        })
+
+    }
 
   };
 
@@ -143,17 +147,17 @@ class MountForm extends React.Component {
   getMountsCards = () => {
     // Condition can be refacto
     if(typeof this.state.resMounts.name !== 'undefined') {
-      return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
-            <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
-            </Grid>
-          )
-        )
-      )
+      return ( this.state.resMounts.collected.map((item, index) => (
+        <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
+          <MountCard locale={this.props.intl.locale} name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
+        </Grid>
+      )))
     }
   };
 
   componentDidMount() {
+
+    this._isMounted = true;
 
     // Setting labels for select inputs
     this.setState({
@@ -162,13 +166,18 @@ class MountForm extends React.Component {
     });
 
     // Call API for getting servers
-    this.Request.getServers(this.state.locale)
+    requestService.getServers(this.state.locale)
       .then(res => {
-        this.setState({servers: res['hydra:member']})
+        if(this._isMounted)
+          this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
-        alert(err)
+        console.log(err)
       })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
 
@@ -176,24 +185,6 @@ class MountForm extends React.Component {
     const { classes } = this.props;
 
     let serversNames = this.getServerNames();
-
-    const selectServers = (
-      <Select
-        value={this.state.server}
-        onChange={this.handleChangeServer}
-        input={
-          <OutlinedInput
-            labelWidth={this.state.labelWidth}
-            name="server"
-            id="outlined-server-simple"
-          />
-        }
-      >
-        {serversNames.map((name,index) => (
-          <MenuItem value={name} key={index}>{name}</MenuItem>
-        ))}
-      </Select>
-    );
 
     const selectLocale = (
       <Select
@@ -216,11 +207,29 @@ class MountForm extends React.Component {
       </Select>
     );
 
+    const selectServers = (
+      <Select
+        value={this.state.server}
+        onChange={this.handleChangeServer}
+        input={
+          <OutlinedInput
+            labelWidth={this.state.labelWidth}
+            name="server"
+            id="outlined-server-simple"
+          />
+        }
+      >
+        {serversNames.map((name,index) => (
+          <MenuItem value={name} key={index}>{name}</MenuItem>
+        ))}
+      </Select>
+    );
+
     return (
       <div>
         <form autoComplete="off" onSubmit={this.handleRequest}>
 
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRefLocale = ref;
@@ -234,7 +243,7 @@ class MountForm extends React.Component {
 
           { this.state.isLoaderServer && <Loader/> }
           { !this.state.isLoaderServer &&
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRef = ref;
@@ -248,12 +257,13 @@ class MountForm extends React.Component {
           }
 
           <TextField
-              id="standard-name"
-              label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
-              className={classes.textField}
-              onChange={this.handleChangeName('name')}
-              margin="normal"
-              variant="outlined"
+            required
+            id="standard-name"
+            label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
+            className={classes.textField}
+            onChange={this.handleChangeName('name')}
+            margin="normal"
+            variant="outlined"
             />
 
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
@@ -286,4 +296,14 @@ MountForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MountForm);
+function mapStateToProps(state) {
+  const { intl } = state;
+  return {
+    intl,
+  };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(MountForm);

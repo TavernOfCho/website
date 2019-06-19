@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Loader from "./Loader";
-import RequestService from "../services/RequestService";
-import { chatService } from "../services/ChatService";
-import ExpansionPanels from "./ExpansionPanels";
+import Loader from "../Loader";
+import { chatService } from "../../services/ChatService";
+import MessageHistoryPanel from "../MessageHistoryPanel";
 import Grid from "@material-ui/core/Grid/Grid";
-import {domainService} from "../services/DomainService";
+import {domainService} from "../../helpers/domain";
 import Paper from '@material-ui/core/Paper';
-
+import {FormattedMessage} from "react-intl";
 
 const styles = theme => ({
   root: {
@@ -40,6 +39,7 @@ const styles = theme => ({
 
 class ChatForm extends React.Component {
 
+  _isMounted = false;
 
   constructor(props){
     super(props);
@@ -55,22 +55,22 @@ class ChatForm extends React.Component {
 
     // Bind this
     this.handleRequest = this.handleRequest.bind(this);
-    this.Request = new RequestService();
   }
 
   handleRequest = event => {
 
     event.preventDefault();
 
-
     if(this.state.message !== '') {
 
-      let data = {'text': this.state.message, 'sender': this.state.user.data['@id']};
+      const sender = '/users/' + this.state.user.data.id.toString();
+
+      let data = {'text': this.state.message, 'sender': sender};
 
       chatService.insertMessage(data)
         .then(this.setState({message: ''}))
         .catch(err => {
-          alert(err);
+          console.log(err);
         })
     }
 
@@ -82,10 +82,17 @@ class ChatForm extends React.Component {
 
   componentDidMount() {
 
-    // Getting messages for historical
-    chatService.getMessages().then(res => {
-      this.setState({historicalMessages: res['hydra:member']});
-    });
+    this._isMounted = true;
+
+      // Getting messages for historical
+    chatService.getMessages()
+      .then(res => {
+        if(this._isMounted)
+          this.setState({historicalMessages: res['hydra:member']});
+      })
+      .catch(err => {
+        console.log(err);
+      })
 
     let apiDomain = domainService.getApiDomain();
     let mercureDomain = domainService.getMercureDomain();
@@ -103,32 +110,36 @@ class ChatForm extends React.Component {
 
     es.onmessage = ({data}) => {
       const {text} = JSON.parse(data);
-        if(text) {
-          const userSender = JSON.parse(data).sender;
-          const username = userSender.username;
-          const messages = document.getElementById('messages');
+      if(text) {
+        const userSender = JSON.parse(data).sender;
+        const username = userSender.username;
+        const messages = document.getElementById('messages');
 
-          // Clear default value
-          if(!pText) {
-            messages.innerHTML = '';
-          }
-
-          pText = document.createElement('p');
-          pText.append(document.createTextNode(`${text}`));
-
-          pUsername = document.createElement('span');
-          pUsername.append(document.createTextNode(`${username} :`));
-
-          messages.append(pUsername);
-          messages.append(pText);
-
+        // Clear default value
+        if(!pText) {
+          messages.innerHTML = '';
         }
+
+        pText = document.createElement('p');
+        pText.append(document.createTextNode(`${text}`));
+
+        pUsername = document.createElement('span');
+        pUsername.append(document.createTextNode(`${username} :`));
+
+        messages.append(pUsername);
+        messages.append(pText);
+
+      }
 
       es.onerror = () => {
         console.log('Event source onerror');
-        }
       }
+    }
 
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -141,7 +152,7 @@ class ChatForm extends React.Component {
 
           <Grid item xs={12} sm={12} md={10} lg={10}>
 
-            <ExpansionPanels messages={this.state.historicalMessages} user={this.state.user.data}/>
+            <MessageHistoryPanel messages={this.state.historicalMessages} user={this.state.user.data}/>
 
           </Grid>
 
@@ -152,7 +163,7 @@ class ChatForm extends React.Component {
                 <TextField
                     id="standard-message"
                     label="Message"
-                    helperText="Entrez votre texte."
+                    helperText=<FormattedMessage id='chat.textfield.helper' defaultMessage='Send your message here.' />
                     className={classes.textField}
                     onChange={this.handleChangeName('message')}
                     margin="normal"
@@ -162,7 +173,7 @@ class ChatForm extends React.Component {
                   />
 
                 <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-                  Send
+                  <FormattedMessage id='chat.send' defaultMessage='Send' />
                 </Button>
 
             </form>
@@ -176,7 +187,7 @@ class ChatForm extends React.Component {
             <Paper className={classes.rootPaper}>
 
               <div id="messages">
-                No messages
+                <FormattedMessage id='chat.defaultLiveMessage' defaultMessage='No live messages, send the first message of this session.' />
               </div>
 
             </Paper>

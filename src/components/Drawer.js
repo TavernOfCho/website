@@ -14,8 +14,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupIcon from '@material-ui/icons/Group';
-import EjectIcon from '@material-ui/icons/Eject';
+import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 import PersonIcon from '@material-ui/icons/Person';
+import ChatIcon from '@material-ui/icons/Chat';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -34,9 +35,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown } from '@fortawesome/free-solid-svg-icons'
 import { faDragon } from '@fortawesome/free-solid-svg-icons'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
-
 import { updateIntl } from 'react-intl-redux'
 import { store } from "../store/configureStore";
+import { userService } from '../services/UserService';
+
 
 const drawerWidth = 200;
 
@@ -72,6 +74,9 @@ const styles = theme => ({
   link: {
     color: 'rgba(0, 0, 0, 0.87)',
     textDecoration: 'none',
+  },
+  changeLang: {
+    color: "black",
   }
 });
 
@@ -84,8 +89,10 @@ class Drawer extends React.Component {
       mobileOpen: false,
     }
 
+
     const { dispatch } = this.props;
-    history.listen((location, action) => {
+
+      history.listen((location, action) => {
       // clear alert on location change
       dispatch(alertActions.clear());
     });
@@ -96,8 +103,6 @@ class Drawer extends React.Component {
   handleLogout(){
     // When disconnect button is clicked
     this.props.dispatch(userActions.logout);
-    // Redirecting to home
-    window.location.replace('/');
   }
 
   handleDrawerToggle = () => {
@@ -112,7 +117,7 @@ class Drawer extends React.Component {
 
   getUsername() {
       if(this.props.auth.loggedIn === true) {
-        return this.capitalizeFirstLetter(this.getUserInfos().username);
+        return this.capitalizeFirstLetter(this.getUserInfos().data.username);
       }
   }
 
@@ -142,7 +147,7 @@ class Drawer extends React.Component {
               aria-label={<FormattedMessage id='drawer.disconnect' defaultMessage='Disconnect' />}
               onClick={this.handleLogout}
             >
-              <EjectIcon />
+              <LogoutIcon />
             </IconButton>
           </Grid>
         </Tooltip>
@@ -159,6 +164,18 @@ class Drawer extends React.Component {
     )
   }
 
+  componentWillUpdate() {
+
+    // Logic for expired token
+    const { dispatch, auth } = this.props;
+
+    if(auth.user) {
+      if(userService.isTokenExpired(auth.user.token)) {
+        dispatch(userActions.renewToken(auth.user));
+      }
+    }
+  }
+
   render() {
     const { classes, theme, alert, auth } = this.props;
 
@@ -167,21 +184,27 @@ class Drawer extends React.Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <Link to="/" style={{ textDecoration: 'none'}}>
+          <Link to="/" className={classes.link}>
             <ListItem button key={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} >
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='homescreen' defaultMessage="Tavern" />} />
             </ListItem>
           </Link>
+          <Link to="/help" className={classes.link}>
+            <ListItem button key={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}>
+              <ListItemIcon><InboxIcon/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}/>
+            </ListItem>
+          </Link>
           {!auth.loggedIn &&
             <React.Fragment>
-              <Link to="/login" style={{ textDecoration: 'none'}}>
+              <Link to="/login" className={classes.link}>
                 <ListItem button key={<FormattedMessage id='drawer.connect' defaultMessage="Log In" />}>
                   <ListItemIcon><PersonIcon /></ListItemIcon>
                   <ListItemText primary={<FormattedMessage id='drawer.connect' defaultMessage="Log In" />} />
                 </ListItem>
               </Link>
-              <Link to="/register" style={{ textDecoration: 'none'}}>
+              <Link to="/register" className={classes.link}>
                 <ListItem button key={<FormattedMessage id='drawer.register' defaultMessage="Register" />}>
                   <ListItemIcon><GroupIcon /></ListItemIcon>
                   <ListItemText primary={<FormattedMessage id='drawer.register' defaultMessage="Register" />} />
@@ -193,40 +216,34 @@ class Drawer extends React.Component {
         <Divider />
         {auth.loggedIn &&
         <List>
-          <Link to="/character" style={{textDecoration: 'none'}}>
+          <Link to="/character" className={classes.link}>
             <ListItem button key={<FormattedMessage id='drawer.character' defaultMessage="Character"/>}>
               <ListItemIcon><GroupIcon/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.character' defaultMessage="Character"/>}/>
             </ListItem>
           </Link>
-          <Link to="/mount" style={{textDecoration: 'none'}}>
+          <Link to="/mount" className={classes.link}>
             <ListItem button key={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}>
               <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}/>
             </ListItem>
           </Link>
-          <Link to="/chat" className={classes.link}>
-            <ListItem button key={<FormattedMessage id='chat' defaultMessage="Chat"/>}>
-              <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='chat' defaultMessage="Chat"/>}/>
-            </ListItem>
-          </Link>
-          <Link to="battlepet" style={{textDecoration: 'none'}}>
+          <Link to="battlepet" className={classes.link}>
             <ListItem button key={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}>
               <ListItemIcon><FontAwesomeIcon icon={faPaw} style={{marginRight: '3', marginLeft: '4'}}/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}/>
             </ListItem>
           </Link>
-          <Link to="/achievement" style={{textDecoration: 'none'}}>
+          <Link to="/achievement" className={classes.link}>
             <ListItem button key={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}>
               <ListItemIcon><FontAwesomeIcon icon={faCrown} style={{marginRight: '3', marginLeft: '3'}}/></ListItemIcon>
               <ListItemText primary={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}/>
             </ListItem>
           </Link>
-          <Link to="/help" style={{textDecoration: 'none'}}>
-            <ListItem button key={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}>
-              <ListItemIcon><InboxIcon/></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='drawer.help' defaultMessage="Help"/>}/>
+          <Link to="/chat" className={classes.link}>
+            <ListItem button key={<FormattedMessage id='chat' defaultMessage="Chat"/>}>
+              <ListItemIcon><ChatIcon/></ListItemIcon>
+              <ListItemText primary={<FormattedMessage id='chat' defaultMessage="Chat"/>}/>
             </ListItem>
           </Link>
         </List>
@@ -259,18 +276,22 @@ class Drawer extends React.Component {
               {this.displayWelcomeMessage()}
 
               <div>
-                <img
-                  className={classes.flag}
-                  src={require("./img/flag-en.webp")}
-                  alt="flag-en"
-                  onClick={() => this.changeLanguage("en")}
-                />
-                <img
-                  className={classes.flag}
-                  src={require("./img/flag-fr.webp")}
-                  alt="flag-fr"
-                  onClick={() => this.changeLanguage("fr")}
-                />
+                <a href="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
+                  <img
+                    className={classes.flag}
+                    src={require("./img/flagus.png")}
+                    alt="flag-en"
+                  />
+                  <FormattedMessage id='lang.en' defaultMessage='EN' />
+                </a>
+                <a href="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
+                  <img
+                    className={classes.flag}
+                    src={require("./img/flagfr.png")}
+                    alt="flag-fr"
+                  />
+                  <FormattedMessage id='lang.fr' defaultMessage='FR' />
+                </a>
               </div>
 
               {this.displayDisconnectButton()}

@@ -18,12 +18,12 @@ class Routing extends React.Component {
     return (
       <Switch>
         <Route exact path="/" component={() => <HomeScreen/>}/>
+        <Route exact path="/help" component={() => <HelpScreen/>}/>
         <Route exact path="/login" component={() => <LoginScreen/>}/>
         <Route exact path="/register" component={() => <RegisterScreen/>}/>
         <PrivateRoute exact path="/achievement" component={() => <AchievementScreen/>}/>
         <PrivateRoute exact path="/battlepet" component={() => <BattlepetScreen/>}/>
         <PrivateRoute exact path="/character" component={() => <CharacterScreen/>}/>
-        <PrivateRoute exact path="/help" component={() => <HelpScreen/>}/>
         <PrivateRoute exact path="/mount" component={() => <MountScreen/>}/>
         <PrivateRoute exact path="/chat" component={() => <ChatScreen/>}/>
       </Switch>

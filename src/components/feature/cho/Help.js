@@ -43,6 +43,14 @@ function Help(props) {
           <div className={classes.helpContent}>
             <Grid container spacing={3}>
                 <Grid item xs={6}>
+                      <Paper className={classes.paper}>
+                        <Typography variant="subtitle1" color="textSecondary" component="p">
+                            <FormattedMessage id='help.q.help' defaultMessage='What can I do with this app?' />
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary" component="p">
+                            <FormattedMessage id='help.a.help' defaultMessage='If you join us, you can do a lot of things with this tavern, like looking your collection of mount and battlepet, find what achievement to do and chat with other player in real time!' />
+                        </Typography>
+                    </Paper>
                     <Paper className={classes.paper}>
                         <Typography variant="subtitle1" color="textSecondary" component="p">
                             <FormattedMessage id='help.q.bug' defaultMessage='Can you help me Cho?' />
@@ -81,6 +89,20 @@ function Help(props) {
                         </Typography>
                         <Typography variant="subtitle2" color="textSecondary" component="p">
                             <FormattedMessage id='help.a.who' defaultMessage='DILMI Roman MATHIEU François EVRARD Axel' />
+                        </Typography>
+                    </Paper>
+                    <Paper className={classes.paper}>
+                        <Typography variant="subtitle1" color="textSecondary" component="p">
+                            <FormattedMessage id='help.q.support' defaultMessage='Can I support them?' />
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary" component="p">
+                            <FormattedMessage id='help.a.support.money' defaultMessage='Sure, you can contribute on ' />
+                            <a href="https://www.paypal.me/axelevrard" rel="noopener noreferrer" target="_blank">
+                              <FormattedMessage id='help.a.support.payment' defaultMessage='Paypal' />
+                            </a>
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary" component="p">
+                            <FormattedMessage id='help.a.support.ads' defaultMessage='Or watch freely ads to support us, but not today.'/>
                         </Typography>
                     </Paper>
                 </Grid>

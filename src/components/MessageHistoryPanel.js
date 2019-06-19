@@ -5,6 +5,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {FormattedMessage} from "react-intl";
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +33,7 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export default function ExpansionPanels(props) {
+export default function MessageHistoryPanel(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -48,7 +50,7 @@ export default function ExpansionPanels(props) {
           id="panel1bh-header"
         >
           <div className={classes.center}>
-            <Typography className={classes.heading}>Historical messages</Typography>
+            <Typography className={classes.heading}><FormattedMessage id='chat.message.history' defaultMessage='Message history'/></Typography>
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>

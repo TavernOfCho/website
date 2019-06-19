@@ -10,14 +10,13 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
-import RequestService from "../../services/RequestService";
+import { requestService } from "../../services/RequestService";
 import CharacterInfos from "../CharacterInfos";
 import {FormattedMessage} from 'react-intl';
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    margin: theme.spacing(3),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -40,6 +39,8 @@ const styles = theme => ({
 
 class CharacterForm extends React.Component {
 
+  _isMounted = false;
+
   constructor(props){
     super(props);
 
@@ -58,7 +59,6 @@ class CharacterForm extends React.Component {
 
     // Bind this
     this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
-    this.Request = new RequestService();
   }
 
   getServerNames() {
@@ -86,13 +86,13 @@ class CharacterForm extends React.Component {
     this.setState({isLoaderChar: true, isCharInfosDisplayed: false});
 
     // Character request
-    this.Request.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+    requestService.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
       .then(res => {
         this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderChar:false})
       })
       .catch(err => {
         this.setState({isLoaderChar:false})
-        alert(err)
+        console.log(err);
       })
   };
 
@@ -107,13 +107,13 @@ class CharacterForm extends React.Component {
       this.setState(
         { [event.target.name]: event.target.value },
         () => {
-          this.Request.getServers(this.state.locale)
+          requestService.getServers(this.state.locale)
             .then(res => {
               this.setState({servers: res['hydra:member'], isLoaderServer: false})
             })
             .catch(err => {
               this.setState({isLoaderServer: false});
-              alert(err);
+              console.log(err);
             })
         }
       );
@@ -124,6 +124,8 @@ class CharacterForm extends React.Component {
 
   componentDidMount() {
 
+    this._isMounted = true;
+
     // Setting labels for select inputs
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
@@ -131,13 +133,18 @@ class CharacterForm extends React.Component {
     });
 
     // Request for servers
-    this.Request.getServers(this.state.locale)
+    requestService.getServers(this.state.locale)
       .then(res => {
-        this.setState({servers: res['hydra:member']})
+        if(this._isMounted)
+          this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
-        alert(err)
+        console.log(err)
       })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
 
@@ -186,7 +193,7 @@ class CharacterForm extends React.Component {
     );
 
     return (
-      <div>
+      <div className={classes.root}>
         <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
 
           <FormControl variant="outlined" className={classes.formControl}>
