@@ -195,7 +195,7 @@ class CharacterForm extends React.Component {
 
     return (
       <div>
-        <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
+        <form autoComplete="on" onSubmit={this.handleCharacterRequest}>
 
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel

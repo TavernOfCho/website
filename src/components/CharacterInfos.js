@@ -7,15 +7,15 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
+import Grid from "@material-ui/core/Grid/Grid";
 
 
 const styles = {
   card: {
-    maxWidth: 275,
     margin: 'auto',
 },
   media: {
-    height: 300,
+    height: 500,
   },
   title: {
     fontSize: 14,
@@ -33,42 +33,46 @@ function CharacterInfos(props) {
 
   const thumbnail = charInfos.thumbnail;
   const thumbnailFormatted = thumbnail.replace('avatar', 'main');
-
-  console.log(thumbnailFormatted);
+  const blizzardImageUri = 'https://render-eu.worldofwarcraft.com/character/';
+  const thumbnailUrl = blizzardImageUri + thumbnailFormatted;
 
   return (
-      <Card className={classes.card}>
-        <CardMedia
-          className={classes.media}
-          image={`https://render-eu.worldofwarcraft.com/character/${thumbnailFormatted}`}
-          title={charInfos.name}
-        />
-        <div className={classes.wrapper}>
-        <CardContent>
-          <Typography className={classes.title} color="textSecondary" gutterBottom>
-            {charInfos.realm}
-          </Typography>
-          <Typography variant="h5" component="h2">
-            {charInfos.name}
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            Level: {charInfos.level}
-          </Typography>
-          <Typography component="p">
-            Battlegroup: {charInfos.battlegroup}
-          </Typography>
-          <Typography component="p">
-            Achievement points: {charInfos.achievementPoints}
-          </Typography>
-          <Typography component="p">
-            Total honorable kills: {charInfos.totalHonorableKills}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small">Détails</Button>
-        </CardActions>
-        </div>
-      </Card>
+    <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+      <Grid item xs={10} sm={10} md={8} lg={6}>
+        <Card className={classes.card}>
+          <CardMedia
+            className={classes.media}
+            image={`${thumbnailUrl}`}
+            title={charInfos.name}
+          />
+          <div className={classes.wrapper}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              {charInfos.realm}
+            </Typography>
+            <Typography variant="h5" component="h2">
+              {charInfos.name}
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              Level: {charInfos.level}
+            </Typography>
+            <Typography component="p">
+              Battlegroup: {charInfos.battlegroup}
+            </Typography>
+            <Typography component="p">
+              Achievement points: {charInfos.achievementPoints}
+            </Typography>
+            <Typography component="p">
+              Total honorable kills: {charInfos.totalHonorableKills}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Détails</Button>
+          </CardActions>
+          </div>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 
