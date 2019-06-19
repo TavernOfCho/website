@@ -6,13 +6,17 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
+
 
 const styles = {
   card: {
-    minWidth: 275,
     maxWidth: 275,
     margin: 'auto',
 },
+  media: {
+    height: 300,
+  },
   title: {
     fontSize: 14,
   },
@@ -27,8 +31,18 @@ const styles = {
 function CharacterInfos(props) {
   const { classes, charInfos } = props;
 
+  const thumbnail = charInfos.thumbnail;
+  const thumbnailFormatted = thumbnail.replace('avatar', 'main');
+
+  console.log(thumbnailFormatted);
+
   return (
       <Card className={classes.card}>
+        <CardMedia
+          className={classes.media}
+          image={`https://render-eu.worldofwarcraft.com/character/${thumbnailFormatted}`}
+          title={charInfos.name}
+        />
         <div className={classes.wrapper}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
