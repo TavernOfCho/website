@@ -97,7 +97,7 @@ function Help(props) {
                         </Typography>
                         <Typography variant="subtitle2" color="textSecondary" component="p">
                             <FormattedMessage id='help.a.support.money' defaultMessage='Sure, you can contribute on ' />
-                            <a href="https://www.paypal.me/axelevrard" target="_blank">
+                            <a href="https://www.paypal.me/axelevrard" rel="noopener noreferrer" target="_blank">
                               <FormattedMessage id='help.a.support.payment' defaultMessage='Paypal' />
                             </a>
                         </Typography>
