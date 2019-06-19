@@ -167,9 +167,7 @@ class Drawer extends React.Component {
     const { dispatch, auth } = this.props;
 
     if(auth.user) {
-      console.log('auth.user',auth.user);
       if(userService.isTokenExpired(auth.user.token)) {
-        console.log('auth.user.drawer.tokenexpired',auth.user);
         dispatch(userActions.renewToken(auth.user));
       }
     }
