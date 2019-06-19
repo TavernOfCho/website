@@ -168,9 +168,8 @@ class MountForm extends React.Component {
     // Call API for getting servers
     requestService.getServers(this.state.locale)
       .then(res => {
-        if(this._isMounted) {
+        if(this._isMounted)
           this.setState({servers: res['hydra:member']})
-        }
       })
       .catch(err =>{
         console.log(err)
