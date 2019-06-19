@@ -39,6 +39,7 @@ const styles = theme => ({
 
 class ChatForm extends React.Component {
 
+  _isMounted = false;
 
   constructor(props){
     super(props);
@@ -81,10 +82,17 @@ class ChatForm extends React.Component {
 
   componentDidMount() {
 
-    // Getting messages for historical
-    chatService.getMessages().then(res => {
-      this.setState({historicalMessages: res['hydra:member']});
-    });
+    this._isMounted = true;
+
+      // Getting messages for historical
+    chatService.getMessages()
+      .then(res => {
+        if(this._isMounted)
+          this.setState({historicalMessages: res['hydra:member']});
+      })
+      .catch(err => {
+        console.log(err);
+      })
 
     let apiDomain = domainService.getApiDomain();
     let mercureDomain = domainService.getMercureDomain();
@@ -102,32 +110,36 @@ class ChatForm extends React.Component {
 
     es.onmessage = ({data}) => {
       const {text} = JSON.parse(data);
-        if(text) {
-          const userSender = JSON.parse(data).sender;
-          const username = userSender.username;
-          const messages = document.getElementById('messages');
+      if(text) {
+        const userSender = JSON.parse(data).sender;
+        const username = userSender.username;
+        const messages = document.getElementById('messages');
 
-          // Clear default value
-          if(!pText) {
-            messages.innerHTML = '';
-          }
-
-          pText = document.createElement('p');
-          pText.append(document.createTextNode(`${text}`));
-
-          pUsername = document.createElement('span');
-          pUsername.append(document.createTextNode(`${username} :`));
-
-          messages.append(pUsername);
-          messages.append(pText);
-
+        // Clear default value
+        if(!pText) {
+          messages.innerHTML = '';
         }
+
+        pText = document.createElement('p');
+        pText.append(document.createTextNode(`${text}`));
+
+        pUsername = document.createElement('span');
+        pUsername.append(document.createTextNode(`${username} :`));
+
+        messages.append(pUsername);
+        messages.append(pText);
+
+      }
 
       es.onerror = () => {
         console.log('Event source onerror');
-        }
       }
+    }
 
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

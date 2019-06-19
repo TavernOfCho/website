@@ -44,6 +44,8 @@ const styles = theme => ({
 
 class BattlepetForm extends React.Component {
 
+  _isMounted = false;
+
 
   constructor(props){
     super(props);
@@ -154,6 +156,8 @@ class BattlepetForm extends React.Component {
 
   componentDidMount() {
 
+    this._isMounted = true;
+
     // Setting labels for select inputs
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
@@ -163,11 +167,16 @@ class BattlepetForm extends React.Component {
     // Call API for getting servers
     requestService.getServers(this.state.locale)
       .then(res => {
-        this.setState({servers: res['hydra:member']})
+        if(this._isMounted)
+          this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
         console.log(err)
       })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
 
