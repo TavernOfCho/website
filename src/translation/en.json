@@ -60,6 +60,8 @@
     "herounit.mount": "Discover a new mount",
     "herounit.pleaseregister": "Hello, I am the Loremaster Cho. Could you introduce yourself ?",
     "issue": "Report a bug",
+    "lang.en": "EN",
+    "lang.fr": "FR",
     "mount": "Mount",
     "register": "Register",
     "register.notSamePassword": "Mismatch between passwords.",
