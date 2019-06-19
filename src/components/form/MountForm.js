@@ -46,7 +46,7 @@ const styles = theme => ({
 
 class MountForm extends React.Component {
 
-  _isMounted=false;
+  _isMounted = false;
 
   constructor(props){
     super(props);
@@ -169,7 +169,6 @@ class MountForm extends React.Component {
     requestService.getServers(this.state.locale)
       .then(res => {
         if(this._isMounted) {
-          console.log("is mounted", this._isMounted);
           this.setState({servers: res['hydra:member']})
         }
       })
