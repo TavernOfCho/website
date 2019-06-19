@@ -8,6 +8,8 @@ export const userService = {
   loggedIn,
   getToken,
   isTokenExpired,
+  renewToken,
+  getUser,
 };
 
 let apiDomain = domainService.getApiDomain();
@@ -37,6 +39,11 @@ function getToken() {
   return JSON.parse(localStorage.getItem('user')).token;
 }
 
+function getUser() {
+  // Retrieves the user token from localStorage
+  return JSON.parse(localStorage.getItem('user'));
+}
+
 function setUser(user) {
   // Saves user informations to localStorage
   localStorage.setItem('user', JSON.stringify(user))
@@ -52,13 +59,27 @@ function login(username, password) {
   return fetch(`${apiDomain}/login_check`, requestOptions)
     .then(handleResponse)
     .then(user => {
-      // Adding user name
-      user.username = username;
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       setUser(user);
 
       return user;
     });
+}
+
+function renewToken(userInfos) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify(userInfos)
+  };
+
+  return fetch(`${apiDomain}/token/refresh`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+      user.data.id = userInfos.data.id;
+      setUser(user);
+      return user;
+    })
 }
 
 function logout() {
@@ -84,8 +105,8 @@ function handleResponse(response) {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
-        // auto logout if 401 response returned from api
-        logout();
+        // renew token if 401 response returned from api
+        renewToken(getUser());
       }
 
       const error = (data && data.message) || response.statusText;

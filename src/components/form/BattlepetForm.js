@@ -44,6 +44,8 @@ const styles = theme => ({
 
 class BattlepetForm extends React.Component {
 
+  _isMounted = false;
+
 
   constructor(props){
     super(props);
@@ -94,7 +96,7 @@ class BattlepetForm extends React.Component {
             })
             .catch(err => {
               this.setState({isLoaderServer: false});
-              alert(err);
+              console.log(err);
             })
         }
       );
@@ -130,7 +132,7 @@ class BattlepetForm extends React.Component {
       })
       .catch(err => {
         this.setState({isLoaderMount:false});
-        alert(err);
+        console.log(err);
       })
 
   };
@@ -154,6 +156,8 @@ class BattlepetForm extends React.Component {
 
   componentDidMount() {
 
+    this._isMounted = true;
+
     // Setting labels for select inputs
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
@@ -163,11 +167,16 @@ class BattlepetForm extends React.Component {
     // Call API for getting servers
     requestService.getServers(this.state.locale)
       .then(res => {
-        this.setState({servers: res['hydra:member']})
+        if(this._isMounted)
+          this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
-        alert(err)
+        console.log(err)
       })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
 

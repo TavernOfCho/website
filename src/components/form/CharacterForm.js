@@ -16,8 +16,7 @@ import {FormattedMessage} from 'react-intl';
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    margin: theme.spacing(3),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -39,6 +38,8 @@ const styles = theme => ({
 
 
 class CharacterForm extends React.Component {
+
+  _isMounted = false;
 
   constructor(props){
     super(props);
@@ -91,7 +92,7 @@ class CharacterForm extends React.Component {
       })
       .catch(err => {
         this.setState({isLoaderChar:false})
-        alert(err)
+        console.log(err);
       })
   };
 
@@ -112,7 +113,7 @@ class CharacterForm extends React.Component {
             })
             .catch(err => {
               this.setState({isLoaderServer: false});
-              alert(err);
+              console.log(err);
             })
         }
       );
@@ -123,6 +124,8 @@ class CharacterForm extends React.Component {
 
   componentDidMount() {
 
+    this._isMounted = true;
+
     // Setting labels for select inputs
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
@@ -132,11 +135,16 @@ class CharacterForm extends React.Component {
     // Request for servers
     requestService.getServers(this.state.locale)
       .then(res => {
-        this.setState({servers: res['hydra:member']})
+        if(this._isMounted)
+          this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
-        alert(err)
+        console.log(err)
       })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
 
@@ -185,7 +193,7 @@ class CharacterForm extends React.Component {
     );
 
     return (
-      <div>
+      <div className={classes.root}>
         <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
 
           <FormControl variant="outlined" className={classes.formControl}>

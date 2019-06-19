@@ -46,6 +46,7 @@ const styles = theme => ({
 
 class MountForm extends React.Component {
 
+  _isMounted = false;
 
   constructor(props){
     super(props);
@@ -147,16 +148,16 @@ class MountForm extends React.Component {
     // Condition can be refacto
     if(typeof this.state.resMounts.name !== 'undefined') {
       return ( this.state.resMounts.collected.map((item, index) => (
-            <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard locale={this.props.intl.locale} name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
-            </Grid>
-          )
-        )
-      )
+        <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
+          <MountCard locale={this.props.intl.locale} name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
+        </Grid>
+      )))
     }
   };
 
   componentDidMount() {
+
+    this._isMounted = true;
 
     // Setting labels for select inputs
     this.setState({
@@ -167,11 +168,16 @@ class MountForm extends React.Component {
     // Call API for getting servers
     requestService.getServers(this.state.locale)
       .then(res => {
-        this.setState({servers: res['hydra:member']})
+        if(this._isMounted)
+          this.setState({servers: res['hydra:member']})
       })
       .catch(err =>{
         console.log(err)
       })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
 
