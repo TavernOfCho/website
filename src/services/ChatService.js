@@ -31,6 +31,16 @@ function getMessages() {
     }
   };
 
+  // Setting Authorization header
+  // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
+  if (userService.loggedIn()) {
+    requestOptions.headers['Authorization'] = 'Bearer ' + userService.getToken()
+  }
+  else {
+    userService.renewToken(userService.getUser());
+    requestOptions.headers['Authorization'] = 'Bearer ' + userService.getToken()
+  }
+
   return fetch(`${domain}/messages`, requestOptions).then(handleResponse);
 }
 
@@ -39,8 +49,8 @@ function handleResponse(response) {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
-        // auto logout if 401 response returned from api
-        userService.logout();
+        // renew token if 401 response returned from api
+        userService.renewToken(userService.getUser());
       }
 
       const error = (data && data.message) || response.statusText;
