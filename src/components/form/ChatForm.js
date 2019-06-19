@@ -84,12 +84,15 @@ class ChatForm extends React.Component {
 
     this._isMounted = true;
 
-    if(this._isMounted) {
-
       // Getting messages for historical
-    chatService.getMessages().then(res => {
-      this.setState({historicalMessages: res['hydra:member']});
-    });
+    chatService.getMessages()
+      .then(res => {
+        if(this._isMounted)
+          this.setState({historicalMessages: res['hydra:member']});
+      })
+      .catch(err => {
+        console.log(err);
+      })
 
     let apiDomain = domainService.getApiDomain();
     let mercureDomain = domainService.getMercureDomain();
@@ -131,8 +134,6 @@ class ChatForm extends React.Component {
       es.onerror = () => {
         console.log('Event source onerror');
       }
-    }
-
     }
 
   }
