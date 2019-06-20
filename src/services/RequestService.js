@@ -15,8 +15,21 @@ function getServers(locale) {
   })
 }
 
-function getMounts(name, server) {
-  return fetching(`${domain}/characters/${name}/${server}/mounts`, {
+function getMounts(name, server, language) {
+
+  // Handling language to set it correctly for api call
+  switch (language) {
+    case 'fr':
+      language = 'frFR';
+      break;
+    case 'en':
+      language = 'enGB';
+      break;
+    default:
+      return null;
+  }
+
+  return fetching(`${domain}/characters/${name}/${server}/mounts?locale=${language}`, {
     method: 'GET'
   })
 }

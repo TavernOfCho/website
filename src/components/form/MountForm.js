@@ -120,7 +120,7 @@ class MountForm extends React.Component {
     if(this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderMount: true});
 
-      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), this.props.intl.locale)
         .then(res => {
           this.setState({
             resMounts: res,
