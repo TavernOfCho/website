@@ -5,6 +5,7 @@ export const requestService = {
   getServers,
   getMounts,
   getCharacter,
+  getPets,
 };
 
 let domain = domainService.getApiDomain();
@@ -36,6 +37,12 @@ function getMounts(name, server, language) {
 
 function getCharacter(character, server) {
   return fetching(`${domain}/characters/${character}?realm=${server}`, {
+    method: 'GET'
+  })
+}
+
+function getPets(character, server) {
+  return fetching(`${domain}/characters/${character}/${server}/pets`, {
     method: 'GET'
   })
 }
