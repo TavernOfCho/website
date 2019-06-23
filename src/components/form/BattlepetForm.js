@@ -280,7 +280,7 @@ class BattlepetForm extends React.Component {
         {/* Displaying datas */}
         {this.state.isPetsInfoDisplayed &&
           <React.Fragment>
-            <ProgressBar progression={this.state.petsCollectedPercentage}/>
+            <ProgressBar type={<FormattedMessage id='progress.battlepet' defaultMessage='BattlePet collected' />} progression={this.state.petsCollectedPercentage}/>
             <div className={this.props.classes.rootCard}>
               <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
                 {this.getPetsCards()}

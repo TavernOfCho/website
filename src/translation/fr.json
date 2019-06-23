@@ -62,7 +62,7 @@
     "issue": "Signaler une erreur",
     "lang.en": "EN",
     "lang.fr": "FR",
-    "mount": "Monture ",
+    "progess.mount": "Montures acquises",
     "register": "Inscription",
     "tavernproject": "Projet TavernOfCho",
     "register.notSamePassword": "Incohérence entre les mots de passe.",

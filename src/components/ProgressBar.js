@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 function ProgressBar(props) {
   const classes = useStyles();
 
-  const { progression } = props;
+  const { type, progression } = props;
 
   return (
 
@@ -39,11 +39,11 @@ function ProgressBar(props) {
       <Grid container spacing={0}>
 
         <Grid item xs={12} sm={3}>
-          <p>Mounts collected</p>
+          <p>{type}</p>
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <Tooltip title={progression + ' % collected mounts'} aria-label="mounts-collected-percentage">
+          <Tooltip title={progression + ' %'} aria-label="mounts-collected-percentage">
             <BorderLinearProgress
               className={classes.margin}
               variant="determinate"
