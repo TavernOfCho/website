@@ -12,9 +12,11 @@ import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
 import { requestService } from "../../services/RequestService";
 import ProgressBar from "../ProgressBar";
-import MountCard from "../MountCard";
+import PetCard from "../PetCard";
 import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const styles = theme => ({
   root: {
@@ -46,7 +48,6 @@ class BattlepetForm extends React.Component {
 
   _isMounted = false;
 
-
   constructor(props){
     super(props);
 
@@ -73,7 +74,6 @@ class BattlepetForm extends React.Component {
   getServerNames() {
     return this.state.servers.map(server => server.name).sort();
   }
-
 
   handleChangeServer = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -117,23 +117,26 @@ class BattlepetForm extends React.Component {
 
     event.preventDefault();
 
-    this.setState({isLoaderPets: true});
+    if(this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderPets: true});
 
-    requestService.getPets(this.state.name.toLowerCase(), this.state.server.toLowerCase())
-      .then(res => {
-        this.setState({
-          petsResults: res,
-          isLoaderPets:false,
-          petsCollected: res.numCollected,
-          petsNotCollected: res.numNotCollected,
-          petsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
-          isPetsInfoDisplayed: true,
+      requestService.getPets(this.state.name.toLowerCase(), this.state.server.toLowerCase(), this.props.intl.locale)
+        .then(res => {
+          this.setState({
+            petsResults: res,
+            isLoaderPets:false,
+            petsCollected: res.numCollected,
+            petsNotCollected: res.numNotCollected,
+            petsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
+            isPetsInfoDisplayed: true,
+          })
         })
-      })
-      .catch(err => {
-        this.setState({isLoaderPets:false});
-        console.log(err);
-      })
+        .catch(err => {
+          this.setState({isLoaderPets:false});
+          console.log(err);
+        })
+
+    }
 
   };
 
@@ -146,7 +149,7 @@ class BattlepetForm extends React.Component {
     if(typeof this.state.petsResults.name !== 'undefined') {
       return ( this.state.petsResults.collected.map((item, index) => (
             <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
+              <PetCard locale={this.props.intl.locale} name={item.creatureName} icon={item.icon} itemId={item.itemId} quality={item.qualityId} stats={item.stats}/>
             </Grid>
           )
         )
@@ -185,24 +188,6 @@ class BattlepetForm extends React.Component {
 
     let serversNames = this.getServerNames();
 
-    const selectServers = (
-      <Select
-        value={this.state.server}
-        onChange={this.handleChangeServer}
-        input={
-          <OutlinedInput
-            labelWidth={this.state.labelWidth}
-            name="server"
-            id="outlined-server-simple"
-          />
-        }
-      >
-        {serversNames.map((name,index) => (
-          <MenuItem value={name} key={index}>{name}</MenuItem>
-        ))}
-      </Select>
-    );
-
     const selectLocale = (
       <Select
         value={this.state.locale}
@@ -224,11 +209,30 @@ class BattlepetForm extends React.Component {
       </Select>
     );
 
+
+    const selectServers = (
+      <Select
+        value={this.state.server}
+        onChange={this.handleChangeServer}
+        input={
+          <OutlinedInput
+            labelWidth={this.state.labelWidth}
+            name="server"
+            id="outlined-server-simple"
+          />
+        }
+      >
+        {serversNames.map((name,index) => (
+          <MenuItem value={name} key={index}>{name}</MenuItem>
+        ))}
+      </Select>
+    );
+
     return (
       <div>
         <form autoComplete="off" onSubmit={this.handleRequest}>
 
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRefLocale = ref;
@@ -242,7 +246,7 @@ class BattlepetForm extends React.Component {
 
           { this.state.isLoaderServer && <Loader/> }
           { !this.state.isLoaderServer &&
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRef = ref;
@@ -256,6 +260,7 @@ class BattlepetForm extends React.Component {
           }
 
           <TextField
+              required
               id="standard-name"
               label={<FormattedMessage id='form.name.character' defaultMessage='Battlepet Name' />}
               className={classes.textField}
@@ -275,7 +280,7 @@ class BattlepetForm extends React.Component {
         {/* Displaying datas */}
         {this.state.isPetsInfoDisplayed &&
           <React.Fragment>
-            <ProgressBar progression={this.state.petsCollectedPercentage}/>
+            <ProgressBar type={<FormattedMessage id='progress.battlepet' defaultMessage='BattlePet collected' />} progression={this.state.petsCollectedPercentage}/>
             <div className={this.props.classes.rootCard}>
               <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
                 {this.getPetsCards()}
@@ -294,4 +299,13 @@ BattlepetForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BattlepetForm);
+function mapStateToProps(state) {
+  const { intl } = state;
+  return {
+    intl,
+  };
+}
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(BattlepetForm);
