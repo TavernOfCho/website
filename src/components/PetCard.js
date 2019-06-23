@@ -49,6 +49,7 @@ const useStyles = makeStyles({
 
 export default function PetCard(props) {
   const classes = useStyles();
+  console.log(props);
 
   // Handle background color
   let backgroundColor = () => {
