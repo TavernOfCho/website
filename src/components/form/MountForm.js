@@ -136,9 +136,8 @@ class MountForm extends React.Component {
         })
         .catch(err => {
           this.setState({isLoaderMount:false});
-          console.log(err);
 
-          if(err === 500) {
+          if(err >= 300 && err <= 500) {
             dispatch(alertActions.error(<FormattedMessage id='mount.request.error' defaultMessage='Error, please check the form data.' />))
           }
         })
