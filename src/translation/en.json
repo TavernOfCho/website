@@ -62,6 +62,7 @@
     "issue": "Report a bug",
     "lang.en": "EN",
     "lang.fr": "FR",
+    "mount.request.error": "Error, please check the form data.",
     "progress.battlepet": "Battlepet collected",
     "progress.mount": "Mount collected",
     "register": "Register",
