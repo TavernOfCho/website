@@ -74,9 +74,9 @@ function fetching(url, options) {
 function handleResponse(response) {
   return response.text().then(text => {
     const data = text && JSON.parse(text);
-    if (!response.ok) {
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
+
+    if (response.status >= 300 && response.status <= 500) {
+      throw response.status;
     }
 
     return data;

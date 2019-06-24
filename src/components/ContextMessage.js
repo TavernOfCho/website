@@ -13,7 +13,7 @@ const styles = theme => ({
     justifyContent: 'center',
   },
   snackbar: {
-    marginTop: theme.spacing(3),
+    margin: theme.spacing(3),
   },
   success: {
     backgroundColor: green[600],

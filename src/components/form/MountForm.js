@@ -17,6 +17,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import alertActions from "../../store/actions/alert";
 
 const styles = theme => ({
   root: {
@@ -115,12 +116,14 @@ class MountForm extends React.Component {
 
   handleRequest = event => {
 
+    const { dispatch, intl } = this.props;
+
     event.preventDefault();
 
     if(this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderMount: true});
 
-      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), this.props.intl.locale)
+      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
         .then(res => {
           this.setState({
             resMounts: res,
@@ -134,6 +137,10 @@ class MountForm extends React.Component {
         .catch(err => {
           this.setState({isLoaderMount:false});
           console.log(err);
+
+          if(err === 500) {
+            dispatch(alertActions.error(<FormattedMessage id='mount.request.error' defaultMessage='Error, please check the form data.' />))
+          }
         })
 
     }
