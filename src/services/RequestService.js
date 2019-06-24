@@ -75,7 +75,7 @@ function handleResponse(response) {
   return response.text().then(text => {
     const data = text && JSON.parse(text);
 
-    if (response.status >= 300 && response.status <= 500) {
+    if (response.status >= 300 && response.status <= 511) {
       throw response.status;
     }
 

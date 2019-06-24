@@ -73,13 +73,13 @@ function renewToken(userInfos) {
     body: JSON.stringify(userInfos)
   };
 
-  return fetch(`${apiDomain}/token/refresh`, requestOptions)
-    .then(handleResponse)
-    .then(user => {
-      user.data.id = userInfos.data.id;
-      setUser(user);
-      return user;
-    })
+    return fetch(`${apiDomain}/token/refresh`, requestOptions)
+      .then(handleResponse)
+      .then(user => {
+        user.data.id = userInfos.data.id;
+        setUser(user);
+        return user;
+      })
 }
 
 function logout() {
@@ -105,8 +105,10 @@ function handleResponse(response) {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
-        // renew token if 401 response returned from api
-        renewToken(getUser());
+        if(window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+          // renew token if 401 response returned from api and if location isn't login or register to avoid enter in a loop of post request
+          renewToken(getUser());
+        }
       }
 
       const error = (data && data.message) || response.statusText;
