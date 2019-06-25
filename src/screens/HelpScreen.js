@@ -4,21 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import Help from "../components/feature/cho/Help";
 import { connect } from 'react-redux';
 import ContextMessage from "../components/ContextMessage";
-import {history} from "../helpers/history";
-import {alertActions} from "../store/actions/alert";
 
 class HelpScreen extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    const { dispatch } = this.props;
-
-    history.listen((location, action) => {
-      // clear alert on location change
-      dispatch(alertActions.clear());
-    });
-  }
 
   render() {
 

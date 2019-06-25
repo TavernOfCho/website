@@ -4,22 +4,9 @@ import HeroBanner from "../components/HeroBanner";
 import { FormattedMessage } from 'react-intl';
 import ChatForm from "../components/form/ChatForm";
 import { connect } from 'react-redux';
-import {history} from "../helpers/history";
-import {alertActions} from "../store/actions/alert";
 import ContextMessage from "../components/ContextMessage";
 
 class ChatScreen extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    const { dispatch } = this.props;
-
-    history.listen((location, action) => {
-      // clear alert on location change
-      dispatch(alertActions.clear());
-    });
-  }
 
   render() {
 

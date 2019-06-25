@@ -3,23 +3,10 @@ import HeroBanner from "../components/HeroBanner";
 import { FormattedMessage } from 'react-intl';
 import BattlepetForm from "../components/form/BattlepetForm";
 import Helper from "../components/feature/cho/Helper";
-import {history} from "../helpers/history";
-import {alertActions} from "../store/actions/alert";
 import { connect } from 'react-redux';
 import ContextMessage from "../components/ContextMessage";
 
 class BattlepetScreen extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    const { dispatch } = this.props;
-
-    history.listen((location, action) => {
-      // clear alert on location change
-      dispatch(alertActions.clear());
-    });
-  }
 
   render() {
 

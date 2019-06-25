@@ -5,21 +5,8 @@ import MountForm from "../components/form/MountForm";
 import Helper from "../components/feature/cho/Helper";
 import ContextMessage from "../components/ContextMessage";
 import { connect } from 'react-redux';
-import {history} from "../helpers/history";
-import {alertActions} from "../store/actions/alert";
 
 class MountScreen extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    const { dispatch } = this.props;
-
-    history.listen((location, action) => {
-      // clear alert on location change
-      dispatch(alertActions.clear());
-    });
-  }
 
   render() {
 

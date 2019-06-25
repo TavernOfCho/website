@@ -35,7 +35,9 @@ import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { updateIntl } from 'react-intl-redux'
 import { store } from "../store/configureStore";
 import { userService } from '../services/UserService';
-
+import {history} from "../helpers/history";
+import {alertActions} from "../store/actions/alert";
+import { withRouter } from 'react-router-dom';
 
 const drawerWidth = 200;
 
@@ -85,6 +87,13 @@ class Drawer extends React.Component {
     this.state = {
       mobileOpen: false,
     }
+
+    const { dispatch } = this.props;
+
+    history.listen((location, action) => {
+      // clear alert on location change
+      dispatch(alertActions.clear());
+    });
 
     this.handleLogout = this.handleLogout.bind(this);
   }
@@ -345,6 +354,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
+  withRouter,
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)
 )(Drawer);

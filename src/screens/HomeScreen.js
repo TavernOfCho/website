@@ -3,8 +3,6 @@ import HeroUnit from "../components/HeroUnit";
 import HeroBanner from "../components/HeroBanner";
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import {history} from "../helpers/history";
-import {alertActions} from "../store/actions/alert";
 import ContextMessage from "../components/ContextMessage";
 
 class HomeScreen extends React.Component {
@@ -15,15 +13,7 @@ class HomeScreen extends React.Component {
     this.state = {
       hasButton: false,
     }
-
-    const { dispatch } = this.props;
-
-    history.listen((location, action) => {
-      // clear alert on location change
-      dispatch(alertActions.clear());
-    });
   }
-
 
   componentWillMount() {
     if(this.props.auth.loggedIn !== true){
