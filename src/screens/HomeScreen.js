@@ -3,11 +3,12 @@ import HeroUnit from "../components/HeroUnit";
 import HeroBanner from "../components/HeroBanner";
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import ContextMessage from "../components/ContextMessage";
 
 class HomeScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       hasButton: false,
@@ -28,15 +29,18 @@ class HomeScreen extends React.Component {
         description={<FormattedMessage id='homescreen.welcome' defaultMessage="Let's choose the next achievement you want to do and find new friends" />}/>
         <HeroUnit title={<FormattedMessage id='homescreen' defaultMessage='Home' />}
         hasButton={this.state.hasButton}/>
+        {/* ---- Location for alert ---- */}
+        {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth } = state;
+  const { auth, alert } = state;
   return {
     auth,
+    alert,
   }
 }
 
