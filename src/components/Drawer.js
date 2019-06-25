@@ -334,10 +334,11 @@ class Drawer extends React.Component {
           <div className={classes.toolbar} />
 
           {/* Manage alert message*/}
-          {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
+          {/*{alert.message && <ContextMessage message={alert.message} type={alert.type}/>}*/}
 
           {/* Routing for the whole app */}
           <Routing/>
+
 
         </main>
 
