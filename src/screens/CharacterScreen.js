@@ -5,7 +5,7 @@ import CharacterForm from "../components/form/CharacterForm";
 import Helper from "../components/feature/cho/Helper";
 import {history} from "../helpers/history";
 import {alertActions} from "../store/actions/alert";
-import connect from "react-redux/es/connect/connect";
+import { connect } from 'react-redux';
 import ContextMessage from "../components/ContextMessage";
 
 class CharacterScreen extends React.Component {

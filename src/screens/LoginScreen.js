@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "../components/Login";
 import ContextMessage from "../components/ContextMessage";
-import connect from "react-redux/es/connect/connect";
+import { connect } from 'react-redux';
 import {history} from "../helpers/history";
 import {alertActions} from "../store/actions/alert";
 
