@@ -28,6 +28,7 @@ class HelpScreen extends React.Component {
       <div>
         <HeroBanner title={<FormattedMessage id='chotavern' defaultMessage="Cho's Tavern" />}
         description={<FormattedMessage id="title.help" defaultMessage="Lost? Don't worry!" />}/>
+        {/* ---- Location for alert ---- */}
         {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
         <Help />
       </div>

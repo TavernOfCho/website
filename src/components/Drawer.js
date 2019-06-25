@@ -25,11 +25,8 @@ import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
 import {FormattedMessage} from 'react-intl';
-import ContextMessage from "./ContextMessage";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { alertActions } from "../store/actions/alert";
-import { history } from "../helpers/history";
 import { userActions } from "../store/actions/user";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown } from '@fortawesome/free-solid-svg-icons'
@@ -88,14 +85,6 @@ class Drawer extends React.Component {
     this.state = {
       mobileOpen: false,
     }
-
-
-    const { dispatch } = this.props;
-
-      history.listen((location, action) => {
-      // clear alert on location change
-      dispatch(alertActions.clear());
-    });
 
     this.handleLogout = this.handleLogout.bind(this);
   }
@@ -177,7 +166,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, alert, auth } = this.props;
+    const { classes, theme, auth } = this.props;
 
     const drawer = (
       <div>
@@ -333,9 +322,6 @@ class Drawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 
-          {/* Manage alert message*/}
-          {/*{alert.message && <ContextMessage message={alert.message} type={alert.type}/>}*/}
-
           {/* Routing for the whole app */}
           <Routing/>
 
@@ -352,10 +338,9 @@ Drawer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { alert, auth } = state;
+  const { auth } = state;
   return {
-    alert,
-    auth
+    auth,
   };
 }
 
