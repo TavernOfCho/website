@@ -30,6 +30,7 @@ class MountScreen extends React.Component {
         <HeroBanner title={<FormattedMessage id='chotavern' defaultMessage="Cho's Tavern" />}
         description={<FormattedMessage id='title.mount' defaultMessage="If you can ride it, I know the name" />}/>
         <p><FormattedMessage id='character.helper' defaultMessage="Please fill your server and the name of your character." /></p>
+        {/* ---- Location for alert ---- */}
         {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
         <MountForm/>
         <Helper />
