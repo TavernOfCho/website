@@ -3,17 +3,46 @@ import HeroBanner from "../components/HeroBanner";
 import {FormattedMessage} from 'react-intl';
 import CharacterForm from "../components/form/CharacterForm";
 import Helper from "../components/feature/cho/Helper";
+import {history} from "../helpers/history";
+import {alertActions} from "../store/actions/alert";
+import connect from "react-redux/es/connect/connect";
+import ContextMessage from "../components/ContextMessage";
 
-export default class CharacterScreen extends React.Component {
+class CharacterScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    const { dispatch } = this.props;
+
+    history.listen((location, action) => {
+      // clear alert on location change
+      dispatch(alertActions.clear());
+    });
+  }
+
   render() {
+
+    const { alert } = this.props;
+
     return (
       <div>
-        <HeroBanner title={<FormattedMessage id='chotavern' defaultMessage="Cho's Tavern" />} 
+        <HeroBanner title={<FormattedMessage id='chotavern' defaultMessage="Cho's Tavern" />}
         description={<FormattedMessage id='title.character' defaultMessage="I know everyone, do you want to try?" />}/>
         <p><FormattedMessage id='character.helper' defaultMessage="Please fill your server and the name of your character." /></p>
+        {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
         <CharacterForm/>
         <Helper />
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const { alert } = state;
+  return {
+    alert,
+  };
+}
+
+export default connect(mapStateToProps)(CharacterScreen);
