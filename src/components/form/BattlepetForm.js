@@ -17,6 +17,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import alertActions from "../../store/actions/alert";
 
 const styles = theme => ({
   root: {
@@ -115,12 +116,14 @@ class BattlepetForm extends React.Component {
 
   handleRequest = event => {
 
+    const { dispatch, intl } = this.props;
+
     event.preventDefault();
 
     if(this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderPets: true});
 
-      requestService.getPets(this.state.name.toLowerCase(), this.state.server.toLowerCase(), this.props.intl.locale)
+      requestService.getPets(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
         .then(res => {
           this.setState({
             petsResults: res,
@@ -133,7 +136,10 @@ class BattlepetForm extends React.Component {
         })
         .catch(err => {
           this.setState({isLoaderPets:false});
-          console.log(err);
+
+          if(err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          }
         })
 
     }
@@ -208,7 +214,6 @@ class BattlepetForm extends React.Component {
         <MenuItem value='esES'>ES</MenuItem>
       </Select>
     );
-
 
     const selectServers = (
       <Select
