@@ -3,14 +3,10 @@ import HeroBanner from "../components/HeroBanner";
 import { FormattedMessage } from 'react-intl';
 import MountForm from "../components/form/MountForm";
 import Helper from "../components/feature/cho/Helper";
-import ContextMessage from "../components/ContextMessage";
-import { connect } from 'react-redux';
 
-class MountScreen extends React.Component {
+export default class MountScreen extends React.Component {
 
   render() {
-
-    const { alert } = this.props;
 
     return (
       <div>
@@ -23,12 +19,3 @@ class MountScreen extends React.Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  const { alert } = state;
-  return {
-    alert,
-  };
-}
-
-export default connect(mapStateToProps)(MountScreen);
