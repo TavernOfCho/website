@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "../components/Login";
-import ContextMessage from "../components/ContextMessage";
 import { connect } from 'react-redux';
+import AlertMessage from "../components/AlertMessage";
 
 
 class LoginScreen extends React.Component {
@@ -12,8 +12,8 @@ class LoginScreen extends React.Component {
 
     return (
       <div className="LoginScreen">
-        {/* ---- Location for alert ---- */}
-        {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
+        {/* --- System for alert --- */}
+        {alert.message && <AlertMessage message={alert.message} type={alert.type}/>}
         <Login/>
       </div>
     );

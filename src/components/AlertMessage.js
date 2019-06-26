@@ -73,7 +73,7 @@ MySnackbarContentWrapper.propTypes = {
 
 export default function AlertMessage(props) {
 
-  const { message } = props;
+  const { message, type } = props;
 
   const [open, setOpen] = React.useState(true);
 
@@ -90,15 +90,14 @@ export default function AlertMessage(props) {
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'middle',
+          horizontal: 'center',
         }}
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}
       >
         <MySnackbarContentWrapper
-          onClose={handleClose}
-          variant="error"
+          variant={type}
           message={message}
         />
       </Snackbar>
