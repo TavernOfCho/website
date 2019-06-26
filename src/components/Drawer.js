@@ -275,19 +275,10 @@ class Drawer extends React.Component {
 
               <div>
                 <a href="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
-                  <img
-                    className={classes.flag}
-                    src={require("./img/flagus.png")}
-                    alt="flag-en"
-                  />
                   <FormattedMessage id='lang.en' defaultMessage='EN' />
                 </a>
+                 -
                 <a href="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
-                  <img
-                    className={classes.flag}
-                    src={require("./img/flagfr.png")}
-                    alt="flag-fr"
-                  />
                   <FormattedMessage id='lang.fr' defaultMessage='FR' />
                 </a>
               </div>
