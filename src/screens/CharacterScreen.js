@@ -5,6 +5,7 @@ import CharacterForm from "../components/form/CharacterForm";
 import Helper from "../components/feature/cho/Helper";
 import { connect } from 'react-redux';
 import ContextMessage from "../components/ContextMessage";
+import AlertMessage from "../components/AlertMessage";
 
 class CharacterScreen extends React.Component {
 
@@ -17,8 +18,6 @@ class CharacterScreen extends React.Component {
         <HeroBanner title={<FormattedMessage id='chotavern' defaultMessage="Cho's Tavern" />}
         description={<FormattedMessage id='title.character' defaultMessage="I know everyone, do you want to try?" />}/>
         <p><FormattedMessage id='character.helper' defaultMessage="Please fill your server and the name of your character." /></p>
-        {/* ---- Location for alert ---- */}
-        {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
         <CharacterForm/>
         <Helper />
       </div>

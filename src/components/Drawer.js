@@ -38,6 +38,7 @@ import { userService } from '../services/UserService';
 import {history} from "../helpers/history";
 import {alertActions} from "../store/actions/alert";
 import { withRouter } from 'react-router-dom';
+import AlertMessage from "./AlertMessage";
 
 const drawerWidth = 200;
 
@@ -175,7 +176,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, auth } = this.props;
+    const { classes, theme, auth, alert } = this.props;
 
     const drawer = (
       <div>
@@ -322,6 +323,9 @@ class Drawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 
+          {/* --- System for alert --- */}
+          {alert.message && <AlertMessage message={alert.message} type={alert.type}/>}
+
           {/* Routing for the whole app */}
           <Routing/>
 
@@ -338,9 +342,10 @@ Drawer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { auth } = state;
+  const { auth, alert } = state;
   return {
     auth,
+    alert,
   };
 }
 
