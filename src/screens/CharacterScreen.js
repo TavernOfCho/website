@@ -3,15 +3,10 @@ import HeroBanner from "../components/HeroBanner";
 import {FormattedMessage} from 'react-intl';
 import CharacterForm from "../components/form/CharacterForm";
 import Helper from "../components/feature/cho/Helper";
-import { connect } from 'react-redux';
-import ContextMessage from "../components/ContextMessage";
-import AlertMessage from "../components/AlertMessage";
 
-class CharacterScreen extends React.Component {
+export default class CharacterScreen extends React.Component {
 
   render() {
-
-    const { alert } = this.props;
 
     return (
       <div>
@@ -25,11 +20,3 @@ class CharacterScreen extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { alert } = state;
-  return {
-    alert,
-  };
-}
-
-export default connect(mapStateToProps)(CharacterScreen);
