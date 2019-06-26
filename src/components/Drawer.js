@@ -38,6 +38,7 @@ import { userService } from '../services/UserService';
 import {history} from "../helpers/history";
 import {alertActions} from "../store/actions/alert";
 import { withRouter } from 'react-router-dom';
+import AlertMessage from "./AlertMessage";
 
 const drawerWidth = 200;
 
@@ -75,7 +76,8 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   changeLang: {
-    color: "black",
+    color: "white",
+    textDecoration: 'none',
   }
 });
 
@@ -175,7 +177,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, auth } = this.props;
+    const { classes, theme, auth, alert } = this.props;
 
     const drawer = (
       <div>
@@ -274,13 +276,13 @@ class Drawer extends React.Component {
               {this.displayWelcomeMessage()}
 
               <div>
-                <a href="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
+                <Link to="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
                   <FormattedMessage id='lang.en' defaultMessage='EN' />
-                </a>
-                 -
-                <a href="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
+                </Link>
+                &nbsp;-&nbsp;
+                <Link to="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
                   <FormattedMessage id='lang.fr' defaultMessage='FR' />
-                </a>
+                </Link>
               </div>
 
               {this.displayDisconnectButton()}
@@ -322,6 +324,9 @@ class Drawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 
+          {/* --- System for alert --- */}
+          {alert.message && <AlertMessage message={alert.message} type={alert.type}/>}
+
           {/* Routing for the whole app */}
           <Routing/>
 
@@ -338,9 +343,10 @@ Drawer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { auth } = state;
+  const { auth, alert } = state;
   return {
     auth,
+    alert,
   };
 }
 
