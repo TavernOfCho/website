@@ -25,11 +25,8 @@ import Grid from '@material-ui/core/Grid';
 import Routing from "./Routing";
 import Tooltip from '@material-ui/core/Tooltip';
 import {FormattedMessage} from 'react-intl';
-import ContextMessage from "./ContextMessage";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { alertActions } from "../store/actions/alert";
-import { history } from "../helpers/history";
 import { userActions } from "../store/actions/user";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown } from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +35,10 @@ import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { updateIntl } from 'react-intl-redux'
 import { store } from "../store/configureStore";
 import { userService } from '../services/UserService';
-
+import {history} from "../helpers/history";
+import {alertActions} from "../store/actions/alert";
+import { withRouter } from 'react-router-dom';
+import AlertMessage from "./AlertMessage";
 
 const drawerWidth = 200;
 
@@ -76,7 +76,8 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   changeLang: {
-    color: "black",
+    color: "white",
+    textDecoration: 'none',
   }
 });
 
@@ -89,10 +90,9 @@ class Drawer extends React.Component {
       mobileOpen: false,
     }
 
-
     const { dispatch } = this.props;
 
-      history.listen((location, action) => {
+    history.listen((location, action) => {
       // clear alert on location change
       dispatch(alertActions.clear());
     });
@@ -177,7 +177,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, alert, auth } = this.props;
+    const { classes, theme, auth, alert } = this.props;
 
     const drawer = (
       <div>
@@ -276,22 +276,13 @@ class Drawer extends React.Component {
               {this.displayWelcomeMessage()}
 
               <div>
-                <a href="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
-                  <img
-                    className={classes.flag}
-                    src={require("./img/flagus.png")}
-                    alt="flag-en"
-                  />
+                <Link to="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
                   <FormattedMessage id='lang.en' defaultMessage='EN' />
-                </a>
-                <a href="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
-                  <img
-                    className={classes.flag}
-                    src={require("./img/flagfr.png")}
-                    alt="flag-fr"
-                  />
+                </Link>
+                &nbsp;-&nbsp;
+                <Link to="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
                   <FormattedMessage id='lang.fr' defaultMessage='FR' />
-                </a>
+                </Link>
               </div>
 
               {this.displayDisconnectButton()}
@@ -333,11 +324,12 @@ class Drawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 
-          {/* Manage alert message*/}
-          {alert.message && <ContextMessage message={alert.message} type={alert.type}/>}
+          {/* --- System for alert --- */}
+          {alert.message && <AlertMessage message={alert.message} type={alert.type}/>}
 
           {/* Routing for the whole app */}
           <Routing/>
+
 
         </main>
 
@@ -351,14 +343,15 @@ Drawer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { alert, auth } = state;
+  const { auth, alert } = state;
   return {
+    auth,
     alert,
-    auth
   };
 }
 
 export default compose(
+  withRouter,
   withStyles(styles, { withTheme: true }),
   connect(mapStateToProps)
 )(Drawer);

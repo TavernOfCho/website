@@ -12,9 +12,12 @@ import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
 import { requestService } from "../../services/RequestService";
 import ProgressBar from "../ProgressBar";
-import MountCard from "../MountCard";
+import PetCard from "../PetCard";
 import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import alertActions from "../../store/actions/alert";
 
 const styles = theme => ({
   root: {
@@ -46,7 +49,6 @@ class BattlepetForm extends React.Component {
 
   _isMounted = false;
 
-
   constructor(props){
     super(props);
 
@@ -56,13 +58,13 @@ class BattlepetForm extends React.Component {
       labelWidthLocale: 0,
       servers: [],
       name: '',
-      resMounts: [],
-      mountsCollected: 0,
-      mountsNotCollected: 0,
-      mountsCollectedPercentage: 0,
-      isLoaderMount: false,
+      petsResults: [],
+      petsCollected: 0,
+      petsNotCollected: 0,
+      petsCollectedPercentage: 0,
+      isLoaderPets: false,
       isLoaderServer: false,
-      isMountsInfoDisplayed: false,
+      isPetsInfoDisplayed: false,
       locale: 'frFR',
     };
 
@@ -73,7 +75,6 @@ class BattlepetForm extends React.Component {
   getServerNames() {
     return this.state.servers.map(server => server.name).sort();
   }
-
 
   handleChangeServer = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -115,25 +116,33 @@ class BattlepetForm extends React.Component {
 
   handleRequest = event => {
 
+    const { dispatch, intl } = this.props;
+
     event.preventDefault();
 
-    this.setState({isLoaderMount: true});
+    if(this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderPets: true});
 
-    requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase())
-      .then(res => {
-        this.setState({
-          resMounts: res,
-          isLoaderMount:false,
-          mountsCollected: res.numCollected,
-          mountsNotCollected: res.numNotCollected,
-          mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
-          isMountsInfoDisplayed: true,
+      requestService.getPets(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
+        .then(res => {
+          this.setState({
+            petsResults: res,
+            isLoaderPets:false,
+            petsCollected: res.numCollected,
+            petsNotCollected: res.numNotCollected,
+            petsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
+            isPetsInfoDisplayed: true,
+          })
         })
-      })
-      .catch(err => {
-        this.setState({isLoaderMount:false});
-        console.log(err);
-      })
+        .catch(err => {
+          this.setState({isLoaderPets:false});
+
+          if(err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          }
+        })
+
+    }
 
   };
 
@@ -141,12 +150,12 @@ class BattlepetForm extends React.Component {
     return Math.round((collected / (collected + notCollected)) * 100);
   }
 
-  getMountsCards = () => {
+  getPetsCards = () => {
     // Condition can be refacto
-    if(typeof this.state.resMounts.name !== 'undefined') {
-      return ( this.state.resMounts.collected['hydra:member'].map((item, index) => (
+    if(typeof this.state.petsResults.name !== 'undefined') {
+      return ( this.state.petsResults.collected.map((item, index) => (
             <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-              <MountCard name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
+              <PetCard locale={this.props.intl.locale} name={item.creatureName} icon={item.icon} itemId={item.itemId} quality={item.qualityId} stats={item.stats}/>
             </Grid>
           )
         )
@@ -185,24 +194,6 @@ class BattlepetForm extends React.Component {
 
     let serversNames = this.getServerNames();
 
-    const selectServers = (
-      <Select
-        value={this.state.server}
-        onChange={this.handleChangeServer}
-        input={
-          <OutlinedInput
-            labelWidth={this.state.labelWidth}
-            name="server"
-            id="outlined-server-simple"
-          />
-        }
-      >
-        {serversNames.map((name,index) => (
-          <MenuItem value={name} key={index}>{name}</MenuItem>
-        ))}
-      </Select>
-    );
-
     const selectLocale = (
       <Select
         value={this.state.locale}
@@ -224,11 +215,29 @@ class BattlepetForm extends React.Component {
       </Select>
     );
 
+    const selectServers = (
+      <Select
+        value={this.state.server}
+        onChange={this.handleChangeServer}
+        input={
+          <OutlinedInput
+            labelWidth={this.state.labelWidth}
+            name="server"
+            id="outlined-server-simple"
+          />
+        }
+      >
+        {serversNames.map((name,index) => (
+          <MenuItem value={name} key={index}>{name}</MenuItem>
+        ))}
+      </Select>
+    );
+
     return (
       <div>
         <form autoComplete="off" onSubmit={this.handleRequest}>
 
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRefLocale = ref;
@@ -242,7 +251,7 @@ class BattlepetForm extends React.Component {
 
           { this.state.isLoaderServer && <Loader/> }
           { !this.state.isLoaderServer &&
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRef = ref;
@@ -256,6 +265,7 @@ class BattlepetForm extends React.Component {
           }
 
           <TextField
+              required
               id="standard-name"
               label={<FormattedMessage id='form.name.character' defaultMessage='Battlepet Name' />}
               className={classes.textField}
@@ -270,15 +280,15 @@ class BattlepetForm extends React.Component {
         </form>
 
         {/* Displaying loader during the request time */}
-        { this.state.isLoaderMount && <Loader/> }
+        { this.state.isLoaderPets && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isMountsInfoDisplayed &&
+        {this.state.isPetsInfoDisplayed &&
           <React.Fragment>
-            <ProgressBar progression={this.state.mountsCollectedPercentage}/>
+            <ProgressBar type={<FormattedMessage id='progress.battlepet' defaultMessage='BattlePet collected' />} progression={this.state.petsCollectedPercentage}/>
             <div className={this.props.classes.rootCard}>
               <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-                {this.getMountsCards()}
+                {this.getPetsCards()}
               </Grid>
             </div>
           </React.Fragment>
@@ -294,4 +304,13 @@ BattlepetForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BattlepetForm);
+function mapStateToProps(state) {
+  const { intl } = state;
+  return {
+    intl,
+  };
+}
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(BattlepetForm);

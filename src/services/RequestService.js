@@ -5,6 +5,7 @@ export const requestService = {
   getServers,
   getMounts,
   getCharacter,
+  getPets,
 };
 
 let domain = domainService.getApiDomain();
@@ -40,6 +41,12 @@ function getCharacter(character, server) {
   })
 }
 
+function getPets(character, server) {
+  return fetching(`${domain}/characters/${character}/${server}/pets`, {
+    method: 'GET'
+  })
+}
+
 
 function fetching(url, options) {
   // performs api calls sending the required authentication headers
@@ -67,9 +74,9 @@ function fetching(url, options) {
 function handleResponse(response) {
   return response.text().then(text => {
     const data = text && JSON.parse(text);
-    if (!response.ok) {
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
+
+    if (response.status >= 300 && response.status <= 511) {
+      throw response.status;
     }
 
     return data;

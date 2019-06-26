@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 
 class HomeScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       hasButton: false,

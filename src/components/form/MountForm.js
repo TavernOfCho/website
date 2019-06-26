@@ -17,6 +17,8 @@ import Grid from "@material-ui/core/Grid/Grid";
 import {FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import alertActions from "../../store/actions/alert";
+import AlertMessage from "../AlertMessage";
 
 const styles = theme => ({
   root: {
@@ -115,12 +117,14 @@ class MountForm extends React.Component {
 
   handleRequest = event => {
 
+    const { dispatch, intl } = this.props;
+
     event.preventDefault();
 
     if(this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderMount: true});
 
-      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), this.props.intl.locale)
+      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
         .then(res => {
           this.setState({
             resMounts: res,
@@ -133,7 +137,10 @@ class MountForm extends React.Component {
         })
         .catch(err => {
           this.setState({isLoaderMount:false});
-          console.log(err);
+
+          if(err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          }
         })
 
     }
@@ -182,7 +189,7 @@ class MountForm extends React.Component {
 
 
   render() {
-    const { classes } = this.props;
+    const { classes, alert } = this.props;
 
     let serversNames = this.getServerNames();
 
@@ -227,6 +234,9 @@ class MountForm extends React.Component {
 
     return (
       <div>
+        {/*--- Alert system ---*/}
+        { alert.message && <AlertMessage message={alert.message} type={alert.type}/>}
+
         <form autoComplete="off" onSubmit={this.handleRequest}>
 
           <FormControl required variant="outlined" className={classes.formControl}>
@@ -274,10 +284,12 @@ class MountForm extends React.Component {
         {/* Displaying loader during the request time */}
         { this.state.isLoaderMount && <Loader/> }
 
+
+
         {/* Displaying datas */}
         {this.state.isMountsInfoDisplayed &&
           <React.Fragment>
-            <ProgressBar progression={this.state.mountsCollectedPercentage}/>
+            <ProgressBar type={<FormattedMessage id='progress.mount' defaultMessage='Mount collected' />} progression={this.state.mountsCollectedPercentage}/>
             <div className={this.props.classes.rootCard}>
               <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
                 {this.getMountsCards()}
@@ -297,9 +309,10 @@ MountForm.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { intl } = state;
+  const { intl, alert } = state;
   return {
     intl,
+    alert,
   };
 }
 
