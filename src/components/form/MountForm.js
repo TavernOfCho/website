@@ -18,7 +18,6 @@ import {FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import alertActions from "../../store/actions/alert";
-import AlertMessage from "../AlertMessage";
 
 const styles = theme => ({
   root: {
@@ -280,8 +279,6 @@ class MountForm extends React.Component {
 
         {/* Displaying loader during the request time */}
         { this.state.isLoaderMount && <Loader/> }
-
-
 
         {/* Displaying datas */}
         {this.state.isMountsInfoDisplayed &&
