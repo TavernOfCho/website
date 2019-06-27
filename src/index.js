@@ -62,11 +62,11 @@ class MainApp extends React.Component {
     // Wowhead script
     const scriptWowheadConfig = document.createElement("script");
     scriptWowheadConfig.innerHTML = "var whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};";
-    document.body.appendChild(scriptWowheadConfig);
+    document.head.appendChild(scriptWowheadConfig);
 
     const scriptWowhead = document.createElement("script");
     scriptWowhead.src = "https://wow.zamimg.com/widgets/power.js";
-    document.body.appendChild(scriptWowhead);
+    document.head.appendChild(scriptWowhead);
 
   }
 
