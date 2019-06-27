@@ -46,8 +46,6 @@ function registerValidSW(swUrl, config) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
-              // Reload the page for the user
-              window.location.reload();
 
               // Execute callback
               if (config && config.onUpdate) {
@@ -62,6 +60,8 @@ function registerValidSW(swUrl, config) {
               // Execute callback
               if (config && config.onSuccess) {
                 config.onSuccess(registration);
+                // Reload the page for the user
+                window.location.reload();
               }
             }
           }
