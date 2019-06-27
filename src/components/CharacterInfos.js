@@ -27,9 +27,13 @@ const styles = {
   pos: {
     marginBottom: 12,
   },
-  wrapper: {
-    // backgroundColor: `rgba(255, 255, 255, 0.2)`,
-    backgroundImage: ''
+  wrapperAlliance: {
+    backgroundImage: 'linear-gradient(to bottom, #02070f, #071628, #012042, #00295d, #0f3177)',
+    color: 'white',
+  },
+  wrapperHorde: {
+    backgroundImage: 'linear-gradient(to bottom, #140404, #280e0c, #3b1011, #501214, #651414)',
+    color: 'white',
   },
 };
 
@@ -53,6 +57,19 @@ function CharacterInfos(props) {
       faction = null;
   }
 
+  // Handle background color
+  let wrapperBackgroundColor = () => {
+    switch(charInfos.faction){
+      case 0:
+        return classes.wrapperAlliance;
+      case 1:
+        return classes.wrapperHorde;
+      default:
+        return null;
+    }
+  };
+
+
   return (
     <Grid container direction="row" justify="center" alignItems="center" spacing={3} className={classes.root}>
       <Grid item xs={12} sm={12} md={8} lg={6}>
@@ -62,15 +79,15 @@ function CharacterInfos(props) {
             image={`${thumbnailUrl}`}
             title={charInfos.name}
           />
-          <div className={classes.wrapper}>
+          <div className={wrapperBackgroundColor()}>
           <CardContent>
-            <Typography className={classes.title} color="textSecondary" gutterBottom>
+            <Typography className={classes.title} gutterBottom>
               {charInfos.realm}
             </Typography>
             <Typography variant="h5" component="h2">
               {charInfos.name}
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
+            <Typography className={classes.pos}>
               <FormattedMessage id='charinfo.level' defaultMessage='Level'/>: {charInfos.level}
             </Typography>
             <Typography component="p">
