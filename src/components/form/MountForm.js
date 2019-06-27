@@ -18,7 +18,6 @@ import {FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import alertActions from "../../store/actions/alert";
-import AlertMessage from "../AlertMessage";
 
 const styles = theme => ({
   root: {
@@ -189,7 +188,7 @@ class MountForm extends React.Component {
 
 
   render() {
-    const { classes, alert } = this.props;
+    const { classes } = this.props;
 
     let serversNames = this.getServerNames();
 
@@ -234,9 +233,6 @@ class MountForm extends React.Component {
 
     return (
       <div>
-        {/*--- Alert system ---*/}
-        { alert.message && <AlertMessage message={alert.message} type={alert.type}/>}
-
         <form autoComplete="off" onSubmit={this.handleRequest}>
 
           <FormControl required variant="outlined" className={classes.formControl}>
@@ -284,8 +280,6 @@ class MountForm extends React.Component {
         {/* Displaying loader during the request time */}
         { this.state.isLoaderMount && <Loader/> }
 
-
-
         {/* Displaying datas */}
         {this.state.isMountsInfoDisplayed &&
           <React.Fragment>
@@ -309,10 +303,9 @@ MountForm.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { intl, alert } = state;
+  const { intl } = state;
   return {
     intl,
-    alert,
   };
 }
 
