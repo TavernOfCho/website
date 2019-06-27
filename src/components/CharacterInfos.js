@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from "@material-ui/core/Grid/Grid";
+import {FormattedMessage} from "react-intl";
 
 
 const styles = {
@@ -27,7 +28,8 @@ const styles = {
     marginBottom: 12,
   },
   wrapper: {
-    backgroundColor: `rgba(255, 255, 255, 0.2)`,
+    // backgroundColor: `rgba(255, 255, 255, 0.2)`,
+    backgroundImage: ''
   },
 };
 
@@ -38,6 +40,18 @@ function CharacterInfos(props) {
   const thumbnailFormatted = thumbnail.replace('avatar', 'main');
   const blizzardImageUri = 'https://render-eu.worldofwarcraft.com/character/';
   const thumbnailUrl = blizzardImageUri + thumbnailFormatted;
+
+  let faction = '';
+  switch(charInfos.faction) {
+    case 0:
+      faction = 'Alliance';
+      break;
+    case 1:
+      faction = 'Horde';
+      break;
+    default:
+      faction = null;
+  }
 
   return (
     <Grid container direction="row" justify="center" alignItems="center" spacing={3} className={classes.root}>
@@ -57,21 +71,18 @@ function CharacterInfos(props) {
               {charInfos.name}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-              Level: {charInfos.level}
+              <FormattedMessage id='charinfo.level' defaultMessage='Level'/>: {charInfos.level}
             </Typography>
             <Typography component="p">
-              Battlegroup: {charInfos.battlegroup}
+              Faction: {faction}
             </Typography>
             <Typography component="p">
-              Achievement points: {charInfos.achievementPoints}
+              <FormattedMessage id='charinfo.achievementPoints' defaultMessage='Achievement Points'/>: {charInfos.achievementPoints}
             </Typography>
             <Typography component="p">
-              Total honorable kills: {charInfos.totalHonorableKills}
+              <FormattedMessage id='charinfo.totalKill' defaultMessage='Total honorable kills'/>: {charInfos.totalHonorableKills}
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button size="small">Détails</Button>
-          </CardActions>
           </div>
         </Card>
       </Grid>
