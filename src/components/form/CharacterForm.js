@@ -13,6 +13,9 @@ import Loader from "../Loader";
 import { requestService } from "../../services/RequestService";
 import CharacterInfos from "../CharacterInfos";
 import {FormattedMessage} from 'react-intl';
+import alertActions from "../../store/actions/alert";
+import {compose} from "redux";
+import connect from "react-redux/es/connect/connect";
 
 const styles = theme => ({
   root: {
@@ -82,18 +85,27 @@ class CharacterForm extends React.Component {
 
     event.preventDefault();
 
-    // Conditioning display
-    this.setState({isLoaderChar: true, isCharInfosDisplayed: false});
+    const { dispatch } = this.props;
 
-    // Character request
-    requestService.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
-      .then(res => {
-        this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderChar:false})
-      })
-      .catch(err => {
-        this.setState({isLoaderChar:false})
-        console.log(err);
-      })
+    if(this.state.server !== '' && this.state.name !== '') {
+
+      // Conditioning display
+      this.setState({isLoaderChar: true, isCharInfosDisplayed: false});
+
+      // Character request
+      requestService.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+        .then(res => {
+          this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderChar: false});
+        })
+        .catch(err => {
+          this.setState({isLoaderChar: false});
+
+          if(err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          }
+        })
+
+    }
   };
 
   handleChangeLocale = event => {
@@ -196,7 +208,7 @@ class CharacterForm extends React.Component {
       <div className={classes.root}>
         <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
 
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRefLocale = ref;
@@ -210,7 +222,7 @@ class CharacterForm extends React.Component {
 
           { this.state.isLoaderServer && <Loader/> }
           { !this.state.isLoaderServer &&
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRef = ref;
@@ -230,6 +242,7 @@ class CharacterForm extends React.Component {
               onChange={this.handleChangeName('name')}
               margin="normal"
               variant="outlined"
+              required
             />
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             <FormattedMessage id='form.go' defaultMessage='Go !' />
@@ -252,4 +265,14 @@ CharacterForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CharacterForm);
+function mapStateToProps(state) {
+  const { intl } = state;
+  return {
+    intl,
+  };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(CharacterForm);
