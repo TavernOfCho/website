@@ -51,10 +51,10 @@ class AchievementForm extends React.Component {
       labelWidthLocale: 0,
       servers: [],
       name: '',
-      characterInfos: [],
+      achievements: [],
       isLoaderServer: false,
       isLoaderAchievement: false,
-      isCharInfosDisplayed: false,
+      isAchievementsDisplayed: false,
       locale: 'frFR',
     };
 
@@ -89,12 +89,13 @@ class AchievementForm extends React.Component {
       this.setState({isLoaderAchievement: true});
 
       // Character request
-      requestService.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase())
         .then(res => {
-          this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderAchievement: false})
+          console.log(res);
+          this.setState({achievements: res, isAchievementsDisplayed: true, isLoaderAchievement: false})
         })
         .catch(err => {
-          this.setState({isLoaderAchievement: false})
+          this.setState({isLoaderAchievement: false});
           if(err >= 300 && err <= 500) {
             dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
           }
@@ -247,7 +248,7 @@ class AchievementForm extends React.Component {
         { this.state.isLoaderAchievement && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}
+        {this.state.isAchievementsDisplayed && <CharacterInfos charInfos={this.state.achievements}/>}
 
       </div>
 

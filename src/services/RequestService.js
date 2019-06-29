@@ -6,6 +6,7 @@ export const requestService = {
   getMounts,
   getCharacter,
   getPets,
+  getAchievements,
 };
 
 let domain = domainService.getApiDomain();
@@ -47,6 +48,11 @@ function getPets(character, server) {
   })
 }
 
+function getAchievements(character, server) {
+  return fetching(`${domain}/characters/${character}/${server}/achievements`, {
+    method: 'GET'
+  })
+}
 
 function fetching(url, options) {
   // performs api calls sending the required authentication headers
