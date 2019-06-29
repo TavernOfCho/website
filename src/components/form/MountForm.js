@@ -21,9 +21,8 @@ import alertActions from "../../store/actions/alert";
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-},
+    margin: theme.spacing(3),
+  },
   rootCard: {
     flexGrow: 1,
     margin: theme.spacing(5),
@@ -232,7 +231,7 @@ class MountForm extends React.Component {
     );
 
     return (
-      <div>
+      <div className={classes.root}>
         <form autoComplete="off" onSubmit={this.handleRequest}>
 
           <FormControl required variant="outlined" className={classes.formControl}>
