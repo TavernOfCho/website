@@ -11,11 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
 import { requestService }from "../../services/RequestService";
-import CharacterInfos from "../CharacterInfos";
 import {FormattedMessage} from 'react-intl';
 import alertActions from "../../store/actions/alert";
-import {compose} from "redux";
-import connect from "react-redux/es/connect/connect";
+import AchievementsPanels from "../AchievementsPanels";
 
 const styles = theme => ({
   root: {
@@ -248,7 +246,7 @@ class AchievementForm extends React.Component {
         { this.state.isLoaderAchievement && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isAchievementsDisplayed && <CharacterInfos charInfos={this.state.achievements}/>}
+        {this.state.isAchievementsDisplayed && <AchievementsPanels achievements={this.state.achievements}/>}
 
       </div>
 
@@ -256,15 +254,8 @@ class AchievementForm extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { intl } = state;
-  return {
-    intl,
-  };
-}
+AchievementForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-export default compose(
-  withStyles(styles),
-  connect(mapStateToProps)
-)(AchievementForm);
-
+export default withStyles(styles)(AchievementForm);
