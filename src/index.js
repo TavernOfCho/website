@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { Router } from 'react-router-dom';
+import Drawer from './components/Drawer';
+import { history } from "./helpers/history";
 import * as serviceWorker from './serviceWorker';
 import './redirection';
 
@@ -74,7 +76,9 @@ class MainApp extends React.Component {
     return (
       <Provider store={store}>
         <IntlProvider>
-          <App />
+            <Router history={history}>
+                <Drawer/>
+            </Router>
         </IntlProvider>
       </Provider>
     )
