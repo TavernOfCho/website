@@ -13,6 +13,9 @@ import Loader from "../Loader";
 import { requestService }from "../../services/RequestService";
 import CharacterInfos from "../CharacterInfos";
 import {FormattedMessage} from 'react-intl';
+import alertActions from "../../store/actions/alert";
+import {compose} from "redux";
+import connect from "react-redux/es/connect/connect";
 
 const styles = theme => ({
   root: {
@@ -35,8 +38,6 @@ const styles = theme => ({
   },
 });
 
-
-
 class AchievementForm extends React.Component {
 
   _isMounted = false;
@@ -52,7 +53,7 @@ class AchievementForm extends React.Component {
       name: '',
       characterInfos: [],
       isLoaderServer: false,
-      isLoaderChar: false,
+      isLoaderAchievement: false,
       isCharInfosDisplayed: false,
       locale: 'frFR',
     };
@@ -80,20 +81,25 @@ class AchievementForm extends React.Component {
 
   handleAchievementRequest = event => {
 
+    const { dispatch } = this.props;
+
     event.preventDefault();
 
-    // Conditioning display
-    this.setState({isLoaderChar: true, isCharInfosDisplayed: false});
+    if(this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderAchievement: true});
 
-    // Character request
-    requestService.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
-      .then(res => {
-        this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderChar:false})
-      })
-      .catch(err => {
-        this.setState({isLoaderChar:false})
-        console.log(err)
-      })
+      // Character request
+      requestService.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+        .then(res => {
+          this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderAchievement: false})
+        })
+        .catch(err => {
+          this.setState({isLoaderAchievement: false})
+          if(err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          }
+        })
+    }
   };
 
   handleChangeLocale = event => {
@@ -238,7 +244,7 @@ class AchievementForm extends React.Component {
         </form>
 
         {/* Displaying loader during the request time */}
-        { this.state.isLoaderChar && <Loader/> }
+        { this.state.isLoaderAchievement && <Loader/> }
 
         {/* Displaying datas */}
         {this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}
@@ -249,8 +255,15 @@ class AchievementForm extends React.Component {
   }
 }
 
-AchievementForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+function mapStateToProps(state) {
+  const { intl } = state;
+  return {
+    intl,
+  };
+}
 
-export default withStyles(styles)(AchievementForm);
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(AchievementForm);
+
