@@ -90,7 +90,7 @@ class AchievementForm extends React.Component {
       requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase())
         .then(res => {
           console.log(res);
-          this.setState({achievements: res, isAchievementsDisplayed: true, isLoaderAchievement: false})
+          this.setState({achievements: res['hydra:member'], isAchievementsDisplayed: true, isLoaderAchievement: false})
         })
         .catch(err => {
           this.setState({isLoaderAchievement: false});
