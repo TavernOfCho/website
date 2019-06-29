@@ -16,8 +16,7 @@ import {FormattedMessage} from 'react-intl';
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    margin: theme.spacing(3),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -59,7 +58,7 @@ class AchievementForm extends React.Component {
     };
 
     // Bind this
-    this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
+    this.handleAchievementRequest = this.handleAchievementRequest.bind(this);
   }
 
   getServerNames() {
@@ -79,7 +78,7 @@ class AchievementForm extends React.Component {
     return name.toLowerCase().replace(/\s|-|'/g, '');
   }
 
-  handleCharacterRequest = event => {
+  handleAchievementRequest = event => {
 
     event.preventDefault();
 
@@ -194,10 +193,10 @@ class AchievementForm extends React.Component {
     );
 
     return (
-      <div>
-        <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
+      <div className={classes.root}>
+        <form autoComplete="off" onSubmit={this.handleAchievementRequest}>
 
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRefLocale = ref;
@@ -211,7 +210,7 @@ class AchievementForm extends React.Component {
 
           { this.state.isLoaderServer && <Loader/> }
           { !this.state.isLoaderServer &&
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRef = ref;
@@ -231,6 +230,7 @@ class AchievementForm extends React.Component {
               onChange={this.handleChangeName('name')}
               margin="normal"
               variant="outlined"
+              required
             />
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             <FormattedMessage id='form.go' defaultMessage='Go !' />
