@@ -103,6 +103,14 @@ class Drawer extends React.Component {
   handleLogout(){
     // When disconnect button is clicked
     this.props.dispatch(userActions.logout);
+    // Unregister the serviceworker
+      navigator.serviceWorker
+        .getRegistration()
+        .then(registration => {
+          if (registration) {
+            registration.unregister();
+          }
+        })
   }
 
   handleDrawerToggle = () => {
