@@ -57,6 +57,18 @@ store.dispatch(
     messages: store.getState().locales[navLang],
   })
 )
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("./firebase-messaging-sw.js")
+    .then(function(registration) {
+      console.log("Registration successful, scope is:", registration.scope);
+    })
+    .catch(function(err) {
+      console.log("Service worker registration failed, error:", err);
+    });
+}
+
 class MainApp extends React.Component {
 
   componentDidMount() {
@@ -76,9 +88,11 @@ class MainApp extends React.Component {
     return (
       <Provider store={store}>
         <IntlProvider>
+          <div className="App">
             <Router history={history}>
                 <Drawer/>
             </Router>
+          </div>
         </IntlProvider>
       </Provider>
     )

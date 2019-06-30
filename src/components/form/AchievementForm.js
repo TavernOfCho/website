@@ -11,13 +11,15 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
 import { requestService }from "../../services/RequestService";
-import CharacterInfos from "../CharacterInfos";
 import {FormattedMessage} from 'react-intl';
+import alertActions from "../../store/actions/alert";
+import AchievementsPanels from "../AchievementsPanels";
+import {compose} from "redux";
+import connect from "react-redux/es/connect/connect";
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    margin: theme.spacing(3),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -36,8 +38,6 @@ const styles = theme => ({
   },
 });
 
-
-
 class AchievementForm extends React.Component {
 
   _isMounted = false;
@@ -51,15 +51,15 @@ class AchievementForm extends React.Component {
       labelWidthLocale: 0,
       servers: [],
       name: '',
-      characterInfos: [],
+      achievements: [],
       isLoaderServer: false,
-      isLoaderChar: false,
-      isCharInfosDisplayed: false,
+      isLoaderAchievement: false,
+      isAchievementsDisplayed: false,
       locale: 'frFR',
     };
 
     // Bind this
-    this.handleCharacterRequest = this.handleCharacterRequest.bind(this);
+    this.handleAchievementRequest = this.handleAchievementRequest.bind(this);
   }
 
   getServerNames() {
@@ -79,22 +79,27 @@ class AchievementForm extends React.Component {
     return name.toLowerCase().replace(/\s|-|'/g, '');
   }
 
-  handleCharacterRequest = event => {
+  handleAchievementRequest = event => {
+
+    const { dispatch, intl } = this.props;
 
     event.preventDefault();
 
-    // Conditioning display
-    this.setState({isLoaderChar: true, isCharInfosDisplayed: false});
+    if(this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderAchievement: true});
 
-    // Character request
-    requestService.getCharacter(this.state.name.toLowerCase(), this.state.server.toLowerCase())
-      .then(res => {
-        this.setState({characterInfos: res, isCharInfosDisplayed: true, isLoaderChar:false})
-      })
-      .catch(err => {
-        this.setState({isLoaderChar:false})
-        console.log(err)
-      })
+      // Character request
+      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
+        .then(res => {
+          this.setState({achievements: res['hydra:member'], isAchievementsDisplayed: true, isLoaderAchievement: false})
+        })
+        .catch(err => {
+          this.setState({isLoaderAchievement: false});
+          if(err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          }
+        })
+    }
   };
 
   handleChangeLocale = event => {
@@ -195,9 +200,9 @@ class AchievementForm extends React.Component {
 
     return (
       <div>
-        <form autoComplete="off" onSubmit={this.handleCharacterRequest}>
+        <form className={classes.root} autoComplete="off" onSubmit={this.handleAchievementRequest}>
 
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRefLocale = ref;
@@ -211,7 +216,7 @@ class AchievementForm extends React.Component {
 
           { this.state.isLoaderServer && <Loader/> }
           { !this.state.isLoaderServer &&
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
               ref={ref => {
                 this.InputLabelRef = ref;
@@ -231,6 +236,7 @@ class AchievementForm extends React.Component {
               onChange={this.handleChangeName('name')}
               margin="normal"
               variant="outlined"
+              required
             />
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             <FormattedMessage id='form.go' defaultMessage='Go !' />
@@ -238,10 +244,10 @@ class AchievementForm extends React.Component {
         </form>
 
         {/* Displaying loader during the request time */}
-        { this.state.isLoaderChar && <Loader/> }
+        { this.state.isLoaderAchievement && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isCharInfosDisplayed && <CharacterInfos charInfos={this.state.characterInfos}/>}
+        {this.state.isAchievementsDisplayed && <AchievementsPanels achievements={this.state.achievements} locale={this.props.intl.locale}/>}
 
       </div>
 
@@ -253,4 +259,15 @@ AchievementForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AchievementForm);
+function mapStateToProps(state) {
+  const { intl } = state;
+  return {
+    intl,
+  };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(AchievementForm);
+
