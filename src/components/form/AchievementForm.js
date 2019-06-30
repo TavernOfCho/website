@@ -14,6 +14,8 @@ import { requestService }from "../../services/RequestService";
 import {FormattedMessage} from 'react-intl';
 import alertActions from "../../store/actions/alert";
 import AchievementsPanels from "../AchievementsPanels";
+import {compose} from "redux";
+import connect from "react-redux/es/connect/connect";
 
 const styles = theme => ({
   root: {
@@ -246,7 +248,7 @@ class AchievementForm extends React.Component {
         { this.state.isLoaderAchievement && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isAchievementsDisplayed && <AchievementsPanels achievements={this.state.achievements}/>}
+        {this.state.isAchievementsDisplayed && <AchievementsPanels achievements={this.state.achievements} locale={this.props.intl.locale}/>}
 
       </div>
 
@@ -254,8 +256,15 @@ class AchievementForm extends React.Component {
   }
 }
 
-AchievementForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+function mapStateToProps(state) {
+  const { intl } = state;
+  return {
+    intl,
+  };
+}
 
-export default withStyles(styles)(AchievementForm);
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(AchievementForm);
+

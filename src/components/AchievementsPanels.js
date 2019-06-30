@@ -29,6 +29,10 @@ export default function AchievementsPanels(props) {
 
   console.log('achiev:',props.achievements);
 
+  const locale = props.locale;
+
+  console.log('loc',locale);
+
   return (
     <div className={classes.root}>
       {props.achievements.map((item, index) => (
@@ -38,13 +42,13 @@ export default function AchievementsPanels(props) {
             aria-controls={`panel${index}a-content`}
             id={`panel${index}a-header`}
           >
-            <Link to={`https://en.wowhead.com/achievement=${item.id}`} data-wowhead={`achievement=${item.id}`}>
+            <Link href={`https://${locale}.wowhead.com/achievement=${item.id}`} data-wowhead={`achievement=${item.id}`}>
               <Avatar alt={item.title} src={"https://render-us.worldofwarcraft.com/icons/56/" + item.icon + ".jpg"} className={classes.bigAvatar} />
             </Link>
             <Typography className={classes.heading}>{item.title}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography>
+            <Typography variant="subtitle2" gutterBottom>
               {item.description}
             </Typography>
           </ExpansionPanelDetails>
