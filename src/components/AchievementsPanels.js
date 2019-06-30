@@ -29,9 +29,8 @@ export default function AchievementsPanels(props) {
 
   console.log('achiev:',props.achievements);
 
+  // Language for displaying wowhead tooltip
   const locale = props.locale;
-
-  console.log('loc',locale);
 
   return (
     <div className={classes.root}>

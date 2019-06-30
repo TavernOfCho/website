@@ -81,7 +81,7 @@ class AchievementForm extends React.Component {
 
   handleAchievementRequest = event => {
 
-    const { dispatch } = this.props;
+    const { dispatch, intl } = this.props;
 
     event.preventDefault();
 
@@ -89,7 +89,7 @@ class AchievementForm extends React.Component {
       this.setState({isLoaderAchievement: true});
 
       // Character request
-      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase())
+      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
         .then(res => {
           console.log(res);
           this.setState({achievements: res['hydra:member'], isAchievementsDisplayed: true, isLoaderAchievement: false})
