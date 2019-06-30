@@ -76,9 +76,11 @@ class MainApp extends React.Component {
     return (
       <Provider store={store}>
         <IntlProvider>
+          <div className="App">
             <Router history={history}>
                 <Drawer/>
             </Router>
+          </div>
         </IntlProvider>
       </Provider>
     )
