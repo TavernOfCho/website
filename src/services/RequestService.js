@@ -6,6 +6,7 @@ export const requestService = {
   getMounts,
   getCharacter,
   getPets,
+  getAchievements,
 };
 
 let domain = domainService.getApiDomain();
@@ -47,6 +48,24 @@ function getPets(character, server) {
   })
 }
 
+function getAchievements(character, server, language) {
+
+  // Handling language to set it correctly for api call
+  switch (language) {
+    case 'fr':
+      language = 'frFR';
+      break;
+    case 'en':
+      language = 'enGB';
+      break;
+    default:
+      return null;
+  }
+
+  return fetching(`${domain}/characters/${character}/${server}/achievements?locale=${language}`, {
+    method: 'GET'
+  })
+}
 
 function fetching(url, options) {
   // performs api calls sending the required authentication headers
