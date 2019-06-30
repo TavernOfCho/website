@@ -5,14 +5,22 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Avatar from '@material-ui/core/Avatar';
+import Link from "@material-ui/core/Link/Link";
 
 const useStyles = makeStyles(theme => ({
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
+  },
   root: {
     width: '100%',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
+    flexBasis: '33.33%',
+    flexShrink: 0,
   },
 }));
 
@@ -30,6 +38,9 @@ export default function AchievementsPanels(props) {
             aria-controls={`panel${index}a-content`}
             id={`panel${index}a-header`}
           >
+            <Link to={`https://en.wowhead.com/achievement=${item.id}`} data-wowhead={`achievement=${item.id}`}>
+              <Avatar alt={item.title} src={"https://render-us.worldofwarcraft.com/icons/56/" + item.icon + ".jpg"} className={classes.bigAvatar} />
+            </Link>
             <Typography className={classes.heading}>{item.title}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
