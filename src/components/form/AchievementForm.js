@@ -256,6 +256,10 @@ class AchievementForm extends React.Component {
   }
 }
 
+AchievementForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
 function mapStateToProps(state) {
   const { intl } = state;
   return {

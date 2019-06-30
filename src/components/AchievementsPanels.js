@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '33.33%',
     flexShrink: 0,
+    margin: '30px',
   },
 }));
 
@@ -44,7 +45,9 @@ export default function AchievementsPanels(props) {
             <Link href={`https://${locale}.wowhead.com/achievement=${item.id}`} data-wowhead={`achievement=${item.id}`}>
               <Avatar alt={item.title} src={"https://render-us.worldofwarcraft.com/icons/56/" + item.icon + ".jpg"} className={classes.bigAvatar} />
             </Link>
-            <Typography className={classes.heading}>{item.title}</Typography>
+            <div>
+              <Typography className={classes.heading}>{item.title}</Typography>
+            </div>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Typography variant="subtitle2" gutterBottom>
