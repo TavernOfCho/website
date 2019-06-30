@@ -79,6 +79,26 @@ class AchievementForm extends React.Component {
     return name.toLowerCase().replace(/\s|-|'/g, '');
   }
 
+  loadMore = () => {
+    const { dispatch, intl } = this.props;
+
+    if(this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderAchievement: true});
+
+      // Character request
+      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
+        .then(res => {
+          console.log('res',res);
+          this.setState({achievements: this.state.achievements.concat(res['hydra:member']), isAchievementsDisplayed: true, isLoaderAchievement: false})
+        })
+        .catch(err => {
+          this.setState({isLoaderAchievement: false});
+          if(err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          }
+        })
+    }  }
+
   handleAchievementRequest = event => {
 
     const { dispatch, intl } = this.props;
@@ -247,7 +267,14 @@ class AchievementForm extends React.Component {
         { this.state.isLoaderAchievement && <Loader/> }
 
         {/* Displaying datas */}
-        {this.state.isAchievementsDisplayed && <AchievementsPanels achievements={this.state.achievements} locale={this.props.intl.locale}/>}
+        {this.state.isAchievementsDisplayed &&
+          <div>
+            <AchievementsPanels achievements={this.state.achievements} locale={this.props.intl.locale}/>
+            <Button variant="outlined" color="primary" className={classes.button} onClick={this.loadMore}>
+              <FormattedMessage id='form.loadMore' defaultMessage='Load more' />
+            </Button>
+          </div>
+        }
 
       </div>
 

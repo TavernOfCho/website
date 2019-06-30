@@ -10,6 +10,7 @@ export const requestService = {
 };
 
 let domain = domainService.getApiDomain();
+let number = 0;
 
 function getServers(locale) {
   return fetching(`${domain}/realms?locale=${locale}`, {
@@ -50,6 +51,10 @@ function getPets(character, server) {
 
 function getAchievements(character, server, language) {
 
+  number ++;
+
+  console.log('number',number);
+
   // Handling language to set it correctly for api call
   switch (language) {
     case 'fr':
@@ -62,7 +67,7 @@ function getAchievements(character, server, language) {
       return null;
   }
 
-  return fetching(`${domain}/characters/${character}/${server}/achievements?locale=${language}`, {
+  return fetching(`${domain}/characters/${character}/${server}/achievements?locale=${language}&page=${number}`, {
     method: 'GET'
   })
 }
