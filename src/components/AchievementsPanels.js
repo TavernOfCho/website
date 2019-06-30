@@ -21,7 +21,15 @@ const useStyles = makeStyles(theme => ({
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '33.33%',
     flexShrink: 0,
-    margin: '30px',
+    [theme.breakpoints.up('xs')]: {
+      margin: '15px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      margin: '25px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      margin: '28px',
+    },
   },
 }));
 
