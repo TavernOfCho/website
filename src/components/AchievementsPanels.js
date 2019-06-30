@@ -8,6 +8,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Avatar from '@material-ui/core/Avatar';
 import Link from "@material-ui/core/Link/Link";
 import Grid from "@material-ui/core/Grid/Grid";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+
 
 const useStyles = makeStyles(theme => ({
   bigAvatar: {
@@ -15,11 +20,16 @@ const useStyles = makeStyles(theme => ({
     width: 60,
     height: 60,
   },
+  bgColor: {
+    backgroundColor: '#2a303b',
+    color: 'white',
+  },
   root: {
     width: '100%',
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
+    // fontSize: theme.typography.pxToRem(17),
+    color: '#FFD700',
     flexBasis: '33.33%',
     flexShrink: 0,
     [theme.breakpoints.up('xs')]: {
@@ -34,6 +44,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
 export default function AchievementsPanels(props) {
   const classes = useStyles();
 
@@ -46,10 +57,10 @@ export default function AchievementsPanels(props) {
     <div className={classes.root}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={1}>
         {props.achievements.map((item, index) => (
-          <Grid item xs={12} sm={12} md={10} lg={8}>
-          <ExpansionPanel key={index}>
+          <Grid item xs={12} sm={12} md={10} lg={8} key={index}>
+          <ExpansionPanel key={index} className={classes.bgColor}>
             <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={<ExpandMoreIcon color="primary"/>}
               aria-controls={`panel${index}a-content`}
               id={`panel${index}a-header`}
             >
@@ -57,13 +68,25 @@ export default function AchievementsPanels(props) {
                 <Avatar alt={item.title} src={"https://render-us.worldofwarcraft.com/icons/56/" + item.icon + ".jpg"} className={classes.bigAvatar} />
               </Link>
               <div>
-                <Typography className={classes.heading} align="center">{item.title}</Typography>
+                <Typography className={classes.heading} align="center" variant="h6">{item.title}</Typography>
               </div>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography variant="subtitle2" gutterBottom>
-                {item.description}
-              </Typography>
+              <div>
+                <Typography variant="subtitle1" gutterBottom>
+                  {item.description}
+                </Typography>
+              </div>
+            </ExpansionPanelDetails>
+            <Divider variant="middle"/>
+            <ExpansionPanelDetails>
+              <List component="nav">
+              {item.criteria.map((item, index) => (
+                <ListItem key={index} button>
+                  <ListItemText primary={item.description} />
+                </ListItem>
+                ))}
+              </List>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           </Grid>

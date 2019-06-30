@@ -85,7 +85,7 @@ class AchievementForm extends React.Component {
 
     event.preventDefault();
 
-    if(this.state.server !== '' && this.state.name !== '') {
+    // if(this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderAchievement: true});
 
       // Character request
@@ -100,7 +100,7 @@ class AchievementForm extends React.Component {
             dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
           }
         })
-    }
+    // }
   };
 
   handleChangeLocale = event => {
@@ -200,8 +200,8 @@ class AchievementForm extends React.Component {
     );
 
     return (
-      <div className={classes.root}>
-        <form autoComplete="off" onSubmit={this.handleAchievementRequest}>
+      <div>
+        <form className={classes.root} autoComplete="off" onSubmit={this.handleAchievementRequest}>
 
           <FormControl required variant="outlined" className={classes.formControl}>
             <InputLabel
@@ -235,6 +235,7 @@ class AchievementForm extends React.Component {
               label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
+              value="zengg"
               margin="normal"
               variant="outlined"
               required

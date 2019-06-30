@@ -62,7 +62,11 @@ function getAchievements(character, server, language) {
       return null;
   }
 
-  return fetching(`${domain}/characters/${character}/${server}/achievements?locale=${language}`, {
+  // return fetching(`${domain}/characters/${character}/${server}/achievements?locale=${language}`, {
+  //   method: 'GET'
+  // })
+
+  return fetching(`${domain}/characters/zengg/dalaran/achievements?locale=${language}`, {
     method: 'GET'
   })
 }
