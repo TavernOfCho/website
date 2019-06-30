@@ -85,13 +85,12 @@ class AchievementForm extends React.Component {
 
     event.preventDefault();
 
-    // if(this.state.server !== '' && this.state.name !== '') {
+    if(this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderAchievement: true});
 
       // Character request
       requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
         .then(res => {
-          console.log(res);
           this.setState({achievements: res['hydra:member'], isAchievementsDisplayed: true, isLoaderAchievement: false})
         })
         .catch(err => {
@@ -100,7 +99,7 @@ class AchievementForm extends React.Component {
             dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
           }
         })
-    // }
+    }
   };
 
   handleChangeLocale = event => {
@@ -235,7 +234,6 @@ class AchievementForm extends React.Component {
               label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
               className={classes.textField}
               onChange={this.handleChangeName('name')}
-              value="zengg"
               margin="normal"
               variant="outlined"
               required

@@ -15,6 +15,9 @@ import Divider from '@material-ui/core/Divider';
 
 
 const useStyles = makeStyles(theme => ({
+  arrowExpand: {
+    color: 'white',
+  },
   bigAvatar: {
     margin: 10,
     width: 60,
@@ -23,6 +26,9 @@ const useStyles = makeStyles(theme => ({
   bgColor: {
     backgroundColor: '#2a303b',
     color: 'white',
+  },
+  divider: {
+    backgroundColor: 'white',
   },
   root: {
     width: '100%',
@@ -48,8 +54,6 @@ const useStyles = makeStyles(theme => ({
 export default function AchievementsPanels(props) {
   const classes = useStyles();
 
-  console.log('achiev:',props.achievements);
-
   // Language for displaying wowhead tooltip
   const locale = props.locale;
 
@@ -60,7 +64,7 @@ export default function AchievementsPanels(props) {
           <Grid item xs={12} sm={12} md={10} lg={8} key={index}>
           <ExpansionPanel key={index} className={classes.bgColor}>
             <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon color="primary"/>}
+              expandIcon={<ExpandMoreIcon className={classes.arrowExpand}/>}
               aria-controls={`panel${index}a-content`}
               id={`panel${index}a-header`}
             >
@@ -78,7 +82,7 @@ export default function AchievementsPanels(props) {
                 </Typography>
               </div>
             </ExpansionPanelDetails>
-            <Divider variant="middle"/>
+            <Divider variant="middle" className={classes.divider}/>
             <ExpansionPanelDetails>
               <List component="nav">
               {item.criteria.map((item, index) => (
