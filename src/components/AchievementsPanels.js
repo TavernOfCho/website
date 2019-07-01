@@ -34,7 +34,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   heading: {
-    // fontSize: theme.typography.pxToRem(17),
     color: '#FFD700',
     flexBasis: '33.33%',
     flexShrink: 0,
@@ -53,8 +52,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function AchievementsPanels(props) {
   const classes = useStyles();
-
-  console.log(props.achievements);
 
   // Language for displaying wowhead tooltip
   const locale = props.locale;
@@ -84,20 +81,25 @@ export default function AchievementsPanels(props) {
                 </Typography>
               </div>
             </ExpansionPanelDetails>
-            {item.criteria[0].description !== "" && (
-              <React.Fragment>
-                <Divider variant="middle" className={classes.divider}/>
-                <ExpansionPanelDetails>
-                  <List component="nav">
-                    {item.criteria.map((item, index) => (
-                      <ListItem key={index} button>
-                        <ListItemText primary={item.description} />
-                      </ListItem>
-                    ))}
-                  </List>
-                </ExpansionPanelDetails>
-              </React.Fragment>
+            {typeof item.criteria[0].description !== 'undefined' && (
+
+
+                <React.Fragment>
+                  <Divider variant="middle" className={classes.divider}/>
+                  <ExpansionPanelDetails>
+                    <List component="nav">
+                      {item.criteria.map((item, index) => (
+                        <ListItem key={index} button>
+                          <ListItemText primary={item.description} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </ExpansionPanelDetails>
+                </React.Fragment>
+
+
             )}
+
           </ExpansionPanel>
           </Grid>
         ))}

@@ -49,11 +49,7 @@ function getPets(character, server) {
   })
 }
 
-function getAchievements(character, server, language) {
-
-  number ++;
-
-  console.log('number',number);
+function getAchievements(character, server, language, pageNumber) {
 
   // Handling language to set it correctly for api call
   switch (language) {
@@ -67,7 +63,7 @@ function getAchievements(character, server, language) {
       return null;
   }
 
-  return fetching(`${domain}/characters/${character}/${server}/achievements?locale=${language}&page=${number}`, {
+  return fetching(`${domain}/characters/${character}/${server}/achievements?locale=${language}&page=${pageNumber}`, {
     method: 'GET'
   })
 }

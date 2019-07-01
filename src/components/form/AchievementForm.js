@@ -55,6 +55,8 @@ class AchievementForm extends React.Component {
       isLoaderServer: false,
       isLoaderAchievement: false,
       isAchievementsDisplayed: false,
+      isNext: false,
+      pageNumber: 1,
       locale: 'frFR',
     };
 
@@ -82,22 +84,32 @@ class AchievementForm extends React.Component {
   loadMore = () => {
     const { dispatch, intl } = this.props;
 
-    if(this.state.server !== '' && this.state.name !== '') {
-      this.setState({isLoaderAchievement: true});
+    if(this.state.server !== '' && this.state.name !== '' && this.state.isNext) {
+      this.setState({isLoaderAchievement: true, pageNumber: this.state.pageNumber + 1},
+        // Callback after setState
+        () => {
 
-      // Character request
-      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
-        .then(res => {
-          console.log('res',res);
-          this.setState({achievements: this.state.achievements.concat(res['hydra:member']), isAchievementsDisplayed: true, isLoaderAchievement: false})
-        })
-        .catch(err => {
-          this.setState({isLoaderAchievement: false});
-          if(err >= 300 && err <= 500) {
-            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          // Character request
+          requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale, this.state.pageNumber)
+            .then(res => {
+              this.setState({
+                achievements: this.state.achievements.concat(res['hydra:member']),
+                isAchievementsDisplayed: true,
+                isLoaderAchievement: false,
+                isNext: res['hydra:view']['hydra:next'] ? res['hydra:view']['hydra:next'] : false,
+              })
+            })
+            .catch(err => {
+              this.setState({isLoaderAchievement: false});
+              if(err >= 300 && err <= 500) {
+                dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+              }
+            })
+
           }
-        })
-    }  }
+        )
+    }
+  }
 
   handleAchievementRequest = event => {
 
@@ -109,9 +121,15 @@ class AchievementForm extends React.Component {
       this.setState({isLoaderAchievement: true});
 
       // Character request
-      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
+      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale, this.state.pageNumber)
         .then(res => {
-          this.setState({achievements: res['hydra:member'], isAchievementsDisplayed: true, isLoaderAchievement: false})
+          console.log(res);
+          this.setState({
+            achievements: res['hydra:member'],
+            isAchievementsDisplayed: true,
+            isLoaderAchievement: false,
+            isNext: res['hydra:view']['hydra:next'],
+          })
         })
         .catch(err => {
           this.setState({isLoaderAchievement: false});
@@ -178,6 +196,9 @@ class AchievementForm extends React.Component {
     const { classes } = this.props;
 
     let serversNames = this.getServerNames();
+
+    console.log('isNext',this.state.isNext);
+    console.log('pageNumber',this.state.pageNumber);
 
     const selectServers = (
       <Select
