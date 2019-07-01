@@ -263,9 +263,6 @@ class AchievementForm extends React.Component {
           </Button>
         </form>
 
-        {/* Displaying loader during the request time */}
-        { this.state.isLoaderAchievement && <Loader/> }
-
         {/* Displaying datas */}
         {this.state.isAchievementsDisplayed &&
           <div>
@@ -275,6 +272,9 @@ class AchievementForm extends React.Component {
             </Button>
           </div>
         }
+
+        {/* Displaying loader during the request time */}
+        { this.state.isLoaderAchievement && <Loader/> }
 
       </div>
 
