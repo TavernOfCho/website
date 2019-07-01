@@ -267,7 +267,7 @@ class AchievementForm extends React.Component {
         {this.state.isAchievementsDisplayed &&
           <div>
             <AchievementsPanels achievements={this.state.achievements} locale={this.props.intl.locale}/>
-            <Button variant="outlined" color="primary" className={classes.button} onClick={this.loadMore}>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.loadMore}>
               <FormattedMessage id='form.loadMore' defaultMessage='Load more' />
             </Button>
           </div>
