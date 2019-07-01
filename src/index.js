@@ -7,6 +7,9 @@ import { history } from "./helpers/history";
 import * as serviceWorker from './serviceWorker';
 import './redirection';
 
+//Push notification
+//import { messaging } from "./init-fcm";
+
 // Redux import
 import { Provider } from 'react-redux'
 import { store } from "./store/configureStore";
@@ -58,6 +61,7 @@ store.dispatch(
   })
 )
 
+/* Push Notification
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("./firebase-messaging-sw.js")
@@ -68,6 +72,7 @@ if ("serviceWorker" in navigator) {
       console.log("Push notification not available, error:", err);
     });
 }
+*/
 
 class MainApp extends React.Component {
 
@@ -81,6 +86,17 @@ class MainApp extends React.Component {
     const scriptWowhead = document.createElement("script");
     scriptWowhead.src = "https://wow.zamimg.com/widgets/power.js";
     document.head.appendChild(scriptWowhead);
+
+    /* Push notification
+    messaging.requestPermission()
+    .then(async function() {
+      const token = await messaging.getToken();
+    })
+    .catch(function(err) {
+      console.log("Unable to get permission to notify.", err);
+    });
+    navigator.serviceWorker.addEventListener("message", (message) => console.log(message));
+    */
 
   }
 
