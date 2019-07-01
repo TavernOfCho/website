@@ -54,6 +54,8 @@ const useStyles = makeStyles(theme => ({
 export default function AchievementsPanels(props) {
   const classes = useStyles();
 
+  console.log(props.achievements);
+
   // Language for displaying wowhead tooltip
   const locale = props.locale;
 
@@ -82,16 +84,20 @@ export default function AchievementsPanels(props) {
                 </Typography>
               </div>
             </ExpansionPanelDetails>
-            <Divider variant="middle" className={classes.divider}/>
-            <ExpansionPanelDetails>
-              <List component="nav">
-              {item.criteria.map((item, index) => (
-                <ListItem key={index} button>
-                  <ListItemText primary={item.description} />
-                </ListItem>
-                ))}
-              </List>
-            </ExpansionPanelDetails>
+            {item.criteria[0].description !== "" && (
+              <React.Fragment>
+                <Divider variant="middle" className={classes.divider}/>
+                <ExpansionPanelDetails>
+                  <List component="nav">
+                    {item.criteria.map((item, index) => (
+                      <ListItem key={index} button>
+                        <ListItemText primary={item.description} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </ExpansionPanelDetails>
+              </React.Fragment>
+            )}
           </ExpansionPanel>
           </Grid>
         ))}
