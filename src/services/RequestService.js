@@ -10,7 +10,6 @@ export const requestService = {
 };
 
 let domain = domainService.getApiDomain();
-let number = 0;
 
 function getServers(locale) {
   return fetching(`${domain}/realms?locale=${locale}`, {

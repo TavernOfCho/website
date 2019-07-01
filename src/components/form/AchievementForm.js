@@ -123,7 +123,6 @@ class AchievementForm extends React.Component {
       // Character request
       requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale, this.state.pageNumber)
         .then(res => {
-          console.log(res);
           this.setState({
             achievements: res['hydra:member'],
             isAchievementsDisplayed: true,
@@ -196,9 +195,6 @@ class AchievementForm extends React.Component {
     const { classes } = this.props;
 
     let serversNames = this.getServerNames();
-
-    console.log('isNext',this.state.isNext);
-    console.log('pageNumber',this.state.pageNumber);
 
     const selectServers = (
       <Select
