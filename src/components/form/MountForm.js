@@ -185,7 +185,7 @@ class MountForm extends React.Component {
           dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
         }
       })
-  }
+  };
 
   componentDidMount() {
 
