@@ -76,7 +76,6 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   changeLang: {
-    color: "white",
     textDecoration: 'none',
     padding: 9,
     background: "#fff",
