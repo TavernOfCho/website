@@ -10,6 +10,7 @@ import CharacterScreen from "../screens/CharacterScreen";
 import HelpScreen from '../screens/HelpScreen';
 import MountScreen from '../screens/MountScreen';
 import ChatScreen from "../screens/ChatScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 class Routing extends React.Component {
 
@@ -26,6 +27,7 @@ class Routing extends React.Component {
         <PrivateRoute exact path="/character" component={() => <CharacterScreen/>}/>
         <PrivateRoute exact path="/mount" component={() => <MountScreen/>}/>
         <PrivateRoute exact path="/chat" component={() => <ChatScreen/>}/>
+        <PrivateRoute exact path="/profile" component={() => <ProfileScreen/>}/>
       </Switch>
     )
   }

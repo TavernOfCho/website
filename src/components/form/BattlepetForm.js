@@ -18,6 +18,7 @@ import {FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import alertActions from "../../store/actions/alert";
+import {userService} from "../../services/UserService";
 
 const styles = theme => ({
   root: {
@@ -66,6 +67,8 @@ class BattlepetForm extends React.Component {
       isPetsInfoDisplayed: false,
       locale: 'frFR',
     };
+
+    this.getDefaultValue();
 
     // Bind this
     this.handleRequest = this.handleRequest.bind(this);
@@ -161,6 +164,29 @@ class BattlepetForm extends React.Component {
         )
       )
     }
+  };
+
+  getDefaultValue = () => {
+
+    const { auth, dispatch } = this.props;
+    const userId = auth.user.data.id;
+
+    userService.getUserCharacter(userId)
+      .then(res => {
+        if(res.locale || res.server || res.character) {
+          this.setState({
+            locale: res.locale,
+            server: res.server,
+            name: res.character,
+          });
+        }
+
+      })
+      .catch(err => {
+        if (err >= 300 && err <= 500) {
+          dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
+        }
+      })
   };
 
   componentDidMount() {
@@ -272,7 +298,8 @@ class BattlepetForm extends React.Component {
               onChange={this.handleChangeName('name')}
               margin="normal"
               variant="outlined"
-            />
+              value={this.state.name}
+          />
 
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             <FormattedMessage id='form.go' defaultMessage='Go !' />
@@ -305,9 +332,10 @@ BattlepetForm.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { intl } = state;
+  const { intl, auth } = state;
   return {
     intl,
+    auth,
   };
 }
 export default compose(
