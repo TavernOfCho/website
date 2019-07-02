@@ -7,7 +7,6 @@ export const requestService = {
   getCharacter,
   getPets,
   getAchievements,
-  putUser,
 };
 
 let domain = domainService.getApiDomain();

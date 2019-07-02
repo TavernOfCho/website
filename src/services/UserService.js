@@ -121,10 +121,8 @@ function putUserCharacter(charInfos, id) {
 }
 
 function handleResponse(response) {
-  console.log('resp',response);
   return response.text().then(text => {
     const data = text && JSON.parse(text);
-    console.log('data',data);
     if (!response.ok) {
       if (response.status === 401) {
         if(window.location.pathname !== '/login' && window.location.pathname !== '/register') {
