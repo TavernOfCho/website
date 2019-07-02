@@ -1,15 +1,25 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Loader from "../Loader";
+import { requestService } from "../../services/RequestService";
+import Grid from "@material-ui/core/Grid/Grid";
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PersonIcon from '@material-ui/icons/PersonPin';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { compose } from "redux";
-import { withStyles } from "@material-ui/core";
-import { connect } from 'react-redux';
+import alertActions from "../../store/actions/alert";
 
 
 const styles = theme => ({
@@ -34,21 +44,174 @@ const styles = theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
 });
 
 class SavedCharForm extends React.Component {
+  _isMounted = false;
 
   constructor(props) {
     super(props);
 
+    this.state = {
+      server: '',
+      labelWidth: 0,
+      labelWidthLocale: 0,
+      servers: [],
+      name: '',
+      resMounts: [],
+      isLoaderServer: false,
+      locale: 'frFR',
+    };
+
+    // Bind this
+    this.handleRequest = this.handleRequest.bind(this);
+  }
+
+  getServerNames() {
+    return this.state.servers.map(server => server.name).sort();
+  }
+
+  handleChangeServer = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleChangeLocale = event => {
+
+    // Checking if it isn't the same locality
+    if(this.state.locale !== event.target.value) {
+
+      this.setState({isLoaderServer: true})
+
+      // API call for servers with locale param
+      this.setState(
+        { [event.target.name]: event.target.value },
+        () => {
+          requestService.getServers(this.state.locale)
+            .then(res => {
+              this.setState({servers: res['hydra:member'], isLoaderServer: false})
+            })
+            .catch(err => {
+              this.setState({isLoaderServer: false});
+              console.log(err);
+            })
+        }
+      );
+
+    }
+
+  };
+
+  handleChangeName = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  handleRequest = event => {
+
+    const {dispatch, intl} = this.props;
+
+    event.preventDefault();
+
+    if (this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderMount: true});
+      //
+      // requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
+      //   .then(res => {
+      //     this.setState({
+      //       resMounts: res,
+      //       isLoaderMount: false,
+      //       mountsCollected: res.numCollected,
+      //       mountsNotCollected: res.numNotCollected,
+      //       mountsCollectedPercentage: this.getPercentage(res.numCollected, res.numNotCollected),
+      //       isMountsInfoDisplayed: true,
+      //     })
+      //   })
+      //   .catch(err => {
+      //     this.setState({isLoaderMount: false});
+      //
+      //     if (err >= 300 && err <= 500) {
+      //       dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
+      //     }
+      //   })
+
+    }
+  }
+
+  componentDidMount() {
+
+    this._isMounted = true;
+
+    // Setting labels for select inputs
+    this.setState({
+      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+      labelWidthLocale: ReactDOM.findDOMNode(this.InputLabelRefLocale).offsetWidth,
+    });
+
+    // Call API for getting servers
+    requestService.getServers(this.state.locale)
+      .then(res => {
+        if(this._isMounted)
+          this.setState({servers: res['hydra:member']})
+      })
+      .catch(err =>{
+        console.log(err)
+      })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
 
     const { classes } = this.props;
+
+    let serversNames = this.getServerNames();
+
+    const selectLocale = (
+      <Select
+        value={this.state.locale}
+        onChange={this.handleChangeLocale}
+        input={
+          <OutlinedInput
+            labelWidth={this.state.labelWidthLocale}
+            name="locale"
+            id="locale-select"
+          />
+        }
+      >
+        <MenuItem value='frFR'>FR</MenuItem>
+        <MenuItem value='ruRU'>RU</MenuItem>
+        <MenuItem value='enGB'>EN</MenuItem>
+        <MenuItem value='deDE'>DE</MenuItem>
+        <MenuItem value='itIT'>IT</MenuItem>
+        <MenuItem value='esES'>ES</MenuItem>
+      </Select>
+    );
+
+    const selectServers = (
+      <Select
+        value={this.state.server}
+        onChange={this.handleChangeServer}
+        input={
+          <OutlinedInput
+            labelWidth={this.state.labelWidth}
+            name="server"
+            id="outlined-server-simple"
+          />
+        }
+      >
+        {serversNames.map((name,index) => (
+          <MenuItem value={name} key={index}>{name}</MenuItem>
+        ))}
+      </Select>
+    );
 
     return (
       <Container component="main" maxWidth="xs">
@@ -59,29 +222,50 @@ class SavedCharForm extends React.Component {
             Your character's information
           </Typography>
           <form className={classes.form} noValidate>
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
               <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
+                <FormControl required variant="outlined" className={classes.formControl}>
+                  <InputLabel
+                    ref={ref => {
+                      this.InputLabelRefLocale = ref;
+                    }}
+                    htmlFor="locale-select"
+                  >
+                    <FormattedMessage id='form.local' defaultMessage='Local' />
+                  </InputLabel>
+                  {selectLocale}
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
+
+                { this.state.isLoaderServer && <Loader/> }
+                { !this.state.isLoaderServer &&
+                <FormControl required variant="outlined" className={classes.formControl}>
+                  <InputLabel
+                    ref={ref => {
+                      this.InputLabelRef = ref;
+                    }}
+                    htmlFor="outlined-server-simple"
+                  >
+                    <FormattedMessage id='form.server' defaultMessage='Server' />
+                  </InputLabel>
+                  {selectServers}
+                </FormControl>
+                }
+
+              </Grid>
+
+              <Grid item xs={12}>
+
                 <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
+                    required
+                    id="standard-name"
+                    label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
+                    className={classes.textField}
+                    onChange={this.handleChangeName('name')}
+                    margin="normal"
+                    variant="outlined"
+                  />
               </Grid>
             </Grid>
             <Button
