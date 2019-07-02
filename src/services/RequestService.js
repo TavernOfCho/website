@@ -91,7 +91,6 @@ function fetching(url, options) {
 }
 
 function handleResponse(response) {
-  console.log('resp',response);
   return response.text().then(text => {
     const data = text && JSON.parse(text);
 

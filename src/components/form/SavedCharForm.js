@@ -66,9 +66,8 @@ class SavedCharForm extends React.Component {
       labelWidthLocale: 0,
       servers: [],
       name: '',
-      resMounts: [],
       isLoaderServer: false,
-      locale: 'frFR',
+      locale: '',
     };
 
     // Bind this
@@ -131,7 +130,6 @@ class SavedCharForm extends React.Component {
 
       userService.putUserCharacter(charInfos, userId)
         .then(res => {
-          console.log('res put',res);
         })
         .catch(err => {
           this.setState({isLoaderMount: false});
@@ -142,6 +140,30 @@ class SavedCharForm extends React.Component {
         })
 
     }
+  }
+
+  componentWillMount() {
+
+    const { auth, dispatch } = this.props;
+    const userId = auth.user.data.id;
+
+    userService.getUserCharacter(userId)
+      .then(res => {
+        if(res.locale || res.server || res.character) {
+          this.setState({
+            locale: res.locale,
+            server: res.server,
+            name: res.character,
+          });
+        }
+
+      })
+      .catch(err => {
+        if (err >= 300 && err <= 500) {
+          dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
+        }
+      })
+
   }
 
   componentDidMount() {
@@ -163,6 +185,7 @@ class SavedCharForm extends React.Component {
       .catch(err =>{
         console.log(err)
       })
+
   }
 
   componentWillUnmount() {
@@ -208,6 +231,7 @@ class SavedCharForm extends React.Component {
           />
         }
       >
+        <MenuItem value="alllloooo" key="default">alllloooo</MenuItem>
         {serversNames.map((name,index) => (
           <MenuItem value={name} key={index}>{name}</MenuItem>
         ))}
@@ -266,7 +290,9 @@ class SavedCharForm extends React.Component {
                     onChange={this.handleChangeName('name')}
                     margin="normal"
                     variant="outlined"
+                    value={this.state.name}
                   />
+
               </Grid>
             </Grid>
             <Button

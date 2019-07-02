@@ -11,6 +11,7 @@ export const userService = {
   renewToken,
   getUser,
   putUserCharacter,
+  getUserCharacter,
 };
 
 let apiDomain = domainService.getApiDomain();
@@ -103,9 +104,6 @@ function register(username, plainPassword, email) {
 
 function putUserCharacter(charInfos, id) {
 
-  console.log('uid',id);
-  console.log('Charinfos',JSON.stringify(charInfos));
-
   const requestOptions = {
     method: 'PUT',
     headers: {
@@ -113,6 +111,21 @@ function putUserCharacter(charInfos, id) {
       'Authorization': `Bearer ${userService.getToken()}`,
     },
     body: JSON.stringify(charInfos)
+  };
+
+  return fetch(`${apiDomain}/users/${id}`, requestOptions)
+    .then(handleResponse)
+
+}
+
+function getUserCharacter(id) {
+
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/ld+json',
+      'Authorization': `Bearer ${userService.getToken()}`,
+    },
   };
 
   return fetch(`${apiDomain}/users/${id}`, requestOptions)
