@@ -231,7 +231,6 @@ class SavedCharForm extends React.Component {
           />
         }
       >
-        <MenuItem value="alllloooo" key="default">alllloooo</MenuItem>
         {serversNames.map((name,index) => (
           <MenuItem value={name} key={index}>{name}</MenuItem>
         ))}
