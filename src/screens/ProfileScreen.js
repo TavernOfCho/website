@@ -1,13 +1,13 @@
 import React from "react";
-import Login from "../components/Login";
+import SavedCharForm from "../components/form/SavedCharForm";
 
 export default class ProfileScreen extends React.Component {
 
   render() {
 
     return (
-      <div className="LoginScreen">
-        <Login/>
+      <div className="CharScreen">
+        <SavedCharForm/>
       </div>
     );
   }
