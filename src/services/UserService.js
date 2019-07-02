@@ -61,6 +61,8 @@ function login(username, password) {
   return fetch(`${apiDomain}/login_check`, requestOptions)
     .then(handleResponse)
     .then(user => {
+
+      console.log('user',user);
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       setUser(user);
 
