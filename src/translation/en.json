@@ -34,6 +34,8 @@
     "form.password.confirm": "Confirm your password",
     "form.register": "Register",
     "form.request.error": "Error, please check the form data.",
+    "form.save.character": "Your character's information",
+    "form.save.save": "Save",
     "form.server": "Realm",
     "hello": "Hello",
     "help.a.bug": "If you found any issue on our tavern, please give us a message on ",

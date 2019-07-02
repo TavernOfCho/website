@@ -34,6 +34,8 @@
     "form.password.confirm": "Confirmer le mot de passe",
     "form.register": "Inscription",
     "form.request.error": "Erreur, veuillez vérifier les données du formulaire.",
+    "form.save.character": "Information concernant votre personnage",
+    "form.save.save": "Enregistrer",
     "form.server": "Serveur",
     "hello": "Bonjour",
     "help.a.bug": "Si tu as rencontré un problème dans ma taverne, laisse moi un message sur ",

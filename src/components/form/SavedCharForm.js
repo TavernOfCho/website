@@ -244,7 +244,7 @@ class SavedCharForm extends React.Component {
         <div className={classes.paper}>
           <PersonIcon className={classes.avatar}/>
           <Typography component="h1" variant="h5">
-            Your character's information
+            <FormattedMessage id='form.save.character' defaultMessage="Your character's information" />
           </Typography>
           <form className={classes.form} noValidate onSubmit={this.handleRequest}>
             <Grid container spacing={1}>
@@ -302,7 +302,7 @@ class SavedCharForm extends React.Component {
               color="primary"
               className={classes.submit}
             >
-              Save
+              <FormattedMessage id='form.save.save' defaultMessage="Save" />
             </Button>
           </form>
         </div>
