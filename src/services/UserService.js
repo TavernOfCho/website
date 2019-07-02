@@ -46,7 +46,7 @@ function getUser() {
 
 function setUser(user) {
   // Saves user informations to localStorage
-  localStorage.setItem('user', JSON.stringify(user))
+  localStorage.setItem('user', JSON.stringify(user));
 }
 
 function login(username, password) {

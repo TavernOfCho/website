@@ -124,6 +124,7 @@ class BattlepetForm extends React.Component {
 
       requestService.getPets(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
         .then(res => {
+          localStorage.setItem('battlepets', JSON.stringify(res));
           this.setState({
             petsResults: res,
             isLoaderPets:false,
