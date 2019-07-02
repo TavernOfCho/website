@@ -78,6 +78,10 @@ const styles = theme => ({
   changeLang: {
     color: "white",
     textDecoration: 'none',
+    padding: 9,
+    background: "#fff",
+    borderRadius: 10,
+    color: "#000",
   }
 });
 
@@ -287,7 +291,7 @@ class Drawer extends React.Component {
                 <Link to="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
                   <FormattedMessage id='lang.en' defaultMessage='EN' />
                 </Link>
-                &nbsp;-&nbsp;
+                &nbsp;&nbsp;
                 <Link to="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
                   <FormattedMessage id='lang.fr' defaultMessage='FR' />
                 </Link>
