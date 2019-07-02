@@ -1,27 +1,40 @@
 {
-  "short_name": "ChoTavern",
   "name": "Tavern Of Cho",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "assets/logopwa150x150.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/logopwa150x150.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ],
+  "short_name": "ChoTavern",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
+  "background_color": "#fff",
+  "description": "This app help world of warcraft player.",
+  "scope": "/",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "gcm_sender_id": "103953800507"
+  "gcm_sender_id": "103953800507",
+  "icons": [{
+    "src": "assets/logotc48.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }, {
+    "src": "assets/logotc72.png",
+    "sizes": "72x72",
+    "type": "image/png"
+  }, {
+    "src": "assets/logotc96.png",
+    "sizes": "96x96",
+    "type": "image/png"
+  }, {
+    "src": "assets/logotc144.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {
+    "src": "assets/logotc168.png",
+    "sizes": "168x168",
+    "type": "image/png"
+  }, {
+    "src": "assets/logotc192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }, {
+    "src": "assets/logotc512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
 }
