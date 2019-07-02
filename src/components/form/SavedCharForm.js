@@ -20,6 +20,7 @@ import PersonIcon from '@material-ui/icons/PersonPin';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import alertActions from "../../store/actions/alert";
+import {userService} from "../../services/UserService";
 
 
 const styles = theme => ({
@@ -114,31 +115,31 @@ class SavedCharForm extends React.Component {
 
   handleRequest = event => {
 
-    const {dispatch, intl} = this.props;
-
     event.preventDefault();
+
+    const {dispatch, auth} = this.props;
+    const {locale, server, name} = this.state;
+    const userId = auth.user.data.id;
+    const charInfos = {
+      'locale': locale,
+      'server': server,
+      'character': name,
+    };
 
     if (this.state.server !== '' && this.state.name !== '') {
       this.setState({isLoaderMount: true});
-      //
-      // requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
-      //   .then(res => {
-      //     this.setState({
-      //       resMounts: res,
-      //       isLoaderMount: false,
-      //       mountsCollected: res.numCollected,
-      //       mountsNotCollected: res.numNotCollected,
-      //       mountsCollectedPercentage: this.getPercentage(res.numCollected, res.numNotCollected),
-      //       isMountsInfoDisplayed: true,
-      //     })
-      //   })
-      //   .catch(err => {
-      //     this.setState({isLoaderMount: false});
-      //
-      //     if (err >= 300 && err <= 500) {
-      //       dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
-      //     }
-      //   })
+
+      userService.putUserCharacter(charInfos, userId)
+        .then(res => {
+          console.log('res put',res);
+        })
+        .catch(err => {
+          this.setState({isLoaderMount: false});
+
+          if (err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
+          }
+        })
 
     }
   }
@@ -221,7 +222,7 @@ class SavedCharForm extends React.Component {
           <Typography component="h1" variant="h5">
             Your character's information
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={this.handleRequest}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <FormControl required variant="outlined" className={classes.formControl}>
@@ -291,9 +292,10 @@ SavedCharForm.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { intl } = state;
+  const { intl, auth } = state;
   return {
     intl,
+    auth,
   };
 }
 

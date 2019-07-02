@@ -10,6 +10,7 @@ export const userService = {
   isTokenExpired,
   renewToken,
   getUser,
+  putUserCharacter,
 };
 
 let apiDomain = domainService.getApiDomain();
@@ -100,9 +101,30 @@ function register(username, plainPassword, email) {
     .then(handleResponse)
 }
 
+function putUserCharacter(charInfos, id) {
+
+  console.log('uid',id);
+  console.log('Charinfos',JSON.stringify(charInfos));
+
+  const requestOptions = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/ld+json',
+      'Authorization': `Bearer ${userService.getToken()}`,
+    },
+    body: JSON.stringify(charInfos)
+  };
+
+  return fetch(`${apiDomain}/users/${id}`, requestOptions)
+    .then(handleResponse)
+
+}
+
 function handleResponse(response) {
+  console.log('resp',response);
   return response.text().then(text => {
     const data = text && JSON.parse(text);
+    console.log('data',data);
     if (!response.ok) {
       if (response.status === 401) {
         if(window.location.pathname !== '/login' && window.location.pathname !== '/register') {
