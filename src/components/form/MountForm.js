@@ -124,6 +124,7 @@ class MountForm extends React.Component {
 
       requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
         .then(res => {
+          localStorage.setItem('mount', JSON.stringify(res));
           this.setState({
             resMounts: res,
             isLoaderMount:false,

@@ -92,6 +92,7 @@ class AchievementForm extends React.Component {
           // Character request
           requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale, this.state.pageNumber)
             .then(res => {
+              localStorage.setItem('achievements', JSON.stringify(res));
               this.setState({
                 achievements: this.state.achievements.concat(res['hydra:member']),
                 isAchievementsDisplayed: true,

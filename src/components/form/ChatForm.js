@@ -163,7 +163,7 @@ class ChatForm extends React.Component {
                 <TextField
                     id="standard-message"
                     label="Message"
-                    helperText=<FormattedMessage id='chat.textfield.helper' defaultMessage='Send your message here.' />
+                    helperText={<FormattedMessage id='chat.textfield.helper' defaultMessage='Send your message here.' />}
                     className={classes.textField}
                     onChange={this.handleChangeName('message')}
                     margin="normal"
