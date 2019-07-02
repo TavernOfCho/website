@@ -129,8 +129,7 @@ class SavedCharForm extends React.Component {
       this.setState({isLoaderMount: true});
 
       userService.putUserCharacter(charInfos, userId)
-        .then(res => {
-        })
+        .then(dispatch(alertActions.success(<FormattedMessage id='form.save.saved' defaultMessage='Data saved !'/>)))
         .catch(err => {
           this.setState({isLoaderMount: false});
 
