@@ -68,6 +68,7 @@ class SavedCharForm extends React.Component {
       name: '',
       isLoaderServer: false,
       locale: '',
+      isOk: false,
     };
 
     // Bind this
@@ -126,12 +127,24 @@ class SavedCharForm extends React.Component {
     };
 
     if (this.state.server !== '' && this.state.name !== '') {
-      this.setState({isLoaderMount: true});
+      this.setState({isLoaderServer: true});
 
       userService.putUserCharacter(charInfos, userId)
-        .then(dispatch(alertActions.success(<FormattedMessage id='form.save.saved' defaultMessage='Data saved !'/>)))
+        .then(res => {
+          if(res.locale || res.server || res.character) {
+            this.setState({
+              locale: res.locale,
+              server: res.server,
+              name: res.character,
+              isLoaderServer: false,
+            }, () => {
+              dispatch(alertActions.success(<FormattedMessage id='form.save.saved' defaultMessage='Data saved !'/>))
+            });
+          }
+
+        })
         .catch(err => {
-          this.setState({isLoaderMount: false});
+          this.setState({isLoaderServer: false});
 
           if (err >= 300 && err <= 500) {
             dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
@@ -244,6 +257,8 @@ class SavedCharForm extends React.Component {
           <Typography component="h1" variant="h5">
             <FormattedMessage id='form.save.character' defaultMessage="Your character's information" />
           </Typography>
+          { this.state.isLoaderServer && <Loader/> }
+          { !this.state.isLoaderServer &&
           <form className={classes.form} noValidate onSubmit={this.handleRequest}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
@@ -261,8 +276,7 @@ class SavedCharForm extends React.Component {
               </Grid>
               <Grid item xs={12}>
 
-                { this.state.isLoaderServer && <Loader/> }
-                { !this.state.isLoaderServer &&
+
                 <FormControl required variant="outlined" className={classes.formControl}>
                   <InputLabel
                     ref={ref => {
@@ -274,7 +288,7 @@ class SavedCharForm extends React.Component {
                   </InputLabel>
                   {selectServers}
                 </FormControl>
-                }
+
 
               </Grid>
 
@@ -303,6 +317,7 @@ class SavedCharForm extends React.Component {
               <FormattedMessage id='form.save.save' defaultMessage="Save" />
             </Button>
           </form>
+          }
         </div>
       </Container>
     );
