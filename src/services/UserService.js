@@ -10,6 +10,8 @@ export const userService = {
   isTokenExpired,
   renewToken,
   getUser,
+  putUserCharacter,
+  getUserCharacter,
 };
 
 let apiDomain = domainService.getApiDomain();
@@ -46,7 +48,7 @@ function getUser() {
 
 function setUser(user) {
   // Saves user informations to localStorage
-  localStorage.setItem('user', JSON.stringify(user))
+  localStorage.setItem('user', JSON.stringify(user));
 }
 
 function login(username, password) {
@@ -59,6 +61,7 @@ function login(username, password) {
   return fetch(`${apiDomain}/login_check`, requestOptions)
     .then(handleResponse)
     .then(user => {
+
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       setUser(user);
 
@@ -98,6 +101,37 @@ function register(username, plainPassword, email) {
 
   return fetch(`${apiDomain}/users`, requestOptions)
     .then(handleResponse)
+}
+
+function putUserCharacter(charInfos, id) {
+
+  const requestOptions = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/ld+json',
+      'Authorization': `Bearer ${userService.getToken()}`,
+    },
+    body: JSON.stringify(charInfos)
+  };
+
+  return fetch(`${apiDomain}/users/${id}`, requestOptions)
+    .then(handleResponse)
+
+}
+
+function getUserCharacter(id) {
+
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/ld+json',
+      'Authorization': `Bearer ${userService.getToken()}`,
+    },
+  };
+
+  return fetch(`${apiDomain}/users/${id}`, requestOptions)
+    .then(handleResponse)
+
 }
 
 function handleResponse(response) {

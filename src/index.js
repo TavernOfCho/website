@@ -7,6 +7,9 @@ import { history } from "./helpers/history";
 import * as serviceWorker from './serviceWorker';
 import './redirection';
 
+//Push notification
+//import { messaging } from "./init-fcm";
+
 // Redux import
 import { Provider } from 'react-redux'
 import { store } from "./store/configureStore";
@@ -29,7 +32,7 @@ const navLang = firstLocale[0];
 var rc1 = "color: #00cc95; font-size:26px;font-weight : bold;text-shadow: 1px 1px 5px rgba(0,0,0,.3);";
 var rc2 = "color: #c5b212; font-size:26px;text-shadow: 1px 1px 5px rgba(0,0,0,.3);"
 var rc3 = "color: #000000; font-size:16px;"
-console.log("%cTavern of%c Cho%c v0.0.9 ", rc1, rc2, rc3);
+console.log("%cTavern of%c Cho%c v1.0.1 ", rc1, rc2, rc3);
 
 // Add new method to localstorage
 Storage.prototype.getObj = function(key) {
@@ -58,16 +61,18 @@ store.dispatch(
   })
 )
 
+/* Push Notification
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("./firebase-messaging-sw.js")
     .then(function(registration) {
-      console.log("Registration successful, scope is:", registration.scope);
+      console.log("Push notification available, scope is:", registration.scope);
     })
     .catch(function(err) {
-      console.log("Service worker registration failed, error:", err);
+      console.log("Push notification not available, error:", err);
     });
 }
+*/
 
 class MainApp extends React.Component {
 
@@ -81,6 +86,17 @@ class MainApp extends React.Component {
     const scriptWowhead = document.createElement("script");
     scriptWowhead.src = "https://wow.zamimg.com/widgets/power.js";
     document.head.appendChild(scriptWowhead);
+
+    /* Push notification
+    messaging.requestPermission()
+    .then(async function() {
+      const token = await messaging.getToken();
+    })
+    .catch(function(err) {
+      console.log("Unable to get permission to notify.", err);
+    });
+    navigator.serviceWorker.addEventListener("message", (message) => console.log(message));
+    */
 
   }
 

@@ -16,6 +16,7 @@ import alertActions from "../../store/actions/alert";
 import AchievementsPanels from "../AchievementsPanels";
 import {compose} from "redux";
 import connect from "react-redux/es/connect/connect";
+import {userService} from "../../services/UserService";
 
 const styles = theme => ({
   root: {
@@ -55,8 +56,12 @@ class AchievementForm extends React.Component {
       isLoaderServer: false,
       isLoaderAchievement: false,
       isAchievementsDisplayed: false,
+      isNext: false,
+      pageNumber: 1,
       locale: 'frFR',
     };
+
+    this.getDefaultValue();
 
     // Bind this
     this.handleAchievementRequest = this.handleAchievementRequest.bind(this);
@@ -79,6 +84,37 @@ class AchievementForm extends React.Component {
     return name.toLowerCase().replace(/\s|-|'/g, '');
   }
 
+  loadMore = () => {
+    const { dispatch, intl } = this.props;
+
+    if(this.state.server !== '' && this.state.name !== '' && this.state.isNext) {
+      this.setState({isLoaderAchievement: true, pageNumber: this.state.pageNumber + 1},
+        // Callback after setState
+        () => {
+
+          // Character request
+          requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale, this.state.pageNumber)
+            .then(res => {
+              localStorage.setItem('achievements', JSON.stringify(res));
+              this.setState({
+                achievements: this.state.achievements.concat(res['hydra:member']),
+                isAchievementsDisplayed: true,
+                isLoaderAchievement: false,
+                isNext: res['hydra:view']['hydra:next'] ? res['hydra:view']['hydra:next'] : false,
+              })
+            })
+            .catch(err => {
+              this.setState({isLoaderAchievement: false});
+              if(err >= 300 && err <= 500) {
+                dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+              }
+            })
+
+          }
+        )
+    }
+  }
+
   handleAchievementRequest = event => {
 
     const { dispatch, intl } = this.props;
@@ -89,9 +125,14 @@ class AchievementForm extends React.Component {
       this.setState({isLoaderAchievement: true});
 
       // Character request
-      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
+      requestService.getAchievements(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale, this.state.pageNumber)
         .then(res => {
-          this.setState({achievements: res['hydra:member'], isAchievementsDisplayed: true, isLoaderAchievement: false})
+          this.setState({
+            achievements: res['hydra:member'],
+            isAchievementsDisplayed: true,
+            isLoaderAchievement: false,
+            isNext: res['hydra:view']['hydra:next'],
+          })
         })
         .catch(err => {
           this.setState({isLoaderAchievement: false});
@@ -126,6 +167,29 @@ class AchievementForm extends React.Component {
 
     }
 
+  };
+
+  getDefaultValue = () => {
+
+    const { auth, dispatch } = this.props;
+    const userId = auth.user.data.id;
+
+    userService.getUserCharacter(userId)
+      .then(res => {
+        if(res.locale || res.server || res.character) {
+          this.setState({
+            locale: res.locale,
+            server: res.server,
+            name: res.character,
+          });
+        }
+
+      })
+      .catch(err => {
+        if (err >= 300 && err <= 500) {
+          dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
+        }
+      })
   };
 
   componentDidMount() {
@@ -237,17 +301,25 @@ class AchievementForm extends React.Component {
               margin="normal"
               variant="outlined"
               required
+              value={this.state.name}
             />
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             <FormattedMessage id='form.go' defaultMessage='Go !' />
           </Button>
         </form>
 
+        {/* Displaying datas */}
+        {this.state.isAchievementsDisplayed &&
+          <div>
+            <AchievementsPanels achievements={this.state.achievements} locale={this.props.intl.locale}/>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.loadMore}>
+              <FormattedMessage id='form.loadMore' defaultMessage='Load more' />
+            </Button>
+          </div>
+        }
+
         {/* Displaying loader during the request time */}
         { this.state.isLoaderAchievement && <Loader/> }
-
-        {/* Displaying datas */}
-        {this.state.isAchievementsDisplayed && <AchievementsPanels achievements={this.state.achievements} locale={this.props.intl.locale}/>}
 
       </div>
 
@@ -260,9 +332,10 @@ AchievementForm.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { intl } = state;
+  const { intl, auth } = state;
   return {
     intl,
+    auth,
   };
 }
 

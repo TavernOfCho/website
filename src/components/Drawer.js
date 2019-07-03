@@ -17,6 +17,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 import PersonIcon from '@material-ui/icons/Person';
 import ChatIcon from '@material-ui/icons/Chat';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -76,8 +77,11 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   changeLang: {
-    color: "white",
     textDecoration: 'none',
+    padding: 9,
+    background: "#fff",
+    borderRadius: 10,
+    color: "#000",
   }
 });
 
@@ -223,38 +227,49 @@ class Drawer extends React.Component {
         </List>
         <Divider />
         {auth.loggedIn &&
-        <List>
-          <Link to="/character" className={classes.link}>
-            <ListItem button key={<FormattedMessage id='drawer.character' defaultMessage="Character"/>}>
-              <ListItemIcon><GroupIcon/></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='drawer.character' defaultMessage="Character"/>}/>
-            </ListItem>
-          </Link>
-          <Link to="/mount" className={classes.link}>
-            <ListItem button key={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}>
-              <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}/>
-            </ListItem>
-          </Link>
-          <Link to="battlepet" className={classes.link}>
-            <ListItem button key={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}>
-              <ListItemIcon><FontAwesomeIcon icon={faPaw} style={{marginRight: '3', marginLeft: '4'}}/></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}/>
-            </ListItem>
-          </Link>
-          <Link to="/achievement" className={classes.link}>
-            <ListItem button key={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}>
-              <ListItemIcon><FontAwesomeIcon icon={faCrown} style={{marginRight: '3', marginLeft: '3'}}/></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}/>
-            </ListItem>
-          </Link>
-          <Link to="/chat" className={classes.link}>
-            <ListItem button key={<FormattedMessage id='chat' defaultMessage="Chat"/>}>
-              <ListItemIcon><ChatIcon/></ListItemIcon>
-              <ListItemText primary={<FormattedMessage id='chat' defaultMessage="Chat"/>}/>
-            </ListItem>
-          </Link>
-        </List>
+          <React.Fragment>
+            <List>
+              <Link to="/character" className={classes.link}>
+                <ListItem button key={<FormattedMessage id='drawer.character' defaultMessage="Character"/>}>
+                  <ListItemIcon><GroupIcon/></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='drawer.character' defaultMessage="Character"/>}/>
+                </ListItem>
+              </Link>
+              <Link to="/mount" className={classes.link}>
+                <ListItem button key={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}>
+                  <ListItemIcon><FontAwesomeIcon icon={faDragon} style={{marginRight: '3', marginLeft: '1'}}/></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='drawer.mount' defaultMessage="Mount"/>}/>
+                </ListItem>
+              </Link>
+              <Link to="battlepet" className={classes.link}>
+                <ListItem button key={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}>
+                  <ListItemIcon><FontAwesomeIcon icon={faPaw} style={{marginRight: '3', marginLeft: '4'}}/></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='drawer.battlepet' defaultMessage="BattlePet"/>}/>
+                </ListItem>
+              </Link>
+              <Link to="/achievement" className={classes.link}>
+                <ListItem button key={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}>
+                  <ListItemIcon><FontAwesomeIcon icon={faCrown} style={{marginRight: '3', marginLeft: '3'}}/></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='drawer.achievement' defaultMessage="Achievement"/>}/>
+                </ListItem>
+              </Link>
+              <Link to="/chat" className={classes.link}>
+                <ListItem button key={<FormattedMessage id='chat' defaultMessage="Chat"/>}>
+                  <ListItemIcon><ChatIcon/></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='chat' defaultMessage="Chat"/>}/>
+                </ListItem>
+              </Link>
+            </List>
+            <Divider />
+            <List>
+              <Link to="/profile" className={classes.link}>
+                <ListItem button key={<FormattedMessage id='drawer.profile' defaultMessage="Profile"/>}>
+                  <ListItemIcon><SettingsIcon/></ListItemIcon>
+                  <ListItemText primary={<FormattedMessage id='drawer.profile' defaultMessage="Profile"/>}/>
+                </ListItem>
+              </Link>
+            </List>
+          </React.Fragment>
         }
       </div>
     );
@@ -287,7 +302,7 @@ class Drawer extends React.Component {
                 <Link to="#en" className={classes.changeLang} onClick={() => this.changeLanguage("en")}>
                   <FormattedMessage id='lang.en' defaultMessage='EN' />
                 </Link>
-                &nbsp;-&nbsp;
+                &nbsp;&nbsp;
                 <Link to="#fr" className={classes.changeLang} onClick={() => this.changeLanguage("fr")}>
                   <FormattedMessage id='lang.fr' defaultMessage='FR' />
                 </Link>

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,45 +12,52 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Loader from "../Loader";
 import { requestService } from "../../services/RequestService";
-import ProgressBar from "../ProgressBar";
-import MountCard from "../MountCard";
 import Grid from "@material-ui/core/Grid/Grid";
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import PersonIcon from '@material-ui/icons/PersonPin';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 import alertActions from "../../store/actions/alert";
 import {userService} from "../../services/UserService";
 
+
 const styles = theme => ({
-  root: {
-    margin: theme.spacing(3),
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
   },
-  rootCard: {
-    flexGrow: 1,
-    margin: theme.spacing(5),
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    color: theme.palette.primary.main,
+    height: 70,
+    width: 70,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
   },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
   },
-  textField: {
-    margin: theme.spacing(1),
-    width: 200,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  button: {
-    margin: theme.spacing(1),
-    marginTop: theme.spacing(2),
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
 });
 
-class MountForm extends React.Component {
-
+class SavedCharForm extends React.Component {
   _isMounted = false;
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -58,17 +66,10 @@ class MountForm extends React.Component {
       labelWidthLocale: 0,
       servers: [],
       name: '',
-      resMounts: [],
-      mountsCollected: 0,
-      mountsNotCollected: 0,
-      mountsCollectedPercentage: 0,
-      isLoaderMount: false,
       isLoaderServer: false,
-      isMountsInfoDisplayed: false,
-      locale: 'frFR',
+      locale: '',
+      isOk: false,
     };
-
-    this.getDefaultValue();
 
     // Bind this
     this.handleRequest = this.handleRequest.bind(this);
@@ -112,59 +113,48 @@ class MountForm extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
-  serverNameTrim(name){
-    return name.toLowerCase().replace(/\s|-|'/g, '');
-  }
-
   handleRequest = event => {
-
-    const { dispatch, intl } = this.props;
 
     event.preventDefault();
 
-    if(this.state.server !== '' && this.state.name !== '') {
-      this.setState({isLoaderMount: true});
+    const {dispatch, auth} = this.props;
+    const {locale, server, name} = this.state;
+    const userId = auth.user.data.id;
+    const charInfos = {
+      'locale': locale,
+      'server': server,
+      'character': name,
+    };
 
-      requestService.getMounts(this.state.name.toLowerCase(), this.state.server.toLowerCase(), intl.locale)
+    if (this.state.server !== '' && this.state.name !== '') {
+      this.setState({isLoaderServer: true});
+
+      userService.putUserCharacter(charInfos, userId)
         .then(res => {
-          localStorage.setItem('mount', JSON.stringify(res));
-          this.setState({
-            resMounts: res,
-            isLoaderMount:false,
-            mountsCollected: res.numCollected,
-            mountsNotCollected: res.numNotCollected,
-            mountsCollectedPercentage:  this.getPercentage(res.numCollected, res.numNotCollected),
-            isMountsInfoDisplayed: true,
-          })
+          if(res.locale || res.server || res.character) {
+            this.setState({
+              locale: res.locale,
+              server: res.server,
+              name: res.character,
+              isLoaderServer: false,
+            }, () => {
+              dispatch(alertActions.success(<FormattedMessage id='form.save.saved' defaultMessage='Data saved !'/>))
+            });
+          }
+
         })
         .catch(err => {
-          this.setState({isLoaderMount:false});
+          this.setState({isLoaderServer: false});
 
-          if(err >= 300 && err <= 500) {
-            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.' />))
+          if (err >= 300 && err <= 500) {
+            dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
           }
         })
 
     }
-
-  };
-
-  getPercentage(collected, notCollected) {
-    return Math.round((collected / (collected + notCollected)) * 100);
   }
 
-  getMountsCards = () => {
-    // Condition can be refacto
-    if(typeof this.state.resMounts.name !== 'undefined') {
-      return ( this.state.resMounts.collected.map((item, index) => (
-        <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
-          <MountCard locale={this.props.intl.locale} name={item.name} icon={item.icon} itemId={item.itemId} quality={item.qualityId}/>
-        </Grid>
-      )))
-    }
-  };
-
-  getDefaultValue = () => {
+  componentWillMount() {
 
     const { auth, dispatch } = this.props;
     const userId = auth.user.data.id;
@@ -185,7 +175,8 @@ class MountForm extends React.Component {
           dispatch(alertActions.error(<FormattedMessage id='form.request.error' defaultMessage='Error, please check the form data.'/>))
         }
       })
-  };
+
+  }
 
   componentDidMount() {
 
@@ -206,22 +197,16 @@ class MountForm extends React.Component {
       .catch(err =>{
         console.log(err)
       })
+
   }
 
   componentWillUnmount() {
     this._isMounted = false;
   }
 
-  componentWillMount() {
-    // this.getDefaultValue();
-
-  }
-
-
   render() {
-    const { classes } = this.props;
 
-    // this.getDefaultValue();
+    const { classes } = this.props;
 
     let serversNames = this.getServerNames();
 
@@ -265,74 +250,83 @@ class MountForm extends React.Component {
     );
 
     return (
-      <div className={classes.root}>
-        <form autoComplete="off" onSubmit={this.handleRequest}>
-
-          <FormControl required variant="outlined" className={classes.formControl}>
-            <InputLabel
-              ref={ref => {
-                this.InputLabelRefLocale = ref;
-              }}
-              htmlFor="locale-select"
-            >
-              <FormattedMessage id='form.local' defaultMessage='Local' />
-            </InputLabel>
-            {selectLocale}
-          </FormControl>
-
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <PersonIcon className={classes.avatar}/>
+          <Typography component="h1" variant="h5">
+            <FormattedMessage id='form.save.character' defaultMessage="Your character's information" />
+          </Typography>
           { this.state.isLoaderServer && <Loader/> }
           { !this.state.isLoaderServer &&
-          <FormControl required variant="outlined" className={classes.formControl}>
-            <InputLabel
-              ref={ref => {
-                this.InputLabelRef = ref;
-              }}
-              htmlFor="outlined-server-simple"
-            >
-              <FormattedMessage id='form.server' defaultMessage='Server' />
-            </InputLabel>
-            {selectServers}
-          </FormControl>
-          }
-
-          <TextField
-            required
-            id="standard-name"
-            label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
-            className={classes.textField}
-            onChange={this.handleChangeName('name')}
-            margin="normal"
-            variant="outlined"
-            value={this.state.name}
-            />
-
-          <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-            <FormattedMessage id='form.go' defaultMessage='Go !' />
-          </Button>
-        </form>
-
-        {/* Displaying loader during the request time */}
-        { this.state.isLoaderMount && <Loader/> }
-
-        {/* Displaying datas */}
-        {this.state.isMountsInfoDisplayed &&
-          <React.Fragment>
-            <ProgressBar type={<FormattedMessage id='progress.mount' defaultMessage='Mount collected' />} progression={this.state.mountsCollectedPercentage}/>
-            <div className={this.props.classes.rootCard}>
-              <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-                {this.getMountsCards()}
+          <form className={classes.form} noValidate onSubmit={this.handleRequest}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <FormControl required variant="outlined" className={classes.formControl}>
+                  <InputLabel
+                    ref={ref => {
+                      this.InputLabelRefLocale = ref;
+                    }}
+                    htmlFor="locale-select"
+                  >
+                    <FormattedMessage id='form.local' defaultMessage='Local' />
+                  </InputLabel>
+                  {selectLocale}
+                </FormControl>
               </Grid>
-            </div>
-          </React.Fragment>
-        }
+              <Grid item xs={12}>
 
-      </div>
 
+                <FormControl required variant="outlined" className={classes.formControl}>
+                  <InputLabel
+                    ref={ref => {
+                      this.InputLabelRef = ref;
+                    }}
+                    htmlFor="outlined-server-simple"
+                  >
+                    <FormattedMessage id='form.server' defaultMessage='Server' />
+                  </InputLabel>
+                  {selectServers}
+                </FormControl>
+
+
+              </Grid>
+
+              <Grid item xs={12}>
+
+                <TextField
+                    required
+                    id="standard-name"
+                    label={<FormattedMessage id='form.name.character' defaultMessage='Character Name' />}
+                    className={classes.textField}
+                    onChange={this.handleChangeName('name')}
+                    margin="normal"
+                    variant="outlined"
+                    value={this.state.name}
+                  />
+
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              <FormattedMessage id='form.save.save' defaultMessage="Save" />
+            </Button>
+          </form>
+          }
+        </div>
+      </Container>
     );
   }
+
+
 }
 
-MountForm.propTypes = {
+SavedCharForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
@@ -347,4 +341,4 @@ function mapStateToProps(state) {
 export default compose(
   withStyles(styles),
   connect(mapStateToProps)
-)(MountForm);
+)(SavedCharForm);

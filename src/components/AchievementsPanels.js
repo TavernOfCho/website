@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     margin: 10,
     width: 60,
     height: 60,
+    borderRadius: 10,
   },
   bgColor: {
     backgroundColor: '#2a303b',
@@ -34,7 +35,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   heading: {
-    // fontSize: theme.typography.pxToRem(17),
     color: '#FFD700',
     flexBasis: '33.33%',
     flexShrink: 0,
@@ -60,41 +60,49 @@ export default function AchievementsPanels(props) {
   return (
     <div className={classes.root}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={1}>
+
         {props.achievements.map((item, index) => (
           <Grid item xs={12} sm={12} md={10} lg={8} key={index}>
-          <ExpansionPanel key={index} className={classes.bgColor}>
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon className={classes.arrowExpand}/>}
-              aria-controls={`panel${index}a-content`}
-              id={`panel${index}a-header`}
-            >
-              <Link href={`https://${locale}.wowhead.com/achievement=${item.id}`} data-wowhead={`achievement=${item.id}`}>
-                <Avatar alt={item.title} src={"https://render-us.worldofwarcraft.com/icons/56/" + item.icon + ".jpg"} className={classes.bigAvatar} />
-              </Link>
-              <div>
-                <Typography className={classes.heading} align="center" variant="h6">{item.title}</Typography>
-              </div>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <div>
-                <Typography variant="subtitle1" gutterBottom>
-                  {item.description}
-                </Typography>
-              </div>
-            </ExpansionPanelDetails>
-            <Divider variant="middle" className={classes.divider}/>
-            <ExpansionPanelDetails>
-              <List component="nav">
-              {item.criteria.map((item, index) => (
-                <ListItem key={index} button>
-                  <ListItemText primary={item.description} />
-                </ListItem>
-                ))}
-              </List>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+            <ExpansionPanel key={index} className={classes.bgColor}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon className={classes.arrowExpand}/>}
+                aria-controls={`panel${index}a-content`}
+                id={`panel${index}a-header`}
+              >
+                <Link href={`https://${locale}.wowhead.com/achievement=${item.id}`} data-wowhead={`achievement=${item.id}`}>
+                  <Avatar alt={item.title} src={"https://render-us.worldofwarcraft.com/icons/56/" + item.icon + ".jpg"} className={classes.bigAvatar} />
+                </Link>
+                <div>
+                  <Typography className={classes.heading} align="center" variant="h6">{item.title}</Typography>
+                </div>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div>
+                  <Typography variant="subtitle1" gutterBottom>
+                    {item.description}
+                  </Typography>
+                </div>
+              </ExpansionPanelDetails>
+
+              {item.criteria[0].description !== "" && (
+                <React.Fragment>
+                  <Divider variant="middle" className={classes.divider}/>
+                  <ExpansionPanelDetails>
+                    <List component="nav">
+                      {item.criteria.map((item, index) => (
+                        <ListItem key={index} button>
+                          <ListItemText primary={item.description} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </ExpansionPanelDetails>
+                </React.Fragment>
+              )}
+
+            </ExpansionPanel>
           </Grid>
         ))}
+
       </Grid>
     </div>
   );

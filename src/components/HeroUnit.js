@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import {FormattedMessage} from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button/Button";
@@ -34,6 +35,33 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
   },
 });
+
+const useStyles = makeStyles({
+  root: {
+    background: props =>
+      props.color === 'red'
+        ? 'linear-gradient(45deg, #C00101 80%, #FF8E53 90%)'
+        : 'linear-gradient(45deg, #1F6BF8 80%, #21CBF3 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: props =>
+      props.color === 'red'
+        ? '0 3px 5px 2px rgba(255, 105, 135, .3)'
+        : '0 3px 5px 2px rgba(33, 203, 243, .3)',
+    color: 'white',
+    margin: 8,
+  },
+});
+
+function MyButton(props) {
+  const { color, ...other } = props;
+  const classes = useStyles(props);
+  return <Button className={classes.root} {...other} />;
+}
+
+MyButton.propTypes = {
+  color: PropTypes.oneOf(['red', 'blue']).isRequired,
+};
 
 function HeroUnit(props) {
   const { classes, hasButton } = props;
@@ -84,29 +112,29 @@ function HeroUnit(props) {
                 </Paper>
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
-                    <Button component={Link} to="/character" variant="contained" color="primary">
+                    <MyButton component={Link} to="/character" variant="contained" color="blue">
                       <FormattedMessage id='herounit.character' defaultMessage="Trust new people" />
-                    </Button>
+                    </MyButton>
                   </Grid>
                   <Grid item xs={6}>
-                    <Button component={Link} to="/mount" variant="contained" color="primary">
+                    <MyButton component={Link} to="/mount" variant="contained" color="blue">
                       <FormattedMessage id='herounit.mount' defaultMessage="Discover new mount" />
-                    </Button>
+                    </MyButton>
                   </Grid>
                   <Grid item xs={6}>
-                    <Button component={Link} to="/achievement" variant="contained" color="primary">
+                    <MyButton component={Link} to="/achievement" variant="contained" color="blue">
                       <FormattedMessage id='herounit.achievement' defaultMessage="Find new achievement" />
-                    </Button>
+                    </MyButton>
                   </Grid>
                   <Grid item xs={6}>
-                    <Button component={Link} to="/battlepet" variant="contained" color="primary">
+                    <MyButton component={Link} to="/battlepet" variant="contained" color="blue">
                       <FormattedMessage id='herounit.battlepet' defaultMessage="Discover new battlepet" />
-                    </Button>
+                    </MyButton>
                   </Grid>
                   <Grid item xs={12}>
-                    <Button component={Link} to="/help" variant="contained" color="primary">
+                    <MyButton component={Link} to="/help" variant="contained" color="red">
                       <FormattedMessage id='herounit.help' defaultMessage="I'm lost! :(" />
-                    </Button>
+                    </MyButton>
                   </Grid>
                 </Grid>
               </Grid>
