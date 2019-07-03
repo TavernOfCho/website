@@ -32,7 +32,7 @@ const navLang = firstLocale[0];
 var rc1 = "color: #00cc95; font-size:26px;font-weight : bold;text-shadow: 1px 1px 5px rgba(0,0,0,.3);";
 var rc2 = "color: #c5b212; font-size:26px;text-shadow: 1px 1px 5px rgba(0,0,0,.3);"
 var rc3 = "color: #000000; font-size:16px;"
-console.log("%cTavern of%c Cho%c v0.0.9 ", rc1, rc2, rc3);
+console.log("%cTavern of%c Cho%c v1.0.1 ", rc1, rc2, rc3);
 
 // Add new method to localstorage
 Storage.prototype.getObj = function(key) {
